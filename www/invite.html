@@ -1,0 +1,86 @@
+<ons-page id="invite" ng-controller="invitePageController">
+
+  <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button ng-click="mySplitter.left.open()">
+        <ons-icon icon="md-menu"></ons-icon>
+      </ons-toolbar-button>
+    </div>
+    <div class="center">ほーむわーくアプリ</div>
+  </ons-toolbar>
+
+  <div style="text-align: right; margin-top: 20px; margin-right: 10px;">
+    <ons-button ng-click="callInvitePage();">部屋IDを表示</ons-button>
+  </div>
+
+  <div style="text-align: center; margin-top: 20px;">
+
+    <div style="margin-bottom: 20px;">
+      <ons-list modifier="inset">
+        <ons-list-item modifier="longdivider">
+          <div class="left">
+            <ons-icon icon="md-face" class="list-item__icon"></ons-icon>
+          </div>
+          <div class="center">YUKI</div>
+          <div class="right">
+            <div>
+                <ons-button disabled="disabled">Delete</ons-button>
+            </div>
+          </div>
+        </ons-list-item>
+        <ons-list-item modifier="longdivider">
+          <div class="left">
+            <ons-icon icon="md-face" class="list-item__icon"></ons-icon>
+          </div>
+          <div class="center">TAKASHI</div>
+          <div class="right">
+            <div>
+                <ons-button>Delete</ons-button>
+            </div>
+          </div>
+        </ons-list-item>
+        <ons-list-item modifier="longdivider">
+          <div class="left">
+            <ons-icon icon="md-face" class="list-item__icon"></ons-icon>
+          </div>
+          <div class="center">HARUKA</div>
+          <div class="right">
+            <div>
+                <ons-button>Delete</ons-button>
+            </div>
+          </div>
+        </ons-list-item>
+      </ons-list-item>
+      <ons-list-item modifier="longdivider">
+        <div class="left">
+          <ons-icon icon="md-face" class="list-item__icon"></ons-icon>
+        </div>
+        <div class="center">YUTA</div>
+        <div class="right">
+          <div>
+              <ons-button>Delete</ons-button>
+          </div>
+        </div>
+      </ons-list-item>
+      </ons-list>
+    </div>
+
+      <!-- Edit Dialog -->
+      <ons-template id="inviteModal.html">
+        <ons-dialog var="dialog" modifier="material" cancelable>
+          <div style="padding: 0 22px 22px 22px">
+            <p style="font-weight: 500;">部屋ID</p>
+            <div style="text-align: center;">
+                <label id="roomId" modifier="underbar" Value="" float disabled style="opacity: 1; color: black;">test_roomid_10000</label>
+            </div>
+            <p style="margin-bottom: 20px; text-align: center;">
+              <ons-button ng-click="invitePageDialog.hide()">閉じる</ons-button>
+            </p>
+
+          </div>
+
+        </ons-dialog>
+      </ons-template>
+
+  </div>
+</ons-page>

@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="Content-Security-Policy" content="default-src * data:; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+  <script src="components/loader.js"></script>
+
+  <script>
+        document.addEventListener ("deviceready", onDeviceReady, false);
+
+        //these functions runs when Cordova is ready
+        function onDeviceReady () {
+            alert ('Cordova is ready!');
+        }
+    </script>
+
+  <script src="lib/chartJs/Chart.min.js"></script>
+  <script src="lib/jquery-loading/jquery.loading.min.js"></script>
+  <script src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/initialize.js"></script>
+  <script src="js/googleAuth.js"></script>
+
+  <link rel="stylesheet" href="components/loader.css">
+  <link rel="stylesheet" href="lib/jquery-loading/jquery.loading.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <ons-navigator var="myNavigator" page="login.html"></ons-navigator>
+</body>
+</html>

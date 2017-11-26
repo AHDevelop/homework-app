@@ -1,0 +1,57 @@
+<ons-page ng-controller="topPageController" id="top">
+  <ons-toolbar>
+      <div class="left">
+        <ons-toolbar-button ng-click="mySplitter.left.open()">
+          <ons-icon icon="md-menu"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">ほーむわーくアプリ</div>
+    </div>
+  </ons-toolbar>
+
+  <div class="center" style="margin-top: 30px;">
+
+    <div class="center margin-bottom-20">{{nowDate}}</div>
+
+    <!-- room homework List -->
+    <div class="margin-bottom-20">
+      <ons-list modifier="inset" class="homeworkList">
+        <div ng-repeat="data in roomHomeworkList">
+          <ons-list-item modifier="longdivider" ng-click="callInputHomeWorkPage($index)" tappable tap-background-color="gray" ng-if="data.is_visible">
+            <div class="left">
+              <ons-icon icon="fa-plus-square" class="list-item__icon"></ons-icon>
+            </div>
+            <div class="center">
+              {{data.home_work_name}}
+            </div>
+            <div class="right">
+              <span class="hourLabel">{{data.home_work_time_hh}}</span><span class="margin-left-5">H</span>
+            </div>
+          </ons-list-item>
+        </div>
+      </ons-list>
+    </div>
+
+    <!-- input homework time Dialog -->
+    <ons-template id="inputHomeWork.html">
+      <ons-dialog var="dialog" modifier="material" cancelable>
+        <div style="padding: 0 22px 22px 22px">
+          <p style="font-weight: 500;">{{homeworkName}}</p>
+          <div class="center">
+            <ons-button onclick="minusHour(this)">
+              <ons-icon icon="fa-minus-square" class="list-item__icon"></ons-icon>
+            </ons-button>
+            <span id="hourLabel" class="hourLabel margin-left-10 width-50px">{{beseHomeworkTimeHH}}</span>
+            <ons-button onclick="plusHour(this)" class="margin-left-10">
+              <ons-icon icon="fa-plus-square" class="list-item__icon"></ons-icon>
+            </ons-button>
+          </div>
+          <p class="margin-bottom-20 center">
+            <ons-button ng-click="inputHomeWork.register(roomHomeworkId)">登録</ons-button>
+            <ons-button ng-click="inputHomeWork.hide()" class="margin-left-10">キャンセル</ons-button>
+          </p>
+        </div>
+      </ons-dialog>
+    </ons-template>
+
+</ons-page>

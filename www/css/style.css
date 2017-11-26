@@ -1,0 +1,67 @@
+
+/*
+トップ画面リストアイテムスタイル
+*/
+.homeworkList .list-item--longdivider  {
+  height: 60px;
+  background-color: #006284;
+  color: white;
+  margin-bottom: 1px;
+}
+
+/*
+* 共通クラス
+*/
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
+
+.margin-left-5 {
+  margin-left: 5px;
+}
+
+.margin-left-10 {
+  margin-left: 10px;
+}
+
+.center {
+  text-align: center;
+}
+
+.width-50px {
+  width: 50px;
+}
+
+/*
+グラフ画面のタブスタイル
+*/
+.graphTab .tabbar__item {
+  background-color: #006284;
+}
+
+.graphTab .active {
+  background-color: #787D7B ;
+}
+
+.graphTab .tabbar__label:first-child {
+  color: white;
+}
+
+/*
+家事編集画面スタイル
+*/
+.addHomework_homeworkList .list-item--longdivider  {
+  height: 60px;
+  background-color: #006284;
+  color: white;
+  margin-bottom: 1px;
+}
+
+.addHomework_homeworkList .disabled {
+  background-color: #636363;
+}
+
+.addHomework_homeworkList .btn_edit {
+  background-color: lightgray;
+  color: black;
+}
