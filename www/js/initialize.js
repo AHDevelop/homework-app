@@ -37,47 +37,47 @@ module.controller('menuPageController', function($scope) {
     };
 });
 
-/*
-サインインページコントローラ
-*/
-module.controller("signinPageController", function($scope) {
+    /*
+    サインインページコントローラ
+    */
+    module.controller("signinPageController", function($scope) {
 
-  $scope.signin = function(){
-    isSingIn = true;
-    myNavigator.replacePage('layout.html');
-  };
-  $scope.invite = function(){
-    isSingIn = true;
-    myNavigator.replacePage('general_user_signin.html');
-  };
-  $scope.fbLogin = function(){
-    isSingIn = true;
-    myNavigator.replacePage('fb_auth_dummy.html');
-  };
-  $scope.callApi = function(){
-    callApiWrapper('');
-  };
+        // $scope.signin = function(){
+        //     isSingIn = true;
+        //     myNavigator.replacePage('layout.html');
+        // };
 
+        // $scope.invite = function(){
+        //     isSingIn = true;
+        //     myNavigator.replacePage('general_user_signin.html');
+        // };
 
-  /*
-  Googleログイン
-  */
-  $scope.googleLogin = function(){
+        // $scope.callApi = function(){
+        //     callApiWrapper('');
+        // };
 
-      googleAuth.callGoogle().done(function(data) {
-        if(googleAuth.gmailID != ""){
-
-          alert("IDは" + googleAuth.gmailID + "です");
-
-          myNavigator.replacePage('layout.html');
-
-        } else {
-          alert("Google認証情報を取得できていません");
-        }
-      });
-      isSingIn = true;
-  };
-});
+        /* Googleログイン */
+        $scope.googleLogin = function(){
+        
+            googleAuth.callGoogle().done(function(data) {
+                if(googleAuth.gmailID != ""){
+                    alert("IDは" + googleAuth.gmailID + "です");
+                                        
+                    // ユーザーの存在チェック
+                    //getUserInfo(googleAuth);
+                    
+                    // 新規ユーザー登録
+                    insertNewUser(googleAuth);
+                    
+                    isSingIn = true;
+                    
+                    myNavigator.replacePage('layout.html');
+                } else {
+                    alert("Google認証情報を取得できていません");
+                }
+            });
+        };
+    });
 
 /*
 招待ユーザーサインインページコントローラ
@@ -140,33 +140,33 @@ module.controller("topPageController", function($scope) {
    }
 });
 
-/*
-グラフページコントローラ
-*/
-module.controller("graphPageController", function($scope) {
-
-  // 画面の初期化イベント
-  document.addEventListener("pageinit", function(e) {
-      chatByUsers();
-      $scope.chatByUsers = chatByUsers;
-      $scope.chatByWorks = chatByWorks;
-  }, false);
-});
-
-/*
-家事追加、編集ページコントローラ
-*/
-module.controller("addHomeworkPageController", function($scope) {
-
-  // 部屋家事の取得
-  // TODO roomIdを共通処理から取得する
-  var roomId ="2";
-  getRoomHomework(roomId).done(function(response){
-    $scope.roomHomeworkList = response;
-    console.log($scope.roomHomeworkList[0]);
-    // 最新の情報で更新
-    $scope.$apply();
-  });
+    /*
+    グラフページコントローラ
+    */
+    module.controller("graphPageController", function($scope) {
+    
+      // 画面の初期化イベント
+      document.addEventListener("pageinit", function(e) {
+          chatByUsers();
+          $scope.chatByUsers = chatByUsers;
+          $scope.chatByWorks = chatByWorks;
+      }, false);
+    });
+    
+    /*
+    家事追加、編集ページコントローラ
+    */
+    module.controller("addHomeworkPageController", function($scope) {
+    
+      // 部屋家事の取得
+      // TODO roomIdを共通処理から取得する
+      var roomId ="2";
+      getRoomHomework(roomId).done(function(response){
+        $scope.roomHomeworkList = response;
+        console.log($scope.roomHomeworkList[0]);
+        // 最新の情報で更新
+        $scope.$apply();
+      });
 
   // 編集ダイアログの表示
   $scope.callEditPage = function(index){
@@ -237,72 +237,72 @@ module.controller("addHomeworkPageController", function($scope) {
     $scope.editPageDialog.hide();
   }
 
-  // 部屋家事の削除
-  $scope.deleteRoomHomework = function(){
-
-    var record = [];
-    var homework = {};
-
-    homework['room_home_work_id'] = $("#roomHomeworkId").val();
-    record.push(homework);
-
-    deleteRoomHomework('1', '2', record).done(function(response){
-      getRoomHomework(roomId).done(function(response){
-        $scope.roomHomeworkList = response;
-        $scope.$apply();
-      });
+    // 部屋家事の削除
+    $scope.deleteRoomHomework = function(){
+    
+        var record = [];
+        var homework = {};
+        
+        homework['room_home_work_id'] = $("#roomHomeworkId").val();
+        record.push(homework);
+        
+        deleteRoomHomework('1', '2', record).done(function(response){
+            getRoomHomework(roomId).done(function(response){
+                $scope.roomHomeworkList = response;
+                $scope.$apply();
+            });
+        });
+        
+        $scope.editPageDialog.hide();
+        }
+    
     });
 
-    $scope.editPageDialog.hide();
-  }
-
-});
-
-/*
-招待ページコントローラ
-*/
-module.controller("invitePageController", function($scope) {
-
-  //$scope.isDispTopList = null;
-
-  // Show Dialog
-  $scope.callInvitePage = function(obj){
-
-    ons.createDialog('inviteModal.html', {parentScope: $scope}).then(function(dialog) {
-        $scope.invitePageDialog = dialog;
-        $scope.invitePageDialog.show();
-      });
-  }
-});
+    /*
+    招待ページコントローラ
+    */
+    module.controller("invitePageController", function($scope) {
+    
+      //$scope.isDispTopList = null;
+    
+      // Show Dialog
+      $scope.callInvitePage = function(obj){
+    
+        ons.createDialog('inviteModal.html', {parentScope: $scope}).then(function(dialog) {
+            $scope.invitePageDialog = dialog;
+            $scope.invitePageDialog.show();
+          });
+      }
+    });
 
 /*
 TEST APIページコントローラ
 */
-module.controller("testAPIPageController", function($scope) {
-  var user = {
-      add: function(){
-          window.console.log('test');
-
-          window.console.log(monaca);
-          monaca.cloud.User.register("me@example.com", "password", {age:21})
-            .done(function(result)
-            {
-               window.console.log("Welcome, " + result.user._username);
-               window.console.log("You are " + result.user.age + " years old.");
-            }
-            )
-            .fail(function(err)
-            {
-               window.console.log("Err#" + err.code +": " + err.message);
-            })
-            .always(function(){
-              window.console.log('aaa');
-            });
-            window.console.log('test2');
-      },
-  };
-
-  $scope.user = user;
+// module.controller("testAPIPageController", function($scope) {
+//   var user = {
+//       add: function(){
+//           window.console.log('test');
+// 
+//           window.console.log(monaca);
+//           monaca.cloud.User.register("me@example.com", "password", {age:21})
+//             .done(function(result)
+//             {
+//                window.console.log("Welcome, " + result.user._username);
+//                window.console.log("You are " + result.user.age + " years old.");
+//             }
+//             )
+//             .fail(function(err)
+//             {
+//                window.console.log("Err#" + err.code +": " + err.message);
+//             })
+//             .always(function(){
+//               window.console.log('aaa');
+//             });
+//             window.console.log('test2');
+//       },
+//   };
+// 
+//   $scope.user = user;
 
   // $scope.test = function()
   // {
@@ -322,29 +322,29 @@ module.controller("testAPIPageController", function($scope) {
   //           });
   //           window.console.log('test2');
   // };
-  if (false == monaca.cloud.User.isAuthenticated()) {
-      window.console.log('test33');
-  } else {
-      window.console.log('test4');
-  }
+//   if (false == monaca.cloud.User.isAuthenticated()) {
+//       window.console.log('test33');
+//   } else {
+//       window.console.log('test4');
+//   }
+// 
+//   window.console.log('login:' + monaca.cloud.User.isAuthenticated());
+// 
+//   monaca.cloud.User.login("me@example.com", "password")
+//   .done(function(result){
+//      window.console.log("Hello again, " + result.user._username);
+//   })
+//   .fail(function(err)
+//   {
+//      window.console.log("Err#" + err.code +": " + err.message);
+//   })
+//   .always(function(){
+//       window.console.log('always login')
+//   });
+// 
+// var User = monaca.cloud.Collection("User"); // returns Collection object
+// window.console.log("id:"+User.id);
+// window.console.log("name:"+User.name);
+// window.console.log(User);
 
-  window.console.log('login:' + monaca.cloud.User.isAuthenticated());
-
-  monaca.cloud.User.login("me@example.com", "password")
-  .done(function(result){
-     window.console.log("Hello again, " + result.user._username);
-  })
-  .fail(function(err)
-  {
-     window.console.log("Err#" + err.code +": " + err.message);
-  })
-  .always(function(){
-      window.console.log('always login')
-  });
-
-var User = monaca.cloud.Collection("User"); // returns Collection object
-window.console.log("id:"+User.id);
-window.console.log("name:"+User.name);
-window.console.log(User);
-
-});
+// });

@@ -1,12 +1,9 @@
-/*
-* APIの処理種別定数
-*/
-var API_METHOD_GET = "get";
-var API_METHOD_POST = "post";
-var API_METHOD_PUT = "put";
-var API_METHOD_DELETE = "delete";
 
-
+    /* APIの処理種別定数 */
+    var API_METHOD_GET = "get";
+    var API_METHOD_POST = "post";
+    var API_METHOD_PUT = "put";
+    var API_METHOD_DELETE = "delete";
 
 /*
 * APIアクセスURLの基本部分を作成する
@@ -47,6 +44,7 @@ function callApi(type, url, dataObj) {
 
   resObj.fail(function() {
     console.log('接続に失敗しました。URL:' +  url);
+    console.log(JSON.stringify(resObj));
     alert('接続に失敗しました。URL:' +  url);
   });
   resObj.always(function() {
@@ -176,4 +174,32 @@ function getRoomHomework(roomId){
   var dataObj = {};
 
   return callApi(API_METHOD_GET, url, dataObj);
+}
+
+/* ユーザーの存在チェック */
+function getUserInfo(googleAuth){
+    
+    var url = buildBaseApiUrl() + "users" + '/?key=' + googleAuth.gmailID;
+    
+    var dataObj = {};
+    
+    return callApi(API_METHOD_GET, url, dataObj);
+}
+
+/* 新規ユーザー登録 */
+function insertNewUser(googleAuth){
+
+    var url = buildBaseApiUrl() + "users" + '/' + 'update.json';
+    
+    var dataObj = {};
+    
+    if(googleAuth.gmailLogin){
+        dataObj['email'] = googleAuth.gmailEmail;
+        dataObj['auth_type'] = '1';
+        dataObj['auth_id'] = googleAuth.gmailID;
+        dataObj['user_name'] = googleAuth.gmailLastName + ' ' + googleAuth.gmailFirstName;
+    }
+    console.log(JSON.stringify(dataObj))
+    
+    return callApi(API_METHOD_POST, url, dataObj);
 }

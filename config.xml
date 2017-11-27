@@ -32,9 +32,7 @@
   <preference name="PageLength" value="0"/>
   <preference name="PaginationBreakingMode" value="page"/>
   <preference name="PaginationMode" value="unpaginated"/>
-
-  <preference name="OverrideUserAgent" value="android" />
-
+  <preference name="OverrideUserAgent" value="android"/>
   <feature name="LocalStorage">
     <param name="ios-package" value="CDVLocalStorage"/>
   </feature>
