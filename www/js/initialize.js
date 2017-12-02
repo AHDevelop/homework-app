@@ -69,7 +69,7 @@ module.controller('menuPageController', function($scope) {
                         alert(JSON.stringify(response[0]));
                         userInfo = response[0];
                         
-                        if(userInfo.user_id == undefined){
+                        if(userInfo == undefined) {
                             // 新規ユーザー登録
                             insertNewUser(googleAuth).done(function(response) {
                                 getUserInfo(googleAuth).done(function(response) {
@@ -81,8 +81,21 @@ module.controller('menuPageController', function($scope) {
                             });
                         } else {
                             isSingIn = true;
-                            alert(userInfo.user_id);
-                            myNavigator.replacePage('layout.html');
+                            
+                            // 部屋情報取得
+                            getRoomsWithUser().done(function(response) {
+
+                                if(1 < response.length){
+                                    // 複数の部屋に所属している場合
+                                    // TODO 部屋を選択する画面に遷移
+                                    myNavigator.replacePage('layout.html');
+                                } else {
+                                   // 一つの部屋のみの場合
+                                   roomInfo = response[0];
+                                   alert(JSON.stringify(roomInfo));
+                                   myNavigator.replacePage('layout.html');
+                                }
+                            });                            
                         }
                     });
                     
@@ -113,7 +126,8 @@ module.controller("topPageController", function($scope) {
    // 現在日時の設定
    $scope.nowDate = moment().format('YYYY年MM月DD日');
 
-   var roomId = 2;
+   var roomId = roomInfo.room_id;
+   
    getHomeWorkListWithRoomId(roomId).done(function(response){
      $scope.roomHomeworkList = response;
 

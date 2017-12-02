@@ -70,14 +70,12 @@ function getOneUser(key){
 
 /*
 * 家事一覧&家事別時間取得
-* http://192.168.33.10/api/v1/homework/2
 */
 function getHomeWorkListWithRoomId(roomId){
     
     var url = buildBaseApiUrl() + "homework" + '/' + roomId;
     var dataObj = {};
     var resultObj = callApi(API_METHOD_GET, url, dataObj);
-    // console.log(resultObj);
     return resultObj;
 }
 
@@ -87,9 +85,8 @@ function getHomeWorkListWithRoomId(roomId){
 */
 function updateHomeworkHist(roomHomeworkId, homeworkDate, homeworkTime){
 
-  // TODO 共通変数から取得する
-  var userId = 1;
-  var roomId = 2;
+  var userId = userInfo.user_id;
+  var roomId = roomInfo.room_id;
 
   var url = buildBaseApiUrl() + 'homeworkhist' + '/' + 'update.json';
 
@@ -205,4 +202,15 @@ function insertNewUser(googleAuth){
     console.log(JSON.stringify(dataObj))
     
     return callApi(API_METHOD_POST, url, dataObj);
+}
+
+/*
+* 部屋一覧取得
+*/
+function getRoomsWithUser(){
+    
+    var url = buildBaseApiUrl() + "rooms" + '/' + 'user_id=' + userInfo.user_id;
+    var dataObj = {};    
+
+    return callApi(API_METHOD_GET, url, dataObj);
 }

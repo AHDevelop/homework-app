@@ -1,5 +1,14 @@
 var isSingIn = false;
+/*
+ログイン中のユーザー情報
+*/
 var userInfo = {};
+
+/*
+* ログイン中の部屋情報
+* "room_id","room_name","user_id","room_access_key","is_owned"
+*/
+var roomInfo = {};
 
 /**
 ユーザー別グラフを表示
