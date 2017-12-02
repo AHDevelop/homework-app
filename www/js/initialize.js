@@ -61,17 +61,31 @@ module.controller('menuPageController', function($scope) {
         
             googleAuth.callGoogle().done(function(data) {
                 if(googleAuth.gmailID != ""){
-                    alert("IDは" + googleAuth.gmailID + "です");
+                    // alert("IDは" + googleAuth.gmailID + "です");
                                         
                     // ユーザーの存在チェック
-                    //getUserInfo(googleAuth);
+                    getUserInfo(googleAuth).done(function(response) {
+                        
+                        alert(JSON.stringify(response[0]));
+                        userInfo = response[0];
+                        
+                        if(userInfo.user_id == undefined){
+                            // 新規ユーザー登録
+                            insertNewUser(googleAuth).done(function(response) {
+                                getUserInfo(googleAuth).done(function(response) {
+                                    alert(JSON.stringify(response[0]));
+                                    userInfo = response[0];
+                                    isSingIn = true;
+                                    myNavigator.replacePage('layout.html');
+                                });
+                            });
+                        } else {
+                            isSingIn = true;
+                            alert(userInfo.user_id);
+                            myNavigator.replacePage('layout.html');
+                        }
+                    });
                     
-                    // 新規ユーザー登録
-                    insertNewUser(googleAuth);
-                    
-                    isSingIn = true;
-                    
-                    myNavigator.replacePage('layout.html');
                 } else {
                     alert("Google認証情報を取得できていません");
                 }
@@ -118,7 +132,7 @@ module.controller("topPageController", function($scope) {
          $scope.inputHomeWork = dialog;
          $scope.homeworkName = roomHomework.home_work_name;
          $scope.roomHomeworkId = roomHomework.room_home_work_id;
-         $scope.beseHomeworkTimeHH = 2; // TODO APIの返却値に基準時間追加されるの待ち
+         $scope.beseHomeworkTimeHH = 2; // ToDo APIの返却値に基準時間追加されるの待ち
          $scope.inputHomeWork.show();
 
          // 家事登録

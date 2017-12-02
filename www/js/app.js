@@ -1,4 +1,5 @@
 var isSingIn = false;
+var userInfo = {};
 
 /**
 ユーザー別グラフを表示

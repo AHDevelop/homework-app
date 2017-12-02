@@ -24,47 +24,48 @@ function buildBaseApiUrl(){
 function callApi(type, url, dataObj) {
 
   // ローディング画面表示
-  $('body').loading({
-    stoppable: true
-  });
+  // $('body').loading({
+  //   stoppable: true
+  // });
 
-  var apiKey = "key";
+    var apiKey = "key";
 
-  var resObj = $.ajax({
-    type: type,
-    url: url,
-    dataType: 'json',
-    apiKey: apiKey,
-    data: dataObj,
-  });
+    var resObj = $.ajax({
+        type: type,
+        url: url,
+        dataType: 'json',
+        apiKey: apiKey,
+        data: dataObj,
+    });
+    
+    resObj.done(function(response) {
+    });
+    
+    resObj.fail(function() {
+        console.log('接続に失敗しました。URL:' +  url);
+        console.log(JSON.stringify(resObj));
+        alert('接続に失敗しました。URL:' +  url);
+    });
 
-  resObj.done(function(response) {
-    console.log("接続しました。");
-  });
+    resObj.always(function() {
+        // // ローディング画面非表示
+        // $('body').loading('stop');
+    });
 
-  resObj.fail(function() {
-    console.log('接続に失敗しました。URL:' +  url);
-    console.log(JSON.stringify(resObj));
-    alert('接続に失敗しました。URL:' +  url);
-  });
-  resObj.always(function() {
-  });
-  resObj.complete(function(){
-    // ローディング画面非表示
-    $('body').loading('stop');
-  });
-
-  return resObj;
+    resObj.complete(function(){
+    });
+    
+    return resObj;
 }
 
 /*
-*Auth認証情報を受け取りユーザーが登録済みかどうかを返却する
+* Auth認証情報を受け取りユーザーが登録済みかどうかを返却する
 */
 function getOneUser(key){
+    
   var url = buildBaseApiUrl + "users" + '/' + key;
-
+  
   return callApi(API_METHOD_GET, url);
-
 }
 
 /*
@@ -72,12 +73,12 @@ function getOneUser(key){
 * http://192.168.33.10/api/v1/homework/2
 */
 function getHomeWorkListWithRoomId(roomId){
-
-  var url = buildBaseApiUrl() + "homework" + '/' + roomId;
-  var dataObj = {};
-  var resultObj = callApi(API_METHOD_GET, url, dataObj);
-  // console.log(resultObj);
-  return resultObj;
+    
+    var url = buildBaseApiUrl() + "homework" + '/' + roomId;
+    var dataObj = {};
+    var resultObj = callApi(API_METHOD_GET, url, dataObj);
+    // console.log(resultObj);
+    return resultObj;
 }
 
 /*
@@ -176,10 +177,12 @@ function getRoomHomework(roomId){
   return callApi(API_METHOD_GET, url, dataObj);
 }
 
-/* ユーザーの存在チェック */
+/*
+* ユーザーの存在チェック
+*/
 function getUserInfo(googleAuth){
     
-    var url = buildBaseApiUrl() + "users" + '/?key=' + googleAuth.gmailID;
+    var url = buildBaseApiUrl() + "users" + '/key=' + googleAuth.gmailID;
     
     var dataObj = {};
     
