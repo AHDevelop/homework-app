@@ -34,21 +34,21 @@
 
     <!-- input homework time Dialog -->
     <ons-template id="inputHomeWork.html">
-      <ons-dialog var="dialog" modifier="material" cancelable>
+      <ons-dialog modifier="material" cancelable var="inputHomeWork">
         <div style="padding: 0 22px 22px 22px">
           <p style="font-weight: 500;">{{homeworkName}}</p>
           <div class="center">
-            <ons-button onclick="minusHour(this)">
+            <ons-button ng-click="inputHomeWork.minusHour()">
               <ons-icon icon="fa-minus-square" class="list-item__icon"></ons-icon>
             </ons-button>
-            <span id="hourLabel" class="hourLabel margin-left-10 width-50px">{{beseHomeworkTimeHH}}</span>
-            <ons-button onclick="plusHour(this)" class="margin-left-10">
+            <span id="hourLabel" class="hourLabel margin-left-10 width-50px" ng-bind="homeworkTimeHH"></span>
+            <ons-button ng-click="inputHomeWork.plusHour()" class="margin-left-10">
               <ons-icon icon="fa-plus-square" class="list-item__icon"></ons-icon>
             </ons-button>
           </div>
           <p class="margin-bottom-20 center">
-            <ons-button ng-click="inputHomeWork.register(roomHomeworkId)">登録</ons-button>
             <ons-button ng-click="inputHomeWork.hide()" class="margin-left-10">キャンセル</ons-button>
+            <ons-button ng-click="inputHomeWork.register(roomHomeworkId)">登録</ons-button>
           </p>
         </div>
       </ons-dialog>
