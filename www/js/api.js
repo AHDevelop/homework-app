@@ -147,7 +147,7 @@ function updateRoomHomework(userId, roomId, record){
 /*
 * 部屋家事削除
 */
-function deleteRoomHomework(userId, roomId, record){
+function deleteRoomHomework(record){
 
   var url = buildBaseApiUrl() + "room" + '/' + 'homework' + '/' + 'update.json';
 
@@ -155,8 +155,8 @@ function deleteRoomHomework(userId, roomId, record){
 
   // TODO 共通処理からユーザーIDと部屋IDを取得する仕組みを設ける
 
-  dataObj['user_id'] = userId;
-  dataObj['room_id'] = roomId;
+  dataObj['user_id'] = userInfo.user_id;
+  dataObj['room_id'] = roomInfo.room_id;
   dataObj['record'] = record;
 
   return callApi(API_METHOD_DELETE, url, dataObj);

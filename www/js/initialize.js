@@ -265,27 +265,31 @@ module.controller("addHomeworkPageController", function($scope) {
                 
                 $scope.editPageDialog.hide();
             }
+            // 部屋家事の削除
+            $scope.editPageDialog.deleteRoomHomework = function(){
+                
+                ons.notification.confirm({message: '削除してよろしいですか？'}).then(function(result) {
+                    
+                    if(result === 0){
+                        return false;
+                    }
+                    
+                    var homework = {};
+                    homework['room_home_work_id'] = $scope.editPageDialog.roomHomeworkId;
+                    var record = [];
+                    record.push(homework);
+                    
+                    deleteRoomHomework(record).done(function(response){
+                        getRoomHomework(roomId).done(function(response){
+                            $scope.roomHomeworkList = response;
+                            $scope.$apply();
+                            $scope.editPageDialog.hide();
+                        });
+                    });
+                });
+            }
         });
     }
-
-// 部屋家事の削除
-$scope.deleteRoomHomework = function(){
-
-var record = [];
-var homework = {};
-
-homework['room_home_work_id'] = $("#roomHomeworkId").val();
-record.push(homework);
-
-deleteRoomHomework(userInfo.user_id, roomInfo.room_id, record).done(function(response){
-getRoomHomework(roomId).done(function(response){
-$scope.roomHomeworkList = response;
-$scope.$apply();
-});
-});
-
-$scope.editPageDialog.hide();
-}
 });
 
     /*
