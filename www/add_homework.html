@@ -1,16 +1,8 @@
 <ons-page id="addHomework" ng-controller="addHomeworkPageController">
-    <ons-toolbar>
-        <div class="left">
-            <ons-toolbar-button ng-click="mySplitter.left.open()">
-            <ons-icon icon="md-menu"></ons-icon>
-            </ons-toolbar-button>
-        </div>
-        <div class="center">
-            <div class="center">ほーむわーくアプリ</div>
-        </div>
-    </ons-toolbar>
 
-    <div style="text-align: center; margin-top: 30px;" id="hoge">
+    <ng-include src="'header.html'"></ng-include>
+
+    <div style="text-align: center; margin-top: 80px;">
         <ons-list modifier="inset" class="addHomework_homeworkList" ng-cloak>
             <div ng-repeat="data in roomHomeworkList">
                 <ons-list-item modifier="longdivider" class="{{data.is_visible ? '' : 'disabled'}}" >

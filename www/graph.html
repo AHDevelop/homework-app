@@ -1,13 +1,6 @@
 <ons-page id="graph" ng-controller="graphPageController">
 
-  <ons-toolbar>
-    <div class="left">
-      <ons-toolbar-button ng-click="mySplitter.left.open()">
-        <ons-icon icon="md-menu"></ons-icon>
-      </ons-toolbar-button>
-    </div>
-    <div class="center">ほーむわーくアプリ</div>
-  </ons-toolbar>
+    <ng-include src="'header.html'"></ng-include>
 
   <ons-tabbar class="graphTab">
     <ons-tab label="ユーザー別" ng-click="chatByUsers()" active>
@@ -17,7 +10,7 @@
   </ons-tabbar>
 
   <ons-gesture-detector ng-click="mySplitter.left.open()">
-    <div style="text-align: center; margin-top: 30px;" id="detect-area" >
+    <div style="text-align: center; margin-top: 80px;" id="detect-area" >
       <div style="margin-bottom: 20px;">
         <!-- 円グラフの表示エリア -->
         <canvas id="pie-chart-area" width="300" height="300">
@@ -27,9 +20,9 @@
   </ons-gesture-detector>
 
   <div style="text-align: center;">
-    <ons-button ng-click="" style="width: 100px; background-color: #006284;"><ons-icon icon="fa-calendar" style="margin-right: 10px;"></ons-icon>1ヶ月</ons-button>
-    <ons-button ng-click="" style="width: 100px; background-color: #006284;"><ons-icon icon="fa-undo" style="margin-right: 10px;"></ons-icon>昨日</ons-button>
-    <ons-button ng-click="" style="width: 100px; background-color: #006284;"><ons-icon icon="fa-star" style="margin-right: 10px;"></ons-icon>今日</ons-button>
+    <ons-button ng-click="" style="width: 100px; background-color: #001584;"><ons-icon icon="fa-calendar" style="margin-right: 10px;"></ons-icon>1ヶ月</ons-button>
+    <ons-button ng-click="" style="width: 100px; background-color: #001584;"><ons-icon icon="fa-undo" style="margin-right: 10px;"></ons-icon>昨日</ons-button>
+    <ons-button ng-click="" style="width: 100px; background-color: #001584;"><ons-icon icon="fa-star" style="margin-right: 10px;"></ons-icon>今日</ons-button>
   </div>
 
 </ons-page>

@@ -113,6 +113,18 @@ module.controller('menuPageController', function($scope) {
                 }
             });
         };
+        
+           // テストダイアログ表示
+        $scope.callDialog = function(index){
+            // 家事名と標準時間を設定した状態でダイアログを起動する
+            ons.createDialog('inputHomeWork.html', {parentScope: $scope}).then(function(dialog) {
+                $scope.inputHomeWork = dialog;
+                $scope.homeworkName = "部屋の掃除";
+                $scope.beseHomeworkTimeHH = "12.5";
+                $scope.homeworkTimeHH = "12.5";
+                $scope.inputHomeWork.show();
+            });
+       };
     });
 
 /*
@@ -183,6 +195,28 @@ module.controller("topPageController", function($scope) {
 
         });
    };
+});
+
+/*
+家事履歴ページコントローラー
+*/
+module.controller("homeworkHistPageController", function($scope) {
+    
+    // 家事履歴の取得
+    var roomId =roomInfo.room_id;
+    getRoomHomework(roomId).done(function(response){
+        $scope.roomHomeworkList = response;
+        console.log($scope.roomHomeworkList[0]);
+        
+        // 最新の情報で更新
+        $scope.$apply();
+    });
+    
+    // ダイアログ表示
+    $scope.callEditPage = function(index){
+    };
+    
+    
 });
 
     /*
@@ -306,3 +340,10 @@ module.controller("addHomeworkPageController", function($scope) {
           });
       }
     });
+
+/*
+設定ページコントローラ
+*/
+module.controller("settingPageController", function($scope) {
+
+});

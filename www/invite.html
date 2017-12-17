@@ -1,19 +1,12 @@
 <ons-page id="invite" ng-controller="invitePageController">
 
-  <ons-toolbar>
-    <div class="left">
-      <ons-toolbar-button ng-click="mySplitter.left.open()">
-        <ons-icon icon="md-menu"></ons-icon>
-      </ons-toolbar-button>
-    </div>
-    <div class="center">ほーむわーくアプリ</div>
-  </ons-toolbar>
+    <ng-include src="'header.html'"></ng-include>
 
-  <div style="text-align: right; margin-top: 20px; margin-right: 10px;">
-    <ons-button ng-click="callInvitePage();">部屋IDを表示</ons-button>
+  <div style="text-align: right; margin-top: 60px; margin-right: 10px;">
+    <ons-button ng-click="callInvitePage();" style="background-color: #001584;">部屋IDを表示</ons-button>
   </div>
 
-  <div style="text-align: center; margin-top: 20px;">
+  <div style="text-align: center; margin-top: 80px;">
 
     <div style="margin-bottom: 20px;">
       <ons-list modifier="inset">

@@ -1,0 +1,35 @@
+<ons-page ng-controller="settingPageController" id="setting">
+
+    <ng-include src="'header.html'"></ng-include>
+
+    <div class="center" style="margin-top: 80px;">
+
+        <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
+            <div class="left subFont margin-bottom-5">ユーザー名</div>
+            <ons-input type="text" class="left bigFont margin-bottom-5" ng-model="userName"></ons-input>
+            <div class="right subFont miniFont">{{ userName.length }}/10</div>
+        </div>
+        <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
+            <div class="left subFont margin-bottom-5">部屋名</div>
+            <ons-input class="left bigFont margin-bottom-5"></ons-input>
+            <div class="right subFont miniFont">0/10</div>
+        </div>
+        <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
+            <div class="left subFont margin-bottom-5">部屋番号</div>
+            <ons-input type="number" class="left bigFont margin-bottom-5" ></ons-input>
+            <div class="right subFont miniFont">0/4</div>
+        </div>
+        <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
+            <div class="left subFont margin-bottom-5">部屋切替</div>
+            <ons-select select-id="my-id" class="bigFont" style="width: 300px;">
+                <option value="1">佐藤さんち</option>
+                <option value="2">畠山家</option>
+            </ons-select>
+        </div>
+
+
+        <div class="center margin-bottom-20 margin-top-100">
+            <ons-button ng-click="inputHomeWork.register(roomHomeworkId)" class="registerBtn">保存</ons-button>
+        </div>
+
+</ons-page>

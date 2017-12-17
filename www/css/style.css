@@ -2,34 +2,176 @@
 /*
 トップ画面リストアイテムスタイル
 */
+ons-list.homeworkList {
+    border-color: #001584;
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
 .homeworkList .list-item--longdivider  {
-  height: 60px;
-  background-color: #006284;
-  color: white;
-  margin-bottom: 1px;
+    height: 60px;
+    background-color: #FFFFFF;
+    color: #001584;
+    font-size: 16px;
+    border-color: #001584;
+    border-top-style: solid;
+    border-top-width: 1px;
 }
 
 /*
 * 共通クラス
 */
 .margin-bottom-20 {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
+
+.margin-bottom-5 {
+    margin-bottom: 5px;
+}
+
+.margin-top-100 {
+    margin-top: 100px;
 }
 
 .margin-left-5 {
-  margin-left: 5px;
+    margin-left: 5px;
 }
 
 .margin-left-10 {
-  margin-left: 10px;
+    margin-left: 10px;
+}
+
+.left {
+    text-align: left;
 }
 
 .center {
-  text-align: center;
+    text-align: center;
+}
+
+.right {
+    text-align: right;
 }
 
 .width-50px {
-  width: 50px;
+    width: 50px;
+}
+
+.width-300px {
+    width: 300px;
+}
+
+.mainFont {
+    color: #FFFFFF;
+    font-size: 22px;
+}
+
+.subFont {
+    color: #001854;
+    font-size: 22px;
+}
+
+.bigFont {
+    color: #001584;
+    font-size: 32px;
+}
+
+.biggestFont {
+    color: #001584;
+    font-size: 64px;
+}
+
+.miniFont {
+    color: #001584;
+    font-size: 14px;
+}
+
+
+/*
+ボタンデザイン
+*/
+ons-button.registerBtn {
+    width: 110px;
+    color: #FFFFFF;
+    font-size: 16px;
+    background-color: #001584;
+}
+
+ons-button.cancelBtn {
+    width: 110px;
+    color: #FFFFFF;
+    font-size: 14px;
+    background-color: #4A494A;    
+}
+
+ons-button.deleteBtn {
+    width: 110px;
+    color: #FFFFFF;
+    font-size: 14px;
+    background-color: #EB7978;    
+}
+
+ons-button.minusBtn {
+    width: 30px;
+    color: #FFFFFF;
+    background-color: #001584;
+    padding: 0px;
+}
+
+ons-button.plusBtn {
+    width: 30px;
+    color: #FFFFFF;
+    background-color: #001584;
+    padding: 0px;
+}
+
+/*
+テキストコントール
+*/
+ons-input.bigFont input{
+    font-size: 22px;
+}
+
+/*
+セレクトボックスコントロール
+*/
+ons-select.bigFont .select-input {
+    font-size: 22px;
+    height: 50px;
+}
+
+/*
+メインカラー
+*/
+.mainBackColor {
+    background-color: #001584;
+}
+.mainColor {
+    color: #001584;
+}
+
+/*
+サブカラー
+*/
+.subBackColor {
+    background-color: #4A494A;
+}
+.subColor {
+    color: #4A494A;
+}
+
+/*
+ビビットカラー
+*/
+.vivitBackColor {
+    background-color: #EB7978;
+}
+.vivitColor {
+    color: #EB7978;
 }
 
 /*
