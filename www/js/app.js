@@ -10,10 +10,21 @@ var userInfo = {};
 */
 var roomInfo = {};
 
-/**
-ユーザー別グラフを表示
+/*
+* グラフ用のカラーリスト
+*/
+var backgroundColorList = [
+    "#F7464A",
+    "#46BFBD",
+    "#FDB45C",
+    "#949FB1"
+]
+
+/*
+* ユーザー別グラフを表示
 */
 function chatByUsers() {
+
   var config = {
     type: 'pie',
     data: {
@@ -31,8 +42,8 @@ function chatByUsers() {
   window.myPie = new Chart(ctx, config);
 }
 
-/**
-家事別グラフを表示
+/*
+* 家事別グラフを表示
 */
 function chatByWorks() {
   var config = {

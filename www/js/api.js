@@ -184,8 +184,6 @@ function deleteRoomHomework(record){
 
   var dataObj = {};
 
-  // TODO 共通処理からユーザーIDと部屋IDを取得する仕組みを設ける
-
   dataObj['user_id'] = userInfo.user_id;
   dataObj['room_id'] = roomInfo.room_id;
   dataObj['record'] = record;
@@ -245,3 +243,42 @@ function getRoomsWithUser(){
 
     return callApi(API_METHOD_GET, url, dataObj);
 }
+
+/*
+* ユーザー別家事集計取得
+* /api/v1/homeworkhist/summary?group_by=user&room_id=11&from=20180101&to=20180131
+*/
+function getHistSummaryByUser(fromDate, toDate){
+    
+    if(fromDate == ''){
+        fromDate = "20000101";
+    }
+    if(toDate == ''){
+        toDate = "21001231";
+    }
+    
+    var url = buildBaseApiUrl() + "homeworkhist/summary?group_by=user&room_id=" + roomInfo.room_id + "&from=" + fromDate + "&to=" + toDate;
+    dataObj = {};
+    
+    return callApi(API_METHOD_GET, url, dataObj);
+}
+
+/*
+* 家事別家事集計取得
+* /api/v1/homeworkhist/summary?group_by=homework&room_id=11&from=20180101&to=20180131
+*/
+function getHistSummaryByHomework(fromDate, toDate){
+    
+    if(fromDate == ''){
+        fromDate = "20000101";
+    }
+    if(toDate == ''){
+        toDate = "21001231";
+    }
+    
+    var url = buildBaseApiUrl() + "homeworkhist/summary?group_by=homework&room_id=" + roomInfo.room_id + "&from=" + fromDate + "&to=" + toDate;
+    dataObj = {};
+    
+    return callApi(API_METHOD_GET, url, dataObj);
+}
+

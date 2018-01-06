@@ -37,95 +37,95 @@ module.controller('menuPageController', function($scope) {
     };
 });
 
-    /*
-    サインインページコントローラ
-    */
-    module.controller("signinPageController", function($scope) {
+/*
+サインインページコントローラ
+*/
+module.controller("signinPageController", function($scope) {
+    
+    $scope.testLogin = function(){
         
-        $scope.testLogin = function(){
-            
-            userInfo =     {
-                "user_id": 15,
-                "email": "ayumu.hatakeyama@gmail.com",
-                "user_name": "hatakeyama ayumu",
-                "auth_type": 1,
-                "auth_id": "105152352340203093268"
-            }
-            
-            roomInfo =     {
-                "room_id": 11,
-                "room_name": "NEW ROOM",
-                "user_id": 15,
-                "room_access_key": "hogehogehoge",
-                "is_owned": 1
-            }
-            
-            alert("ユーザーID：" + userInfo.user_id + " 部屋ID：" + roomInfo.room_id + "でログインします");
-            myNavigator.replacePage('layout.html');
-            
-        };
-
-        /* Googleログイン */
-        $scope.googleLogin = function(){
+        userInfo =     {
+            "user_id": 15,
+            "email": "ayumu.hatakeyama@gmail.com",
+            "user_name": "hatakeyama ayumu",
+            "auth_type": 1,
+            "auth_id": "105152352340203093268"
+        }
         
-            googleAuth.callGoogle().done(function(data) {
-                if(googleAuth.gmailID != ""){
-                    // alert("IDは" + googleAuth.gmailID + "です");
-                                        
-                    // ユーザーの存在チェック
-                    getUserInfo(googleAuth).done(function(response) {
-                        
-                        alert(JSON.stringify(response[0]));
-                        userInfo = response[0];
-                        
-                        if(userInfo == undefined) {
-                            // 新規ユーザー登録
-                            insertNewUser(googleAuth).done(function(response) {
-                                getUserInfo(googleAuth).done(function(response) {
-                                    // alert(JSON.stringify(response[0]));
-                                    userInfo = response[0];
-                                    isSingIn = true;
-                                    myNavigator.replacePage('layout.html');
-                                });
-                            });
-                        } else {
-                            isSingIn = true;
-                            
-                            // 部屋情報取得
-                            getRoomsWithUser().done(function(response) {
+        roomInfo =     {
+            "room_id": 11,
+            "room_name": "NEW ROOM",
+            "user_id": 15,
+            "room_access_key": "hogehogehoge",
+            "is_owned": 1
+        }
+        
+        alert("ユーザーID：" + userInfo.user_id + " 部屋ID：" + roomInfo.room_id + "でログインします");
+        myNavigator.replacePage('layout.html');
+        
+    };
 
-                                if(1 < response.length){
-                                    // 複数の部屋に所属している場合
-                                    // TODO 部屋を選択する画面に遷移
-                                    myNavigator.replacePage('layout.html');
-                                } else {
-                                   // 一つの部屋のみの場合
-                                   roomInfo = response[0];
-                                   // alert(JSON.stringify(roomInfo));
-                                   myNavigator.replacePage('layout.html');
-                                }
-                            });                            
-                        }
-                    });
+    /* Googleログイン */
+    $scope.googleLogin = function(){
+    
+        googleAuth.callGoogle().done(function(data) {
+            if(googleAuth.gmailID != ""){
+                // alert("IDは" + googleAuth.gmailID + "です");
+                                    
+                // ユーザーの存在チェック
+                getUserInfo(googleAuth).done(function(response) {
                     
-                } else {
-                    alert("Google認証情報を取得できていません");
-                }
-            });
-        };
-        
-           // テストダイアログ表示
-        $scope.callDialog = function(index){
-            // 家事名と標準時間を設定した状態でダイアログを起動する
-            ons.createDialog('inputHomeWork.html', {parentScope: $scope}).then(function(dialog) {
-                $scope.inputHomeWork = dialog;
-                $scope.homeworkName = "部屋の掃除";
-                $scope.beseHomeworkTimeHH = "12.5";
-                $scope.homeworkTimeHH = "12.5";
-                $scope.inputHomeWork.show();
-            });
-       };
-    });
+                    alert(JSON.stringify(response[0]));
+                    userInfo = response[0];
+                    
+                    if(userInfo == undefined) {
+                        // 新規ユーザー登録
+                        insertNewUser(googleAuth).done(function(response) {
+                            getUserInfo(googleAuth).done(function(response) {
+                                // alert(JSON.stringify(response[0]));
+                                userInfo = response[0];
+                                isSingIn = true;
+                                myNavigator.replacePage('layout.html');
+                            });
+                        });
+                    } else {
+                        isSingIn = true;
+                        
+                        // 部屋情報取得
+                        getRoomsWithUser().done(function(response) {
+
+                            if(1 < response.length){
+                                // 複数の部屋に所属している場合
+                                // TODO 部屋を選択する画面に遷移
+                                myNavigator.replacePage('layout.html');
+                            } else {
+                               // 一つの部屋のみの場合
+                               roomInfo = response[0];
+                               // alert(JSON.stringify(roomInfo));
+                               myNavigator.replacePage('layout.html');
+                            }
+                        });                            
+                    }
+                });
+                
+            } else {
+                alert("Google認証情報を取得できていません");
+            }
+        });
+    };
+    
+       // テストダイアログ表示
+    $scope.callDialog = function(index){
+        // 家事名と標準時間を設定した状態でダイアログを起動する
+        ons.createDialog('inputHomeWork.html', {parentScope: $scope}).then(function(dialog) {
+            $scope.inputHomeWork = dialog;
+            $scope.homeworkName = "部屋の掃除";
+            $scope.beseHomeworkTimeHH = "12.5";
+            $scope.homeworkTimeHH = "12.5";
+            $scope.inputHomeWork.show();
+        });
+   };
+});
 
 /*
 招待ユーザーサインインページコントローラ
@@ -269,21 +269,77 @@ module.controller("homeworkHistPageController", function($scope) {
     };
 });
 
-    /*
-    グラフページコントローラ
-    */
-    module.controller("graphPageController", function($scope) {
+/*
+グラフページコントローラ
+*/
+module.controller("graphPageController", function($scope) {
     
-      // 画面の初期化イベント
-      document.addEventListener("pageinit", function(e) {
-          chatByUsers();
-          $scope.chatByUsers = chatByUsers;
-          $scope.chatByWorks = chatByWorks;
-      }, false);
+    fromDate = "";
+    toDate = "";
+    
+    // ユーザー別家事集計取得
+    getHistSummaryByUser(fromDate, toDate).done(function(response){
+        
+        //API返却値をグラフモジュール用に整形
+        data = [];
+        labels = [];
+        
+        response.forEach(function(histObj){
+            data.push(histObj["home_work_time_sum"]);
+            labels.push(histObj["user_name"]);
+        });
+
+        var config = {
+            type: 'pie',
+            data: {
+            datasets: [{
+                data: data,
+                backgroundColor: backgroundColorList
+            }],
+                labels: labels
+            },
+            options: {
+                responsive: true
+            }
+        };
+            
+        var ctx = document.getElementById("user_chart_area").getContext("2d");
+        window.userChart = new Chart(ctx, config);
     });
     
+    // 家事別時間集計取得
+    getHistSummaryByHomework(fromDate, toDate).done(function(response){
+        
+        //API返却値をグラフモジュール用に整形
+        data = [];
+        labels = [];
+        
+        response.forEach(function(histObj){
+            data.push(histObj["home_work_time_sum"]);
+            labels.push(histObj["home_work_name"]);
+        });
+
+        var config = {
+            type: 'pie',
+            data: {
+            datasets: [{
+                data: data,
+                backgroundColor: backgroundColorList
+            }],
+                labels: labels
+            },
+            options: {
+                responsive: true
+            }
+        };
+            
+        var ctx = document.getElementById("homework_chart_area").getContext("2d");
+        window.homeworkChart = new Chart(ctx, config);
+    });
+});
+    
 /*
-家事追加、編集ページコントローラ
+* 家事追加、編集ページコントローラ
 */
 module.controller("addHomeworkPageController", function($scope) {
 

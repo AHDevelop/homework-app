@@ -178,16 +178,24 @@ ons-select.bigFont .select-input {
 グラフ画面のタブスタイル
 */
 .graphTab .tabbar__item {
-  background-color: #006284;
+  background-color: #001584;
 }
 
 .graphTab .active {
-  background-color: #787D7B ;
+  background-color: #4A494A;
 }
 
 .graphTab .tabbar__label:first-child {
   color: white;
 }
+
+ons-button.termBtn {
+    width: 100px;
+    color: #FFFFFF;
+    background-color: #001584;
+    padding: 0px;
+}
+
 
 /*
 家事編集画面スタイル

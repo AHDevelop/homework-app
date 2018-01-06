@@ -1,28 +1,37 @@
 <ons-page id="graph" ng-controller="graphPageController">
 
     <ng-include src="'header.html'"></ng-include>
-
-  <ons-tabbar class="graphTab">
-    <ons-tab label="ユーザー別" ng-click="chatByUsers()" active>
-    </ons-tab>
-    <ons-tab label="家事別" ng-click="chatByWorks()">
-    </ons-tab>
-  </ons-tabbar>
-
-  <ons-gesture-detector ng-click="mySplitter.left.open()">
-    <div style="text-align: center; margin-top: 80px;" id="detect-area" >
-      <div style="margin-bottom: 20px;">
-        <!-- 円グラフの表示エリア -->
-        <canvas id="pie-chart-area" width="300" height="300">
-        </canvas>
-      </div>
-    </div>
-  </ons-gesture-detector>
-
-  <div style="text-align: center;">
-    <ons-button ng-click="" style="width: 100px; background-color: #001584;"><ons-icon icon="fa-calendar" style="margin-right: 10px;"></ons-icon>1ヶ月</ons-button>
-    <ons-button ng-click="" style="width: 100px; background-color: #001584;"><ons-icon icon="fa-undo" style="margin-right: 10px;"></ons-icon>昨日</ons-button>
-    <ons-button ng-click="" style="width: 100px; background-color: #001584;"><ons-icon icon="fa-star" style="margin-right: 10px;"></ons-icon>今日</ons-button>
-  </div>
-
+        
+    <ons-tabbar var="graphTab" class="graphTab">
+        <ons-tab label="ユーザー" active="true" page="chatByUsers.html"></ons-tab>
+        <ons-tab label="家事" page="chatByHomeworks.html"></ons-tab>
+    </ons-tabbar>
+    
+    <ons-template id="chatByUsers.html">
+        <div style="text-align: center; margin-top: 80px;" id="detect-area" >
+            <div id="user_chart_area_outer" style="margin-bottom: 20px;">
+                <canvas id="user_chart_area" width="300" height="300"></canvas>
+            </div>
+        </div>
+        
+        <div style="text-align: center;">
+            <ons-button ng-click="" class="termBtn"><ons-icon icon="fa-calendar" style="margin-right: 10px;"></ons-icon>1ヶ月</ons-button>
+            <ons-button ng-click="" class="termBtn"><ons-icon icon="fa-undo" style="margin-right: 10px;"></ons-icon>昨日</ons-button>
+            <ons-button ng-click="" class="termBtn"><ons-icon icon="fa-star" style="margin-right: 10px;"></ons-icon>今日</ons-button>
+        </div>
+    </ons-template>
+    
+    <ons-template id="chatByHomeworks.html">
+        <div style="text-align: center; margin-top: 80px;" id="detect-area" >
+            <div id="homework_chart_area_outer"  style="margin-bottom: 20px;">
+                <canvas id="homework_chart_area" width="300" height="300"></canvas>
+            </div>
+        </div>
+        
+        <div style="text-align: center;">
+            <ons-button ng-click="" class="termBtn"><ons-icon icon="fa-calendar" style="margin-right: 10px;"></ons-icon>1ヶ月</ons-button>
+            <ons-button ng-click="" class="termBtn"><ons-icon icon="fa-undo" style="margin-right: 10px;"></ons-icon>昨日</ons-button>
+            <ons-button ng-click="" class="termBtn"><ons-icon icon="fa-star" style="margin-right: 10px;"></ons-icon>今日</ons-button>
+        </div>
+    </ons-template>
 </ons-page>
