@@ -169,12 +169,13 @@ module.controller("topPageController", function($scope) {
             $scope.roomHomeworkId = roomHomework.room_home_work_id;
             $scope.beseHomeworkTimeHH = roomHomework.base_home_work_time_hh;
             $scope.homeworkTimeHH = roomHomework.base_home_work_time_hh;
+            $scope.isEdit = false;
             $scope.inputHomeWork.show();
                         
             // 家事登録
             $scope.inputHomeWork.register = function(roomHomeworkId){
                 homeworkDate = moment().format('YYYY-MM-DD');
-                updateHomeworkHist(roomHomeworkId, homeworkDate, $scope.homeworkTimeHH).done(function(response){
+                registerHomeworkHist(roomHomeworkId, homeworkDate, $scope.homeworkTimeHH).done(function(response){
                     $scope.inputHomeWork.hide();
                     $scope.$apply();
                     getHomeWorkListWithRoomId(roomId).done(function(response){
@@ -198,25 +199,74 @@ module.controller("topPageController", function($scope) {
 });
 
 /*
-家事履歴ページコントローラー
+* 家事履歴ページコントローラー
 */
 module.controller("homeworkHistPageController", function($scope) {
     
+    // 現在日時の設定
+    $scope.nowDate = moment().format('YYYY年MM月DD日');
+
     // 家事履歴の取得
     var roomId =roomInfo.room_id;
-    getRoomHomework(roomId).done(function(response){
-        $scope.roomHomeworkList = response;
-        console.log($scope.roomHomeworkList[0]);
+    getHomeworkHist(roomId).done(function(response){
+        $scope.roomHomeworkHistList = response;
         
         // 最新の情報で更新
         $scope.$apply();
     });
     
-    // ダイアログ表示
+    // 家事時間入力ダイアログを表示
     $scope.callEditPage = function(index){
+
+        // IDから該当する家事を特定する
+        var roomHomework = $scope.roomHomeworkHistList[index];
+                
+        // 家事名と家事時間を設定した状態でダイアログを起動する
+        ons.createDialog('inputHomeWork.html', {parentScope: $scope}).then(function(dialog) {
+            $scope.inputHomeWork = dialog;
+            $scope.homeworkName = roomHomework.home_work_name;
+            $scope.homeworkHistId = roomHomework.home_work_hist_id;
+            $scope.beseHomeworkTimeHH = roomHomework.home_work_time_hh;
+            $scope.homeworkTimeHH = roomHomework.home_work_time_hh;
+            $scope.isEdit = true;
+            $scope.inputHomeWork.show();
+                        
+            // 家事更新
+            $scope.inputHomeWork.update = function(){
+                updateHomeworkHist($scope.homeworkHistId, $scope.homeworkTimeHH).done(function(response){
+                    $scope.inputHomeWork.hide();
+                    $scope.$apply();
+                    getHomeworkHist(roomId).done(function(response){
+                        $scope.roomHomeworkHistList = response;
+                        
+                        // 最新の情報で更新
+                        $scope.$apply();
+                    });
+                });
+            };
+
+            // 家事削除
+            $scope.inputHomeWork.delete = function(){
+                deleteHomeworkHist($scope.homeworkHistId).done(function(response){
+                    $scope.inputHomeWork.hide();
+                    $scope.$apply();
+                    getHomeworkHist(roomId).done(function(response){
+                        $scope.roomHomeworkHistList = response;
+                        
+                        // 最新の情報で更新
+                        $scope.$apply();
+                    });
+                });
+            };
+
+            $scope.inputHomeWork.plusHour = function(){
+                $scope.homeworkTimeHH = plusHour($scope.homeworkTimeHH);
+            };
+            $scope.inputHomeWork.minusHour = function(){
+                $scope.homeworkTimeHH = minusHour($scope.homeworkTimeHH);
+            };
+        });
     };
-    
-    
 });
 
     /*

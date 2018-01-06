@@ -80,10 +80,21 @@ function getHomeWorkListWithRoomId(roomId){
 }
 
 /*
+* 家事履歴一覧取得
+*/
+function getHomeworkHist(roomId){
+    
+    var url = buildBaseApiUrl() + "homeworkhist" + '/room_id=' + roomId;
+    var dataObj = {};
+    var resultObj = callApi(API_METHOD_GET, url, dataObj);
+    return resultObj;
+}
+
+/*
 * 家事登録
 * /api/v1/homeworkhist/update.json
 */
-function updateHomeworkHist(roomHomeworkId, homeworkDate, homeworkTime){
+function registerHomeworkHist(roomHomeworkId, homeworkDate, homeworkTime){
 
   var userId = userInfo.user_id;
   var roomId = roomInfo.room_id;
@@ -102,24 +113,44 @@ function updateHomeworkHist(roomHomeworkId, homeworkDate, homeworkTime){
   dataObj['record'] = [homeworkResult];
 
   return callApi(API_METHOD_POST, url, dataObj);
+}
 
-  // {
-  //    user_id: {家事履歴登録者のユーザ_id}
-  //    room_id: {部屋_id},
-  //    record: [
-  //      {
-  //        room_home_work_id: {追加する部屋家事ID},
-  //        user_id: {家事したユーザID}
-  //        home_work_date: {家事日},
-  //        home_work_time: {家事時間}
-  //      },
-  //      {
-  //        room_home_work_id: {追加する部屋家事ID},
-  //        user_id: {家事したユーザID}
-  //        home_work_date: {家事日},
-  //        home_work_time: {家事時間}
-  //      },
-  // }
+/*
+* 家事履歴更新
+* /api/v1/homeworkhist/update.json
+*/
+function updateHomeworkHist(homeworkHistId, homeworkTimeHH){
+    
+    var url = buildBaseApiUrl() + "homeworkhist" + '/update.json';
+    
+    var homeworkHist = {};
+    homeworkHist["home_work_hist_id"] = homeworkHistId;
+    homeworkHist["home_work_time_hh"] = homeworkTimeHH;
+      
+    var dataObj = {};
+    dataObj['user_id'] = userInfo.user_id;;
+    dataObj['room_id'] = roomInfo.room_id;
+    dataObj['record'] = [homeworkHist];
+    
+    return callApi(API_METHOD_PUT, url, dataObj);
+}
+
+/*
+* 家事履歴削除
+*/
+function deleteHomeworkHist(homeworkHistId){
+    
+    var url = buildBaseApiUrl() + "homeworkhist" + '/update.json';
+    
+    var homeworkHist = {};
+    homeworkHist["home_work_hist_id"] = homeworkHistId;
+  
+    var dataObj = {};
+    dataObj['user_id'] = userInfo.user_id;;
+    dataObj['room_id'] = roomInfo.room_id;
+    dataObj['record'] = [homeworkHist];
+    
+    return callApi(API_METHOD_DELETE, url, dataObj);
 }
 
 /*

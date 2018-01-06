@@ -1,0 +1,35 @@
+<!-- input homework time Dialog -->
+<ons-template id="inputHomeWork.html">
+    <ons-dialog modifier="material" cancelable var="inputHomeWork">
+        <div class="center mainBackColor mainFont" style="height: 50px;">
+            <span style="position: absolute; top: 12px; left: 90px;">家事履歴登録</span>
+        </div>
+        <div style="padding: 12px 12px 12px 12px;">
+            <div class="right" style="margin-bottom: 50px;">
+                <ons-button  ng-click="inputHomeWork.delete()" class="deleteBtn" ng-if="isEdit">削除</ons-button>
+            </div>
+            <div class="center">
+                <div class="bigFont" style="margin-bottom: 20px;">{{homeworkName}}</div>
+                
+                <div class="center">
+                    <p style="padding-bottom: 20px; float: left; margin-left: 10px;">
+                        <ons-button ng-click="inputHomeWork.minusHour()" class="minusBtn">
+                            <ons-icon icon="fa-minus" size="20px" style="color: #FFFFFF"></ons-icon>
+                        </ons-button>
+                    </p>
+                    <span id="hourLabel" class="biggestFont hourLabel margin-left-10" ng-bind="homeworkTimeHH"></span>
+                    <p style="padding-bottom: 20px; float: right; margin-right: 10px;">
+                        <ons-button ng-click="inputHomeWork.plusHour()" class="margin-left-10 plusBtn">
+                            <ons-icon icon="fa-plus" size="20px" style="color: #FFFFFF"></ons-icon>
+                        </ons-button>
+                    </p>
+                </div>
+            </div>
+            <div class="center margin-bottom-20 margin-top-100">
+                <ons-button ng-click="inputHomeWork.register(roomHomeworkId)" class="registerBtn" ng-if="!isEdit">登録</ons-button>
+                <ons-button ng-click="inputHomeWork.update()" class="registerBtn" ng-if="isEdit">更新</ons-button>
+                <ons-button ng-click="inputHomeWork.hide()" class="margin-left-10 cancelBtn">キャンセル</ons-button>
+            </div>
+        </div>
+    </ons-dialog>
+</ons-template>
