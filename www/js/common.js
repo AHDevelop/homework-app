@@ -7,10 +7,10 @@ function showWorkDetail(){
 /**
 *
 **/
-function showInviteModal (){
-  var inviteModal = document.getElementById('inviteModal');
-  inviteModal.show();
-}
+// function showInviteModal (){
+//   var inviteModal = document.getElementById('inviteModal');
+//   inviteModal.show();
+// }
 
 
 /*

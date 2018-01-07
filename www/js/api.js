@@ -1,9 +1,11 @@
 
-    /* APIの処理種別定数 */
-    var API_METHOD_GET = "get";
-    var API_METHOD_POST = "post";
-    var API_METHOD_PUT = "put";
-    var API_METHOD_DELETE = "delete";
+/*
+* APIの処理種別定数
+*/
+var API_METHOD_GET = "get";
+var API_METHOD_POST = "post";
+var API_METHOD_PUT = "put";
+var API_METHOD_DELETE = "delete";
 
 /*
 * APIアクセスURLの基本部分を作成する
@@ -162,8 +164,6 @@ function updateRoomHomework(userId, roomId, record){
 
   var dataObj = {};
 
-  // TODO 共通処理からユーザーIDと部屋IDを取得する仕組みを設ける
-
   dataObj['user_id'] = userId;
   dataObj['room_id'] = roomId;
   dataObj['record'] = record;
@@ -215,7 +215,9 @@ function getUserInfo(googleAuth){
     return callApi(API_METHOD_GET, url, dataObj);
 }
 
-/* 新規ユーザー登録 */
+/*
+* 新規ユーザー登録
+*/
 function insertNewUser(googleAuth){
 
     var url = buildBaseApiUrl() + "users" + '/' + 'update.json';
@@ -242,6 +244,52 @@ function getRoomsWithUser(){
     var dataObj = {};    
 
     return callApi(API_METHOD_GET, url, dataObj);
+}
+
+/*
+* 部屋ユーザー一覧取得
+* /api/v1/users/room_id=11
+*/
+function getRoomUserIncludeOwner(){
+    
+    var url = buildBaseApiUrl() + "users" + '/' + 'room_id=' + roomInfo.room_id;
+    var dataObj = {};    
+
+    return callApi(API_METHOD_GET, url, dataObj);
+}
+
+/*
+* 部屋追加
+* /api/v1/room/users/update.json
+*/
+function addRoom(roomName, roomNo){
+    
+    var url = buildBaseApiUrl() + "room/users" + '/' + 'update.json';
+    
+    var dataObj = {};
+    
+    dataObj['room_name'] = roomName;
+    dataObj['room_no'] = roomNo;
+    dataObj['user_id'] = userInfo.user_id;
+        
+    return callApi(API_METHOD_POST, url, dataObj);
+}
+
+/*
+* 部屋ユーザー削除
+* /api/v1/room/users/update.json
+*/
+function removeMember(removeUserId){
+    
+    var url = buildBaseApiUrl() + "room/users" + '/' + 'update.json';
+    
+    var dataObj = {};
+    
+    dataObj['remove_user_id'] = removeUserId;
+    dataObj['room_id'] = roomInfo.room_id;
+    dataObj['user_id'] = userInfo.user_id;
+        
+    return callApi(API_METHOD_DELETE, url, dataObj);
 }
 
 /*
@@ -280,5 +328,12 @@ function getHistSummaryByHomework(fromDate, toDate){
     dataObj = {};
     
     return callApi(API_METHOD_GET, url, dataObj);
+}
+
+/*
+* 設定更新
+*/
+function updateSetting(){
+    
 }
 

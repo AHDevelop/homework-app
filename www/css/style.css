@@ -215,3 +215,22 @@ ons-button.termBtn {
   background-color: lightgray;
   color: black;
 }
+
+/*
+メンバ管理画面リストアイテムスタイル
+*/
+ons-list.memberList {
+    border-color: #001584;
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
+.memberList .list-item--longdivider  {
+    height: 60px;
+    background-color: #FFFFFF;
+    color: #001584;
+    font-size: 16px;
+    border-color: #001584;
+    border-top-style: solid;
+    border-top-width: 1px;
+}

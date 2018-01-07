@@ -1,0 +1,31 @@
+<ons-page id="member" ng-controller="memberPageController">
+
+    <ng-include src="'header.html'"></ng-include>
+
+    <div class="center" style="margin-top: 80px;">
+
+        <div style="text-align: right; margin-right: 10px; margin-bottom: 20px;">
+            <ons-button ng-click="callAddRoom();" class="registerBtn">部屋追加</ons-button>
+        </div>
+        
+        <!-- member List -->
+        <div class="margin-bottom-20">
+          <ons-list modifier="inset" class="memberList">
+            <ons-list-header class="mainBackColor mainFont">
+                <div>メンバ一覧</div>
+            </ons-list-header>
+            <div ng-repeat="data in roomMemberList">
+              <ons-list-item modifier="longdivider">
+                <div class="left">
+                      {{data.user_name}}
+                </div>
+                <div class="right">
+                    <ons-button ng-click="removeMember($index)" class="deleteBtn" ng-if="!data.is_owner">除外</ons-button>
+                </div>
+              </ons-list-item>
+            </div>
+          </ons-list>
+        </div>
+    </div>
+    <ng-include src="'addRoom.html'"></ng-include>
+</ons-page>

@@ -4,14 +4,6 @@ Onsen UIの注入
 */
 var module = ons.bootstrap('myApp', ['onsen']);
 angular.module("app", ["angular-loading-bar"]);
-// module.config(function ($routeProvider) {
-//     $routeProvider
-//         .when('/addHomeworkPageController', {
-//             templateUrl: 'views/main.html',
-//             controller: 'addHomeworkPageController'
-//         })
-// });
-
 
 /*
 サイドメニューコントローラーを初期化
@@ -42,6 +34,7 @@ module.controller('menuPageController', function($scope) {
 */
 module.controller("signinPageController", function($scope) {
     
+    // テストログイン
     $scope.testLogin = function(){
         
         userInfo =     {
@@ -56,7 +49,7 @@ module.controller("signinPageController", function($scope) {
             "room_id": 11,
             "room_name": "NEW ROOM",
             "user_id": 15,
-            "room_access_key": "hogehogehoge",
+            "room_number": "0313",
             "is_owned": 1
         }
         
@@ -117,26 +110,11 @@ module.controller("signinPageController", function($scope) {
        // テストダイアログ表示
     $scope.callDialog = function(index){
         // 家事名と標準時間を設定した状態でダイアログを起動する
-        ons.createDialog('inputHomeWork.html', {parentScope: $scope}).then(function(dialog) {
+        ons.createDialog('addRoom.html', {parentScope: $scope}).then(function(dialog) {
             $scope.inputHomeWork = dialog;
-            $scope.homeworkName = "部屋の掃除";
-            $scope.beseHomeworkTimeHH = "12.5";
-            $scope.homeworkTimeHH = "12.5";
             $scope.inputHomeWork.show();
         });
    };
-});
-
-/*
-招待ユーザーサインインページコントローラ
-*/
-module.controller("generalUserSigninPageController", function($scope) {
-
-  $scope.signin = function(){
-    isSingIn = true;
-    myNavigator.replacePage('layout.html');
-  };
-
 });
 
 /*
@@ -388,8 +366,6 @@ module.controller("addHomeworkPageController", function($scope) {
                 var record = [];
                 var homework = {};
                 
-                alert($scope.editPageDialog.workname);
-                
                 homework['home_work_name'] = $scope.editPageDialog.workname;
                 homework['base_home_work_time'] = Number($scope.editPageDialog.baseHomeworkTime);
                 homework['room_home_work_id'] = $scope.editPageDialog.roomHomeworkId;
@@ -432,24 +408,79 @@ module.controller("addHomeworkPageController", function($scope) {
     }
 });
 
-    /*
-    招待ページコントローラ
-    */
-    module.controller("invitePageController", function($scope) {
-        
-      // Show Dialog
-      $scope.callInvitePage = function(obj){
+/*
+* メンバー管理ページコントローラ
+*/
+module.controller("memberPageController", function($scope) {
     
-        ons.createDialog('inviteModal.html', {parentScope: $scope}).then(function(dialog) {
-            $scope.invitePageDialog = dialog;
-            $scope.invitePageDialog.show();
-          });
-      }
+    // メンバー一覧取得
+    getRoomUserIncludeOwner().done(function(response){
+        $scope.roomMemberList = response;        
+        // 最新の情報で更新
+        $scope.$apply();
     });
+    
+    // 部屋追加
+    $scope.callAddRoom = function(obj){
+        
+        ons.createDialog('addRoom.html', {parentScope: $scope}).then(function(dialog) {
+
+            $scope.addRoomDialog = dialog;
+            $scope.addRoomDialog.roomName = "";
+            $scope.addRoomDialog.roomNumber = "";
+
+            $scope.addRoomDialog.addRoom = function(){
+                
+                addRoom($scope.addRoomDialog.roomName, $scope.addRoomDialog.roomNumber).done(function(response){
+                    
+                    $scope.addRoomDialog.hide();                
+                    roomInfo.room_id = response;
+                    
+                    // メンバー一覧取得
+                    getRoomUserIncludeOwner().done(function(response){
+                        $scope.roomMemberList = response;        
+                        // 最新の情報で更新
+                        $scope.$apply();
+                    });
+                });
+            }
+            
+            $scope.addRoomDialog.show();
+        });
+    }
+    
+    // 部屋ユーザー削除
+    $scope.removeMember = function(index){
+        
+        // IDから該当するユーザー情報を特定する
+        var memberObj = $scope.roomMemberList[index];
+        
+        ons.notification.confirm({message: memberObj.user_name + 'さんを部屋から除外してよろしいですか？'}).then(function(result) {
+                    
+            if(result === 0){
+                return false;
+            }
+            
+            removeMember(memberObj.user_id).done(function(response){
+                // メンバー一覧取得
+                getRoomUserIncludeOwner().done(function(response){
+                    $scope.roomMemberList = response;        
+                    // 最新の情報で更新
+                    $scope.$apply();
+                });
+            });
+        });
+    }
+});
 
 /*
 設定ページコントローラ
 */
 module.controller("settingPageController", function($scope) {
+    
+    $scope.userName = userInfo.user_name;
+    $scope.roomName = roomInfo.room_name;
+    $scope.roomNo = roomInfo.room_number;
+    
 
 });
