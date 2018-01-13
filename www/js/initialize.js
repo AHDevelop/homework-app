@@ -481,6 +481,29 @@ module.controller("settingPageController", function($scope) {
     $scope.userName = userInfo.user_name;
     $scope.roomName = roomInfo.room_name;
     $scope.roomNo = roomInfo.room_number;
-    
+                
+    // 保存
+    $scope.register = function(obj){
+        
+        alert("call register")
+        // 部屋設定更新
+        updateRoom($scope.roomName, $scope.roomNo).done(function(response){
 
+            roomInfo.room_name = response["room_name"];
+            roomInfo.room_number = response["room_number"];
+            $scope.roomName = roomInfo.room_name;
+            $scope.roomNo = roomInfo.room_number;
+            
+            
+            // ユーザー更新
+            updateUser($scope.userName).done(function(response){
+
+                userInfo.user_name = response["user_name"];
+                $scope.userName = userInfo.user_name;
+    
+                // 最新の情報で更新
+                $scope.$apply();
+            });
+        });
+    }
 });

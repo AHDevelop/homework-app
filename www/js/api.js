@@ -331,9 +331,35 @@ function getHistSummaryByHomework(fromDate, toDate){
 }
 
 /*
-* 設定更新
+* 部屋設定更新
 */
-function updateSetting(){
+function updateRoom(roomName, roomNumber){
     
+    var url = buildBaseApiUrl() + "room/" + 'update.json';
+    
+    var dataObj = {};
+    
+    dataObj['room_name'] = roomName;
+    dataObj['room_number'] = roomNumber;
+    dataObj['room_id'] = roomInfo.room_id;
+    dataObj['user_id'] = userInfo.user_id;
+        
+    return callApi(API_METHOD_PUT, url, dataObj);
+    
+}
+
+/*
+* ユーザー更新
+*/
+function updateUser(userName){
+    
+    var url = buildBaseApiUrl() + "users/" + 'update.json';
+    
+    var dataObj = {};
+    
+    dataObj['user_id'] = userInfo.user_id;
+    dataObj['user_name'] = userName;
+        
+    return callApi(API_METHOD_PUT, url, dataObj);
 }
 
