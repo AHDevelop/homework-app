@@ -251,16 +251,63 @@ module.controller("homeworkHistPageController", function($scope) {
 グラフページコントローラ
 */
 module.controller("graphPageController", function($scope) {
+
+    $scope.fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
+    $scope.toDate = moment().format('YYYY-MM-DD');
     
-    fromDate = "";
-    toDate = "";
+    $scope.callJustMonth = function(){
+        $scope.fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
+        $scope.toDate = moment().format('YYYY-MM-DD');
+        
+        $(".monthBtn").addClass("off").prop('disabled', true);
+        $(".yesterdayBtn").removeClass("off").prop('disabled', false);
+        $(".todayBtn").removeClass("off").prop('disabled', false);
+        
+        // グラフの再取得処理
+        updateGraph($scope.fromDate, $scope.toDate);
+    };
+
+    $scope.callYesterDay = function(){
+        var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
+        $scope.fromDate = yesterday;
+        $scope.toDate = yesterday;
+
+        $(".monthBtn").removeClass("off").prop('disabled', false);
+        $(".yesterdayBtn").addClass("off").prop('disabled', true);
+        $(".todayBtn").removeClass("off").prop('disabled', false);
+
+        // グラフの再取得処理
+        updateGraph($scope.fromDate, $scope.toDate);
+    };
+
+    $scope.callToday = function(){
+        var today = moment().format('YYYY-MM-DD');
+        $scope.fromDate = today;
+        $scope.toDate = today;
+
+        $(".monthBtn").removeClass("off").prop('disabled', false);
+        $(".yesterdayBtn").removeClass("off").prop('disabled', false);
+        $(".todayBtn").addClass("off").prop('disabled', true);
+
+        // グラフの再取得処理
+        updateGraph($scope.fromDate, $scope.toDate);
+    };
+    
+    // グラフの再取得処理
+    updateGraph($scope.fromDate, $scope.toDate);
+});
+
+/*
+* グラフの再取得処理
+*/
+function updateGraph(fromDate, toDate){
     
     // ユーザー別家事集計取得
     getHistSummaryByUser(fromDate, toDate).done(function(response){
         
         //API返却値をグラフモジュール用に整形
-        data = [];
-        labels = [];
+        var data = [];
+        var labels = [];
         
         response.forEach(function(histObj){
             data.push(histObj["home_work_time_sum"]);
@@ -289,8 +336,8 @@ module.controller("graphPageController", function($scope) {
     getHistSummaryByHomework(fromDate, toDate).done(function(response){
         
         //API返却値をグラフモジュール用に整形
-        data = [];
-        labels = [];
+        var data = [];
+        var labels = [];
         
         response.forEach(function(histObj){
             data.push(histObj["home_work_time_sum"]);
@@ -314,7 +361,7 @@ module.controller("graphPageController", function($scope) {
         var ctx = document.getElementById("homework_chart_area").getContext("2d");
         window.homeworkChart = new Chart(ctx, config);
     });
-});
+};
     
 /*
 * 家事追加、編集ページコントローラ

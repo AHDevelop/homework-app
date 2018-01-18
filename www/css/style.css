@@ -196,6 +196,10 @@ ons-button.termBtn {
     padding: 0px;
 }
 
+ons-button.termBtn.off {
+    background-color: #4A494A;
+}
+
 
 /*
 家事編集画面スタイル
