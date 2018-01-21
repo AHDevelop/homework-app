@@ -66,13 +66,15 @@ var backgroundColorList = [
 /*
 サインイン処理
 */
-function signIn(){
-  isSingIn = ture;
-}
+// function signIn(){
+//   isSingIn = ture;
+// }
 
-/*
-サインアウト処理
-*/
-function signOut(){
-  isSingIn = false;
-}
+// /*
+// サインアウト処理
+// */
+// function signOut(){
+//     alert("signOut");
+//     isSingIn = false;
+//     localStorage.removeItem('roomInfo.room_id');
+// }

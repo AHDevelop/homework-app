@@ -45,6 +45,14 @@ ons-list.homeworkList {
     margin-left: 10px;
 }
 
+.margin-right-5 {
+    margin-right: 5px;
+}
+
+.margin-right-10 {
+    margin-right: 10px;
+}
+
 .left {
     text-align: left;
 }
@@ -129,6 +137,20 @@ ons-button.plusBtn {
     padding: 0px;
 }
 
+ons-button.editBtn {
+    width: 70px;
+    color: #FFFFFF;
+    font-size: 16px;
+    background-color: #001584;
+}
+
+ons-button.addBtn {
+    width: 110px;
+    color: #FFFFFF;
+    font-size: 16px;
+    background-color: #EB7978;   
+}
+
 /*
 テキストコントール
 */
@@ -204,20 +226,24 @@ ons-button.termBtn.off {
 /*
 家事編集画面スタイル
 */
+ons-list.addHomework_homeworkList {
+    border-color: #001584;
+    border-top-style: solid;
+    border-top-width: 1px;
+}
+
 .addHomework_homeworkList .list-item--longdivider  {
-  height: 60px;
-  background-color: #006284;
-  color: white;
-  margin-bottom: 1px;
+    height: 60px;
+    background-color: #FFFFFF;
+    color: #001584;
+    font-size: 16px;
+    border-color: #001584;
+    border-top-style: solid;
+    border-top-width: 1px;
 }
 
 .addHomework_homeworkList .disabled {
-  background-color: #636363;
-}
-
-.addHomework_homeworkList .btn_edit {
-  background-color: lightgray;
-  color: black;
+  background-color: #4A494A;
 }
 
 /*

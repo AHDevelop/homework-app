@@ -3,70 +3,80 @@
     <ng-include src="'header.html'"></ng-include>
 
     <div style="text-align: center; margin-top: 80px;">
-        <ons-list modifier="inset" class="addHomework_homeworkList" ng-cloak>
-            <div ng-repeat="data in roomHomeworkList">
-                <ons-list-item modifier="longdivider" class="{{data.is_visible ? '' : 'disabled'}}" >
-                    <div class="left">
-                        <ons-icon icon="fa-plus-square" class="list-item__icon"></ons-icon>
-                    </div>
-                    <div class="center">
-                        {{data.home_work_name}}
-                    </div>
-                    <div class="right">
-                        <div style="margin-right: 20px;">
-                            <span class="hourLabel" style="width: 50px;">{{data.base_home_work_time_hh}}</span>
-                            <span style="width: 50px;">H</span>
-                        </div>
-                        <div>
-                            <ons-button class="btn_edit" ng-click="callEditPage($index)">編集</ons-button>
-                        </div>
-                    </div>
-                </ons-list-item>
-            </div>
+    
+        <div class="margin-bottom-20">
+          <ons-list modifier="inset" class="addHomework_homeworkList">
+            <ons-list-header class="mainBackColor mainFont">
+                <div style="float: left; margin-top: 7px;">家事一覧</div>
+                <div class="right">
+                    <ons-button class="addBtn" ng-click="callEditPage()">新規追加</ons-button>
+                </div>
+            </ons-list-header>
             
-            <ons-fab position="bottom right" ng-click="callEditPage()">
-                <ons-icon icon="md-plus"></ons-icon>
-            </ons-fab>
+            <div ng-repeat="data in roomHomeworkList">
+              <ons-list-item modifier="longdivider" class="{{data.is_visible ? '' : 'disabled'}}">
+                <div class="left">
+                  <ons-icon icon="fa-plus-square" class="list-item__icon"></ons-icon>
+                  {{data.home_work_name}}
+                </div>
+                <div class="right">
+                    <span class="hourLabel">{{data.base_home_work_time_hh}}</span><span class="margin-left-5 margin-right-10">H</span>
+                    <ons-button class="editBtn" ng-click="callEditPage($index)">編集</ons-button>
+                </div>
+              </ons-list-item>
+            </div>
+          </ons-list>
+        </div>
         </ons-list>
     </div>
 
     <!-- Edit Dialog -->
     <ons-template id="editPage.html">
-        <ons-dialog var="dialog" modifier="material" cancelable>
-            <div style="padding: 0 22px 22px 22px">
-
-                <div style="margin-bottom: 20px; margin: auto;">
-                    <span style="font-weight: 500;">新規家事追加</span>
+        <ons-dialog modifier="material" cancelable var="editHomeWork">
+        <div class="center mainBackColor mainFont" style="height: 50px;">
+            <span style="position: absolute; top: 10px; left: 120px;">家事編集</span>
+        </div>
+        <div style="padding: 12px 12px 12px 12px;">
+            <div class="right" style="margin-bottom: 10px;">
+                <ons-button ng-click="editPageDialog.deleteRoomHomework()" ng-disabled="!editPageDialog.roomHomeworkId" class="margin-left-10 deleteBtn">削除</ons-button>
+            </div>
+            <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
+                <div class="left subFont margin-bottom-5">家事名</div>
+                <ons-input type="text" modifier="underbar" class="left bigFont margin-bottom-5" maxlength="50" ng-model="editPageDialog.workname"></ons-input>
+                <div class="right subFont miniFont">{{ editPageDialog.workname.length }}/50</div>
+            </div>
+            
+            <div class="center" style="width: 300px; margin: auto; margin-bottom: 20px;">
+                <div class="left subFont margin-bottom-5">表示可否</div>
+                <div>
+                    <div>
+                        <ons-switch id="isVisible" ng-model="editPageDialog.isVisible" ng-checked="editPageDialog.isVisible" ng-click="editPageDialog.clickVisible()" ng-disabled="!editPageDialog.roomHomeworkId"></ons-switch>
+                    </div>
+                    <div>
+                        <span id="isDispTopList" style="">{{editPageDialog.isVisible ? 'トップ画面に表示する' : 'トップ画面に表示しない'}}</span>
+                    </div>
                 </div>
-
-                <p style="">家事名</p>
-                <div style="margin-bottom: 30px;">
-                    <ons-input ng-model="editPageDialog.workname" modifier="underbar" required ng-minlength="1" ng-maxlength="20"></ons-input>
-                </div>
-                
-                <p style="">基準時間</p>
-                <div style="margin-bottom: 30px; text-align: center;">
-                    <ons-button ng-click="editPageDialog.minusHour()">
-                      <ons-icon icon="fa-minus-square" class="list-item__icon"></ons-icon>
+            </div>
+            
+            <div class="center" style="width: 300px; margin: auto; margin-bottom: 20px;">
+                <div class="left subFont margin-bottom-5">基準時間</div>
+                <p style="padding-bottom: 20px; float: left; margin-left: 10px;">
+                    <ons-button ng-click="editPageDialog.minusHour()" class="minusBtn">
+                        <ons-icon icon="fa-minus" size="20px" style="color: #FFFFFF"></ons-icon>
                     </ons-button>
-                    <span id="hourLabel" class="hourLabel margin-left-10 width-50px" ng-bind="editPageDialog.baseHomeworkTime"></span>
-                    <ons-button ng-click="editPageDialog.plusHour()" class="margin-left-10">
-                      <ons-icon icon="fa-plus-square" class="list-item__icon"></ons-icon>
+                </p>
+                <span id="hourLabel" class="biggestFont hourLabel margin-left-10" ng-bind="editPageDialog.baseHomeworkTime"></span>
+                <p style="padding-bottom: 20px; float: right; margin-right: 10px;">
+                    <ons-button ng-click="editPageDialog.plusHour()" class="margin-left-10 plusBtn">
+                        <ons-icon icon="fa-plus" size="20px" style="color: #FFFFFF"></ons-icon>
                     </ons-button>
-                </div>
-                
-                <p style="">トップ画面に表示</p>
-                <div style="margin-bottom: 30px;">
-                    <ons-switch id="isVisible" ng-model="editPageDialog.isVisible" ng-checked="editPageDialog.isVisible" ng-click="editPageDialog.clickVisible()" ng-disabled="!editPageDialog.roomHomeworkId"></ons-switch>
-                    <span id="isDispTopListLabel" style="">{{editPageDialog.isVisible ? 'する' : 'しない'}}</span>
-                </div>
-
-                <p style="margin-bottom: 20px; text-align: center;">
-                    <ons-button ng-click="editPageDialog.hide()">キャンセル</ons-button>
-                    <ons-button ng-click="editPageDialog.insertRoomHomework()">登録</ons-button>
-                    <ons-button ng-click="editPageDialog.deleteRoomHomework()" ng-disabled="!editPageDialog.roomHomeworkId">削除</ons-button>
                 </p>
             </div>
+            <div class="center margin-bottom-20">
+                <ons-button ng-click="editPageDialog.insertRoomHomework()" class="registerBtn">登録</ons-button>
+                <ons-button ng-click="editPageDialog.hide()" class="margin-left-10 cancelBtn">キャンセル</ons-button>
+            </div>
+        </div>
         </ons-dialog>
     </ons-template>
 

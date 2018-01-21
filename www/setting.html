@@ -21,12 +21,9 @@
         </div>
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
             <div class="left subFont margin-bottom-5">部屋切替</div>
-            <ons-select select-id="my-id" class="bigFont" style="width: 300px;">
-                <option value="1">佐藤さんち</option>
-                <option value="2">畠山家</option>
-            </ons-select>
+            <select ng-model="selectRoom" ng-options="room.room_name for room in roomList" class="subFont" style="width: 300px;">
+            </select>
         </div>
-
         <div class="center margin-bottom-20 margin-top-100">
             <ons-button ng-click="register()" class="registerBtn">保存</ons-button>
         </div>
