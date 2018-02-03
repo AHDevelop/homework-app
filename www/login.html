@@ -1,7 +1,9 @@
 <ons-page ng-controller="signinPageController">
 
+    <ng-include src="'loading.html'"></ng-include>
+
     <div class="center">ほーむわーくアプリ</div>
-  <div style="text-align: center; position: absolute; bottom: 0px; width: 100%; overflow: scroll;">
+    <div style="text-align: center; position: absolute; bottom: 0px; width: 100%; overflow: scroll;">
     <p>
       <ons-button ng-click="googleLogin()" class="mainBackColor">
         <ons-icon icon="fa-google" style="margin-right: 10px;"></ons-icon>
@@ -14,12 +16,12 @@
         テスト用ログイン
       </ons-button>
     </p>
-<!--    <p>
+    <p>
       <ons-button ng-click="callDialog()" class="mainBackColor">
         <ons-icon icon="fa-link" style="margin-right: 10px;"></ons-icon>
         テスト用ダイアログ
       </ons-button>
-    </p>-->
+    </p>
     <p class="subColor">
         Ver 0.0.1
     </p>
@@ -73,5 +75,4 @@
         </div>
         </ons-dialog>
     </ons-template>
-
 </ons-page>

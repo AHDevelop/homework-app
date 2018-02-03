@@ -1,9 +1,10 @@
 <!-- input homework time Dialog -->
 <ons-template id="inputHomeWork.html">
     <ons-dialog modifier="material" cancelable var="inputHomeWork">
-        <div class="center mainBackColor mainFont" style="height: 50px;">
-            <span style="position: absolute; top: 12px; left: 90px;">家事履歴登録</span>
+        <div class="center toolbar__title ng-binding mainBackColor mainFont" style="height: 42px;">
+            <span>家事履歴登録</span>
         </div>
+        
         <div style="padding: 12px 12px 12px 12px;">
             <div class="right" style="margin-bottom: 50px;">
                 <ons-button  ng-click="inputHomeWork.delete()" class="deleteBtn" ng-if="isEdit">削除</ons-button>

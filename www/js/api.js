@@ -25,11 +25,6 @@ function buildBaseApiUrl(){
 */
 function callApi(type, url, dataObj) {
 
-  // ローディング画面表示
-  // $('body').loading({
-  //   stoppable: true
-  // });
-
     var apiKey = "key";
 
     var resObj = $.ajax({
@@ -50,8 +45,6 @@ function callApi(type, url, dataObj) {
     });
 
     resObj.always(function() {
-        // // ローディング画面非表示
-        // $('body').loading('stop');
     });
 
     resObj.complete(function(){
