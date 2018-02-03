@@ -18,7 +18,7 @@ var backgroundColorList = [
     "#46BFBD",
     "#FDB45C",
     "#949FB1"
-]
+];
 
 
 /*

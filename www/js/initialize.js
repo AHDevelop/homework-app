@@ -48,8 +48,10 @@ module.controller('menuPageController', function($scope) {
     // サインアウト
     $scope.signout = function(){
         isSingIn = false;
-        localStorage.removeItem('roomInfo.room_id');
-        myNavigator.replacePage('login.html');
+        googleAuth.disconnectUser().done(function(data) {
+            localStorage.removeItem('roomInfo.room_id');
+            myNavigator.replacePage('login.html');
+        });
     };
 });
 
@@ -84,7 +86,9 @@ module.controller("signinPageController", function($scope) {
 
     /* Googleログイン */
     $scope.googleLogin = function(){
-            
+        
+        showLoading();
+
         googleAuth.callGoogle().done(function(data) {
             if(googleAuth.gmailID !== ""){
                 // alert("IDは" + googleAuth.gmailID + "です");
@@ -98,12 +102,16 @@ module.controller("signinPageController", function($scope) {
                     if(userInfo === undefined) {
                         // 新規ユーザー登録
                         insertNewUser(googleAuth).done(function(response) {
+                            
+                            // 登録したユーザーを再取得
                             getUserInfo(googleAuth).done(function(response) {
                                 // alert(JSON.stringify(response[0]));
                                 userInfo = response[0];
                                 isSingIn = true;
                                 myNavigator.replacePage('layout.html');
-                            });
+                            }).always(function() {
+                                hideLoading();
+                            });                        
                         });
                     } else {
                         isSingIn = true;
@@ -130,6 +138,8 @@ module.controller("signinPageController", function($scope) {
                                 }
                             }
                             myNavigator.replacePage('layout.html');
+                        }).always(function() {
+                            hideLoading();
                         });
                     }
                 });

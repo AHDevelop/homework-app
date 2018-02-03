@@ -4,15 +4,6 @@ function showWorkDetail(){
   modal.show();
 }
 
-/**
-*
-**/
-// function showInviteModal (){
-//   var inviteModal = document.getElementById('inviteModal');
-//   inviteModal.show();
-// }
-
-
 /*
 * 家事登録ダイアログで家事時間を加算する
 */
@@ -26,7 +17,7 @@ function plusHour(hour){
     
     var hourStr = hour.toString();
     if(!hourStr.match(/\./)){
-        hourStr += ".0"
+        hourStr += ".0";
     }
     
     return hourStr;
@@ -46,7 +37,7 @@ function minusHour(hour){
     var hourStr = hour.toString();
     
     if(!hourStr.match(/\./)){
-        hourStr += ".0"
+        hourStr += ".0";
     }
     
     return hourStr;

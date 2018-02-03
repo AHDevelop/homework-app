@@ -82,21 +82,27 @@ var googleAuth = {
   ユーザー認証を解除する
   */
   disconnectUser: function() {
+      
+      var deferred = $.Deferred();
 
       $.ajax({
           type: 'GET',
-          url: this.revokeUrl,
+          url: googleAuth.baseUrl + 'revoke?token=' + googleAuth.accessToken,
           async: false,
           contentType: "application/json",
           dataType: 'jsonp',
           success: function(nullResponse) {
+              deferred.resolve();
               googleAuth.accessToken = null;
               alert("disconnectUser");
           },
           error: function(e) {
-            alert("error");
+            deferred.resolve();
+            alert("error:" + googleAuth.revokeUrl + JSON.stringfy(e));
           }
       });
+      
+      return deferred.promise();
   },
 
   /*
