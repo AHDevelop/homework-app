@@ -26,8 +26,6 @@ var googleAuth = {
     redirectUri : 'http://localhost',
     baseUrl : 'https://accounts.google.com/o/oauth2/',
     revokeUrl : this.baseUrl + 'revoke?token=' + this.accessToken,
-    userInfoUrl : this.baseUrl + 'v1/userinfo?alt=json&access_token=' + this.accessToken,
-    authUrl : this.baseUrl + 'auth?',
 
     /*
     認証メイン処理
@@ -94,11 +92,10 @@ var googleAuth = {
           success: function(nullResponse) {
               deferred.resolve();
               googleAuth.accessToken = null;
-              alert("disconnectUser");
           },
           error: function(e) {
             deferred.resolve();
-            alert("error:" + googleAuth.revokeUrl + JSON.stringfy(e));
+            alert("予期せぬエラーが発生しました。");
           }
       });
       

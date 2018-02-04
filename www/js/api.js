@@ -36,10 +36,12 @@ function callApi(type, url, dataObj) {
     });
     
     resObj.done(function(response) {
+        if(response.message !== undefined){
+            alert(response.message);
+        }
     });
     
     resObj.fail(function() {
-        console.log('接続に失敗しました。URL:' +  url);
         console.log(JSON.stringify(resObj));
         alert('接続に失敗しました。URL:' +  url);
     });

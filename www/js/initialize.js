@@ -97,7 +97,7 @@ module.controller("signinPageController", function($scope) {
                 getUserInfo(googleAuth).done(function(response) {
                     
                     //alert(JSON.stringify(response[0]));
-                    userInfo = response[0];
+                    userInfo = response.results[0];
                     
                     if(userInfo === undefined) {
                         // 新規ユーザー登録
@@ -106,7 +106,7 @@ module.controller("signinPageController", function($scope) {
                             // 登録したユーザーを再取得
                             getUserInfo(googleAuth).done(function(response) {
                                 // alert(JSON.stringify(response[0]));
-                                userInfo = response[0];
+                                userInfo = response.results[0];
                                 isSingIn = true;
                                 myNavigator.replacePage('layout.html');
                             }).always(function() {
@@ -123,18 +123,18 @@ module.controller("signinPageController", function($scope) {
                             room_id = localStorage.getItem("roomInfo.room_id");
                             
                             if(room_id === undefined){
-                                    localStorage.setItem('roomInfo.room_id', response[0].room_id);
-                                    roomInfo = response[0];
+                                    localStorage.setItem('roomInfo.room_id', response.results[0].room_id);
+                                    roomInfo = response.results[0];
                             } else {
                                 // 前回情報がある場合は初期設定の部屋を設定する
-                                if(1 < response.length){
-                                    response.forEach(function(roomObj){
+                                if(1 < response.results.length){
+                                    response.results.forEach(function(roomObj){
                                         if(roomObj.room_id == room_id){
                                             roomInfo = roomObj;
                                         }
                                     });
                                 } else {
-                                    roomInfo = response[0];
+                                    roomInfo = response.results[0];
                                 }
                             }
                             myNavigator.replacePage('layout.html');
@@ -172,7 +172,7 @@ module.controller("topPageController", function($scope) {
    var roomId = roomInfo.room_id;
    
     getHomeWorkListWithRoomId(roomId).done(function(response){
-        $scope.roomHomeworkList = response;
+        $scope.roomHomeworkList = response.results;
 
         // 最新の情報で更新
         $scope.$apply();
@@ -206,13 +206,13 @@ module.controller("topPageController", function($scope) {
                 registerHomeworkHist(roomHomeworkId, homeworkDate, $scope.homeworkTimeHH).done(function(response){
                     $scope.$apply();
                     getHomeWorkListWithRoomId(roomId).done(function(response){
-                        $scope.roomHomeworkList = response;
+                        $scope.roomHomeworkList = response.results;
                         
                         // 最新の情報で更新
                         $scope.$apply();
+                    }).always(function() {
+                        hideLoading();
                     });
-                }).always(function() {
-                    hideLoading();
                 });
             };
             
@@ -243,7 +243,7 @@ module.controller("homeworkHistPageController", function($scope) {
     // 家事履歴の取得
     var roomId =roomInfo.room_id;
     getHomeworkHist(roomId).done(function(response){
-        $scope.roomHomeworkHistList = response;
+        $scope.roomHomeworkHistList = response.results;
         
         // 最新の情報で更新
         $scope.$apply();
@@ -275,15 +275,14 @@ module.controller("homeworkHistPageController", function($scope) {
                 showLoading();
 
                 updateHomeworkHist($scope.homeworkHistId, $scope.homeworkTimeHH).done(function(response){
-                    //$scope.$apply();
                     getHomeworkHist(roomId).done(function(response){
-                        $scope.roomHomeworkHistList = response;
+                        $scope.roomHomeworkHistList = response.results;
                         
                         // 最新の情報で更新
                         $scope.$apply();
+                    }).always(function() {
+                        hideLoading();
                     });
-                }).always(function() {
-                    hideLoading();
                 });
             };
 
@@ -295,9 +294,8 @@ module.controller("homeworkHistPageController", function($scope) {
                 showLoading();
 
                 deleteHomeworkHist($scope.homeworkHistId).done(function(response){
-//                     $scope.$apply();
                     getHomeworkHist(roomId).done(function(response){
-                        $scope.roomHomeworkHistList = response;
+                        $scope.roomHomeworkHistList = response.results;
                         
                         // 最新の情報で更新
                         $scope.$apply();
@@ -395,7 +393,7 @@ function updateGraph(fromDate, toDate){
         var data = [];
         var labels = [];
         
-        response.forEach(function(histObj){
+        response.results.forEach(function(histObj){
             data.push(histObj["home_work_time_sum"]);
             labels.push(histObj["user_name"]);
         });
@@ -427,7 +425,7 @@ function updateGraph(fromDate, toDate){
         var data = [];
         var labels = [];
         
-        response.forEach(function(histObj){
+        response.results.forEach(function(histObj){
             data.push(histObj["home_work_time_sum"]);
             labels.push(histObj["home_work_name"]);
         });
@@ -461,7 +459,7 @@ module.controller("addHomeworkPageController", function($scope) {
     // 部屋家事の取得
     var roomId =roomInfo.room_id;
     getRoomHomework(roomId).done(function(response){
-        $scope.roomHomeworkList = response;        
+        $scope.roomHomeworkList = response.results;        
         // 最新の情報で更新
         $scope.$apply();
     }).always(function() {
@@ -515,7 +513,7 @@ module.controller("addHomeworkPageController", function($scope) {
                 
                 updateRoomHomework(userInfo.user_id, roomInfo.room_id, record).done(function(response){
                     getRoomHomework(roomId).done(function(response){
-                        $scope.roomHomeworkList = response;
+                        $scope.roomHomeworkList = response.results;
                         $scope.$apply();
                     }).always(function() {
                         hideLoading();
@@ -544,7 +542,7 @@ module.controller("addHomeworkPageController", function($scope) {
                     
                     deleteRoomHomework(record).done(function(response){
                         getRoomHomework(roomId).done(function(response){
-                            $scope.roomHomeworkList = response;
+                            $scope.roomHomeworkList = response.results;
                             $scope.$apply();
                         }).always(function() {
                             hideLoading();
@@ -568,7 +566,7 @@ module.controller("memberPageController", function($scope) {
     
     // メンバー一覧取得
     getRoomUserIncludeOwner().done(function(response){
-        $scope.roomMemberList = response;        
+        $scope.roomMemberList = response.results;        
         // 最新の情報で更新
         $scope.$apply();
     }).always(function() {
@@ -592,11 +590,11 @@ module.controller("memberPageController", function($scope) {
                 
                 addRoom($scope.addRoomDialog.roomName, $scope.addRoomDialog.roomNumber).done(function(response){
                     
-                    roomInfo.room_id = response;
+                    roomInfo.room_id = response.results;
                     
                     // メンバー一覧取得
                     getRoomUserIncludeOwner().done(function(response){
-                        $scope.roomMemberList = response;        
+                        $scope.roomMemberList = response.results;        
                         // 最新の情報で更新
                         $scope.$apply();
                     }).always(function() {
@@ -627,7 +625,7 @@ module.controller("memberPageController", function($scope) {
             removeMember(memberObj.user_id).done(function(response){
                 // メンバー一覧取得
                 getRoomUserIncludeOwner().done(function(response){
-                    $scope.roomMemberList = response;        
+                    $scope.roomMemberList = response.results;        
                     // 最新の情報で更新
                     $scope.$apply();
                 }).always(function() {
@@ -656,10 +654,10 @@ module.controller("settingPageController", function($scope) {
     // 部屋一覧取得
     getRoomsWithUser().done(function(response){
         
-        $scope.roomList = response;
+        $scope.roomList = response.results;
         
         // 現在の部屋を設定する
-        response.forEach(function(roomObj){
+        response.results.forEach(function(roomObj){
             if(roomObj["room_id"] == roomInfo.room_id){
                 $scope.selectRoom =  roomObj;
             }
@@ -676,8 +674,8 @@ module.controller("settingPageController", function($scope) {
         // 部屋設定更新
         updateRoom($scope.roomName, $scope.roomNo).done(function(response){
 
-            roomInfo.room_name = response["room_name"];
-            roomInfo.room_number = response["room_number"];
+            roomInfo.room_name = response.results["room_name"];
+            roomInfo.room_number = response.results["room_number"];
             $scope.roomName = roomInfo.room_name;
             $scope.roomNo = roomInfo.room_number;
             roomInfo.room_id = $scope.selectRoom["room_id"];
@@ -688,7 +686,7 @@ module.controller("settingPageController", function($scope) {
             // ユーザー更新
             updateUser($scope.userName).done(function(response){
 
-                userInfo.user_name = response["user_name"];
+                userInfo.user_name = response.results["user_name"];
                 $scope.userName = userInfo.user_name;
     
                 // 最新の情報で更新
