@@ -12,17 +12,6 @@ var userInfo = {};
 var roomInfo = {};
 
 /*
-* グラフ用のカラーリスト
-*/
-var backgroundColorList = [
-    "#F7464A",
-    "#46BFBD",
-    "#FDB45C",
-    "#949FB1"
-];
-
-
-/*
 * ローディング中画面を表示
 */
 function showLoading(){

@@ -415,7 +415,9 @@ function updateGraph(fromDate, toDate){
             data: {
             datasets: [{
                 data: data,
-                backgroundColor: backgroundColorList
+                backgroundColor: palette('tol', data.length).map(function(hex) {
+                    return '#' + hex;
+                })
             }],
                 labels: labels
             },
@@ -447,7 +449,9 @@ function updateGraph(fromDate, toDate){
             data: {
             datasets: [{
                 data: data,
-                backgroundColor: backgroundColorList
+                backgroundColor: palette('tol', data.length).map(function(hex) {
+                    return '#' + hex;
+                })
             }],
                 labels: labels
             },
