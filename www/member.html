@@ -15,15 +15,17 @@
             <ons-list-header class="mainBackColor mainFont">
                 <div>メンバ一覧</div>
             </ons-list-header>
-            <div ng-repeat="data in roomMemberList">
-              <ons-list-item modifier="longdivider">
-                <div class="left">
-                      {{data.user_name}}
+            <div class="scroll_list_for_member_list">
+                <div ng-repeat="data in roomMemberList">
+                  <ons-list-item modifier="longdivider">
+                    <div class="left">
+                          {{data.user_name}}
+                    </div>
+                    <div class="right">
+                        <ons-button ng-click="removeMember($index)" class="deleteBtn" ng-if="!data.is_owner">除外</ons-button>
+                    </div>
+                  </ons-list-item>
                 </div>
-                <div class="right">
-                    <ons-button ng-click="removeMember($index)" class="deleteBtn" ng-if="!data.is_owner">除外</ons-button>
-                </div>
-              </ons-list-item>
             </div>
           </ons-list>
         </div>

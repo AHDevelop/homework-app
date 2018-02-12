@@ -91,29 +91,41 @@ module.controller("signinPageController", function($scope) {
 
         googleAuth.callGoogle().done(function(data) {
             if(googleAuth.gmailID !== ""){
-                // alert("IDは" + googleAuth.gmailID + "です");
                                     
                 // ユーザーの存在チェック
                 getUserInfo(googleAuth).done(function(response) {
                     
-                    //alert(JSON.stringify(response[0]));
                     userInfo = response.results[0];
                     
                     if(userInfo === undefined) {
                         // 新規ユーザー登録
                         insertNewUser(googleAuth).done(function(response) {
                             
-                            // 登録したユーザーを再取得
-                            getUserInfo(googleAuth).done(function(response) {
-                                // alert(JSON.stringify(response[0]));
-                                userInfo = response.results[0];
-                                isSingIn = true;
-                                myNavigator.replacePage('layout.html');
-                            }).always(function() {
-                                hideLoading();
-                            });                        
+                            // 登録したユーザーと部屋情報が返却される
+                            registerInfo = response.results;
+                            
+                            roomInfo.room_id = registerInfo["roomId"];
+                            roomInfo.room_name = registerInfo["roomName"];
+                            roomInfo.room_number = registerInfo["roomNumber"];
+                            roomInfo.user_id = registerInfo["userId"];
+                            roomInfo.is_owned = true;
+                            
+                            userInfo = {};
+                            userInfo.user_id =  registerInfo["userId"];
+                            userInfo.email =  registerInfo["email"];
+                            userInfo.user_name =  registerInfo["userName"];
+                            userInfo.auth_type =  registerInfo["authType"];
+                            userInfo.auth_id =  registerInfo["authId"];
+                            
+                            isSingIn = true;
+
+                            myNavigator.replacePage('layout.html');
+                        }).always(function() {
+                            hideLoading();
                         });
+                        
                     } else {
+                        // 既存ユーザー情報あり
                         isSingIn = true;
                         
                         // 部屋情報取得
@@ -488,7 +500,6 @@ module.controller("addHomeworkPageController", function($scope) {
             $scope.editPageDialog.show();
 
             $scope.editPageDialog.plusHour = function(){
-                alert($scope.editPageDialog.baseHomeworkTime);
                 $scope.editPageDialog.baseHomeworkTime = plusHour($scope.editPageDialog.baseHomeworkTime);
             };
             $scope.editPageDialog.minusHour = function(){
@@ -589,6 +600,11 @@ module.controller("memberPageController", function($scope) {
                 showLoading();
                 
                 addRoom($scope.addRoomDialog.roomName, $scope.addRoomDialog.roomNumber).done(function(response){
+                    
+                    if(response.results === null){
+                        hideLoading();
+                        return;
+                    }
                     
                     roomInfo.room_id = response.results;
                     

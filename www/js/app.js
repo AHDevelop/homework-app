@@ -1,6 +1,7 @@
 var isSingIn = false;
 /*
-ログイン中のユーザー情報
+* ログイン中のユーザー情報
+* user_id, email, user_name, auth_type, auth_id
 */
 var userInfo = {};
 

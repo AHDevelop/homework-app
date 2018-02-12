@@ -246,6 +246,11 @@ ons-list.addHomework_homeworkList {
   background-color: #4A494A;
 }
 
+.scroll_list_for_add_homework {
+    max-height: 450px;
+    overflow:auto;
+}
+
 /*
 メンバ管理画面リストアイテムスタイル
 */
@@ -263,4 +268,25 @@ ons-list.memberList {
     border-color: #001584;
     border-top-style: solid;
     border-top-width: 1px;
+}
+
+.scroll_list_for_member_list {
+    max-height: 400px;
+    overflow:auto;
+}
+
+/*
+家事履歴画面スタイル
+*/
+.scroll_list_for_homework_hist {
+    max-height: 450px;
+    overflow:auto;
+}
+
+/*
+TOP画面スタイル
+*/
+.scroll_list_for_top {
+    max-height: 450px;
+    overflow:auto;
 }

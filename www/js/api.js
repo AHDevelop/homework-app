@@ -12,8 +12,13 @@ var API_METHOD_DELETE = "delete";
 */
 function buildBaseApiUrl(){
 
-  var protocol = "http";
-  var domain = "192.168.0.150";
+  // For Local
+  // var protocol = "http";
+  // var domain = "192.168.0.150";
+  
+  // For Product
+  var protocol = "https";
+  var domain = "homework-api.herokuapp.com";
   var endpoint = "api";
   var version = "v1";
 
