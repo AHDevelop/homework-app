@@ -30,6 +30,17 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <ons-navigator var="myNavigator" page="login.html"></ons-navigator>
+    <ons-navigator var="myNavigator" page="login.html"></ons-navigator>
+    <ons-dialog var="msgDialog">
+      <div style="text-align: center; padding: 10px;">
+        <p>
+          This is a dialog.
+        </p>
+    
+        <p>
+          <ons-button ng-click="dialog.hide()">Close</ons-button>
+        </p>
+      </div>
+    </ons-dialog>
 </body>
 </html>

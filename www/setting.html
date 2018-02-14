@@ -7,18 +7,18 @@
 
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
             <div class="left subFont margin-bottom-5">ユーザー名</div>
-            <ons-input class="left bigFont margin-bottom-5" ng-model="userName"></ons-input>
-            <div class="right subFont miniFont">{{ userName.length }}/10</div>
+            <ons-input class="left bigFont margin-bottom-5" ng-model="userName" maxlength="100"></ons-input>
+            <div class="right subFont miniFont">{{ userName.length }}/100</div>
         </div>
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
             <div class="left subFont margin-bottom-5">部屋名</div>
-            <ons-input class="left bigFont margin-bottom-5" ng-model="roomName"></ons-input>
-            <div class="right subFont miniFont">{{ roomName.length }}/10</div>
+            <ons-input class="left bigFont margin-bottom-5" ng-model="roomName" maxlength="100"></ons-input>
+            <div class="right subFont miniFont">{{ roomName.length }}/100</div>
         </div>
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
             <div class="left subFont margin-bottom-5">部屋番号</div>
-            <ons-input class="left bigFont margin-bottom-5" ng-model="roomNo"></ons-input>
-            <div class="right subFont miniFont">{{ roomNo.length }}/4</div>
+            <ons-input type="number" min="0" max="9999" class="left bigFont margin-bottom-5" style="float:left;" ng-model="roomNo" maxlength="4"></ons-input>
+            <div class="right subFont miniFont" style="clear:both;">{{ roomNo.length }}/4</div>
         </div>
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
             <div class="left subFont margin-bottom-5">部屋切替</div>

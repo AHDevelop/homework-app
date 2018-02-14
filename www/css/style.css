@@ -18,6 +18,11 @@ ons-list.homeworkList {
     border-top-width: 1px;
 }
 
+.top_back_img {
+    background-image: url("../img/back_img_2.jpg");
+    background-size:cover;
+}
+
 /*
 * 共通クラス
 */

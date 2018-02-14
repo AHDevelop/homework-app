@@ -42,7 +42,11 @@ function callApi(type, url, dataObj) {
     
     resObj.done(function(response) {
         if(response.message !== undefined){
-            alert(response.message);
+            ons.notification.alert({
+                    title: "",
+                    messageHTML: response.message,
+                }
+            );
         }
     });
     
