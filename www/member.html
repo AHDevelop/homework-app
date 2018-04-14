@@ -5,6 +5,10 @@
 
     <div class="center" style="margin-top: 80px;">
 
+        <div style="text-align: right; margin-right: 10px; margin-bottom: 20px;">
+            <ons-button ng-click="callAddRoom();" class="registerBtn">部屋追加</ons-button>
+        </div>
+
         <!-- member List -->
         <div class="margin-bottom-20">
           <ons-list modifier="inset" class="memberList">
@@ -24,10 +28,6 @@
                 </div>
             </div>
           </ons-list>
-        </div>
-
-        <div style="text-align: right; margin-right: 10px; margin-bottom: 20px;">
-            <ons-button ng-click="callAddRoom();" class="registerBtn">部屋追加</ons-button>
         </div>
     </div>
     <ng-include src="'addRoom.html'"></ng-include>

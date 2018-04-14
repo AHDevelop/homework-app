@@ -265,7 +265,7 @@ ons-list.addHomework_homeworkList {
 }
 
 .scroll_list_for_add_homework {
-    max-height: 450px;
+    max-height: 100%;
     overflow:auto;
 }
 
@@ -289,7 +289,7 @@ ons-list.memberList {
 }
 
 .scroll_list_for_member_list {
-    max-height: 400px;
+    max-height: 100%;
     overflow:auto;
 }
 
@@ -297,7 +297,7 @@ ons-list.memberList {
 家事履歴画面スタイル
 */
 .scroll_list_for_homework_hist {
-    max-height: 450px;
+    max-height: 100%;
     overflow:auto;
 }
 
@@ -305,6 +305,6 @@ ons-list.memberList {
 TOP画面スタイル
 */
 .scroll_list_for_top {
-    max-height: 450px;
+    max-height: 100%;
     overflow:auto;
 }

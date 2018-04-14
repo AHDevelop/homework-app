@@ -4,8 +4,12 @@
     <ng-include src="'loading.html'"></ng-include>
 
     <div style="text-align: center; margin-top: 80px;">
+
+        <div style="text-align: right;" class="margin-bottom-20">
+            <ons-button class="addBtn" style="margin-right: 10px;" ng-click="callEditPage()">新規追加</ons-button>
+        </div>
     
-        <div class="margin-bottom-20">
+        <div>
           <ons-list modifier="inset" class="addHomework_homeworkList">
             <ons-list-header class="mainBackColor mainFont">
             </ons-list-header>
@@ -24,10 +28,6 @@
                 </div>
             </div>
           </ons-list>
-        </div>
-
-        <div class="right">
-            <ons-button class="addBtn" style="margin-right: 10px;" ng-click="callEditPage()">新規追加</ons-button>
         </div>
     </div>
 
