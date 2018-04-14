@@ -105,8 +105,12 @@ var googleAuth = {
   /*
   ユーザー情報取得
   */
-  getDataProfile: function() {
-
+  getDataProfile: function(accessToken) {
+      
+    if(accessToken !== undefined){
+        googleAuth.accessToken = accessToken;
+    }
+    
     var deferred = $.Deferred();
     
     $.get('https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + googleAuth.accessToken)
@@ -134,6 +138,7 @@ var googleAuth = {
       googleAuth.authorize().done(function(data) {
 
           googleAuth.accessToken = data.access_token;
+          localStorage.setItem('googleAuth.access_token', googleAuth.accessToken);
           googleAuth.getDataProfile().done(function(data) {
             deferred.resolve(data);
           });

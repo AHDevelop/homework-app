@@ -28,17 +28,30 @@ function buildBaseApiUrl(){
 /*
 * API呼び出し共通クラス
 */
-function callApi(type, url, dataObj) {
+function callApi(type, url, dataObj, googleAuth) {
+    
+    // app_tokenをキーとして渡す
+    var homeWorkToken = "";
+    if(userInfo != undefined && userInfo.app_token != undefined){
+        homeWorkToken = userInfo.app_token;
+    }
+    
+    callObj = {
+        "type": type,
+        "url": url,
+        "dataType": 'json',
+        "data": dataObj,
+        "headers": {
+            "X-HomeWorkToken": homeWorkToken,
+        }
+    };
 
-    var apiKey = "key";
+    if(googleAuth !== undefined){
+        callObj["headers"]["key"] = googleAuth.gmailID;
+        callObj["headers"]["authToken"] = googleAuth.accessToken;
+    }
 
-    var resObj = $.ajax({
-        type: type,
-        url: url,
-        dataType: 'json',
-        apiKey: apiKey,
-        data: dataObj,
-    });
+    var resObj = $.ajax(callObj);
     
     resObj.done(function(response) {
         if(response.message !== undefined){
@@ -50,9 +63,16 @@ function callApi(type, url, dataObj) {
         }
     });
     
-    resObj.fail(function() {
-        console.log(JSON.stringify(resObj));
-        alert('接続に失敗しました。URL:' +  url);
+    resObj.fail(function(jqXHR, textStatus, errorThrown) {
+
+        // 認証エラーで401が返却された際にログイン前の画面に戻す
+        if(jqXHR.status == 401){
+            alert('認証に失敗しました。');
+            myNavigator.replacePage('login.html');
+            return false;
+        } else {
+            alert('接続に失敗しました。URL:' +  url);
+        }
     });
 
     resObj.always(function() {
@@ -66,16 +86,18 @@ function callApi(type, url, dataObj) {
 
 /*
 * Auth認証情報を受け取りユーザーが登録済みかどうかを返却する
+* 
 */
-function getOneUser(key){
-    
-  var url = buildBaseApiUrl + "users" + '/' + key;
-  
-  return callApi(API_METHOD_GET, url);
-}
+// function getOneUser(key){   
+//     
+//   var url = buildBaseApiUrl + "users" + '?' + key;
+//   
+//   return callApi(API_METHOD_GET, url);
+// }
 
 /*
 * 家事一覧&家事別時間取得
+* /homework/{roomId}
 */
 function getHomeWorkListWithRoomId(roomId){
     
@@ -87,6 +109,7 @@ function getHomeWorkListWithRoomId(roomId){
 
 /*
 * 家事履歴一覧取得
+* /homeworkhist/room_id=1
 */
 function getHomeworkHist(roomId){
     
@@ -143,6 +166,7 @@ function updateHomeworkHist(homeworkHistId, homeworkTimeHH){
 
 /*
 * 家事履歴削除
+* /homeworkhist/update.json
 */
 function deleteHomeworkHist(homeworkHistId){
     
@@ -161,6 +185,7 @@ function deleteHomeworkHist(homeworkHistId){
 
 /*
 * 部屋別家事登録・更新
+* /room/homework/update.json
 */
 function updateRoomHomework(userId, roomId, record){
 
@@ -181,6 +206,7 @@ function updateRoomHomework(userId, roomId, record){
 
 /*
 * 部屋家事削除
+* /room/homework/update.json
 */
 function deleteRoomHomework(record){
 
@@ -197,6 +223,7 @@ function deleteRoomHomework(record){
 
 /*
 * 家事一覧取得
+* /homework/{roomId}
 */
 function getRoomHomework(roomId){
 
@@ -209,18 +236,19 @@ function getRoomHomework(roomId){
 
 /*
 * ユーザーの存在チェック
+* /users/key=1234567890&authToken=hogehogehoge
 */
 function getUserInfo(googleAuth){
     
-    var url = buildBaseApiUrl() + "users" + '/key=' + googleAuth.gmailID;
-    
+    var url = buildBaseApiUrl() + "users" + '/key=' + googleAuth.gmailID + '&authToken=' + googleAuth.accessToken;
     var dataObj = {};
     
-    return callApi(API_METHOD_GET, url, dataObj);
+    return callApi(API_METHOD_GET, url, dataObj, googleAuth);
 }
 
 /*
 * 新規ユーザー登録
+* /users/update.json
 */
 function insertNewUser(googleAuth){
 
@@ -233,14 +261,14 @@ function insertNewUser(googleAuth){
         dataObj['auth_type'] = '1';
         dataObj['auth_id'] = googleAuth.gmailID;
         dataObj['user_name'] = googleAuth.gmailLastName + ' ' + googleAuth.gmailFirstName;
-    }
-    console.log(JSON.stringify(dataObj))
-    
+        dataObj['auth_token'] = googleAuth.accessToken;
+    }    
     return callApi(API_METHOD_POST, url, dataObj);
 }
 
 /*
 * 部屋一覧取得
+* /rooms/user_id=1
 */
 function getRoomsWithUser(){
     
@@ -252,7 +280,7 @@ function getRoomsWithUser(){
 
 /*
 * 部屋ユーザー一覧取得
-* /api/v1/users/room_id=11
+* /api/v1/users/room_id=1
 */
 function getRoomUserIncludeOwner(){
     
@@ -336,6 +364,7 @@ function getHistSummaryByHomework(fromDate, toDate){
 
 /*
 * 部屋設定更新
+* /room/update.json
 */
 function updateRoom(roomName, roomNumber){
     
@@ -354,6 +383,7 @@ function updateRoom(roomName, roomNumber){
 
 /*
 * ユーザー更新
+* /users/update.json
 */
 function updateUser(userName){
     
@@ -363,7 +393,7 @@ function updateUser(userName){
     
     dataObj['user_id'] = userInfo.user_id;
     dataObj['user_name'] = userName;
-        
+    
     return callApi(API_METHOD_PUT, url, dataObj);
 }
 

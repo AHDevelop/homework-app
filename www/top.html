@@ -3,13 +3,12 @@
     <ng-include src="'header.html'"></ng-include>
     <ng-include src="'loading.html'"></ng-include>
 
-    <div class="center" style="margin-top: 80px;">
+    <div class="center" style="margin-top: 80px;>
 
     <!-- room homework List -->
     <div class="margin-bottom-20">
       <ons-list modifier="inset" class="homeworkList" style="">
         <ons-list-header class="mainBackColor mainFont">
-            <div>{{nowDate}}</div>
         </ons-list-header>
         <div class="scroll_list_for_top">
             <div ng-repeat="data in roomHomeworkList">
@@ -21,7 +20,9 @@
                   {{data.home_work_name}}
                 </div>
                 <div class="right">
-                  <span class="hourLabel">{{data.home_work_time_hh}}</span><span class="margin-left-5">H</span>
+                  <span class="hourLabel" ng-if="data.home_work_time_hh != undefined">{{data.home_work_time_hh}}</span>
+                  <span class="hourLabel" ng-if="data.home_work_time_hh == undefined">0.0</span>
+                  <span class="margin-left-5">H</span>
                 </div>
               </ons-list-item>
             </div>
@@ -29,4 +30,5 @@
       </ons-list>
     </div>
     <ng-include src="'inputHomeWork.html'"></ng-include>
+    </div>
 </ons-page>

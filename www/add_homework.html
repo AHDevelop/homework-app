@@ -8,10 +8,6 @@
         <div class="margin-bottom-20">
           <ons-list modifier="inset" class="addHomework_homeworkList">
             <ons-list-header class="mainBackColor mainFont">
-                <div style="float: left; margin-top: 7px;">家事一覧</div>
-                <div class="right">
-                    <ons-button class="addBtn" ng-click="callEditPage()">新規追加</ons-button>
-                </div>
             </ons-list-header>
             <div class="scroll_list_for_add_homework">
                 <div ng-repeat="data in roomHomeworkList">
@@ -28,6 +24,10 @@
                 </div>
             </div>
           </ons-list>
+        </div>
+
+        <div class="right">
+            <ons-button class="addBtn" style="margin-right: 10px;" ng-click="callEditPage()">新規追加</ons-button>
         </div>
     </div>
 

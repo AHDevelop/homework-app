@@ -4,23 +4,9 @@
     <ng-include src="'loading.html'"></ng-include>
         
     <ons-tabbar var="graphTab" class="graphTab">
-        <ons-tab label="ユーザー" active="true" page="chatByUsers.html"></ons-tab>
-        <ons-tab label="家事" page="chatByHomeworks.html"></ons-tab>
+        <ons-tab label="家事" active="true" page="chatByHomeworks.html" ng-click="changeGraphType('chatByHomeworks')"></ons-tab>
+        <ons-tab label="ユーザー" page="chatByUsers.html" ng-click="changeGraphType('chatByUsers')"></ons-tab>
     </ons-tabbar>
-    
-    <ons-template id="chatByUsers.html">
-        <div style="text-align: center; margin-top: 80px;" id="detect-area" >
-            <div id="user_chart_area_outer" style="margin-bottom: 20px;">
-                <canvas id="user_chart_area" width="300" height="300"></canvas>
-            </div>
-        </div>
-        
-        <div style="text-align: center;">
-            <ons-button ng-click="callJustMonth();" class="termBtn monthBtn"><ons-icon icon="fa-calendar" style="margin-right: 10px;"></ons-icon>1ヶ月</ons-button>
-            <ons-button ng-click="callYesterDay();" class="termBtn yesterdayBtn"><ons-icon icon="fa-undo" style="margin-right: 10px;"></ons-icon>昨日</ons-button>
-            <ons-button ng-click="callToday();" class="termBtn todayBtn"><ons-icon icon="fa-star" style="margin-right: 10px;"></ons-icon>今日</ons-button>
-        </div>
-    </ons-template>
     
     <ons-template id="chatByHomeworks.html">
         <div style="text-align: center; margin-top: 80px;" id="detect-area" >
@@ -30,7 +16,20 @@
         </div>
         
         <div style="text-align: center;">
-            <ons-button ng-click="callJustMonth();" class="termBtn monthBtn"><ons-icon icon="fa-calendar" style="margin-right: 10px;"></ons-icon>1ヶ月</ons-button>
+            <ons-button ng-click="callJustMonth();" class="termBtn monthBtn off" disabled="disabled"><ons-icon icon="fa-calendar" style="margin-right: 10px;"></ons-icon>1ヶ月</ons-button>
+            <ons-button ng-click="callYesterDay();" class="termBtn yesterdayBtn"><ons-icon icon="fa-undo" style="margin-right: 10px;"></ons-icon>昨日</ons-button>
+            <ons-button ng-click="callToday();" class="termBtn todayBtn"><ons-icon icon="fa-star" style="margin-right: 10px;"></ons-icon>今日</ons-button>
+        </div>
+    </ons-template>
+    <ons-template id="chatByUsers.html">
+        <div style="text-align: center; margin-top: 80px;" id="detect-area" >
+            <div id="user_chart_area_outer" style="margin-bottom: 20px;">
+                <canvas id="user_chart_area" width="300" height="300"></canvas>
+            </div>
+        </div>
+        
+        <div style="text-align: center;">
+            <ons-button ng-click="callJustMonth();" class="termBtn monthBtn off" disabled="disabled"><ons-icon icon="fa-calendar" style="margin-right: 10px;"></ons-icon>1ヶ月</ons-button>
             <ons-button ng-click="callYesterDay();" class="termBtn yesterdayBtn"><ons-icon icon="fa-undo" style="margin-right: 10px;"></ons-icon>昨日</ons-button>
             <ons-button ng-click="callToday();" class="termBtn todayBtn"><ons-icon icon="fa-star" style="margin-right: 10px;"></ons-icon>今日</ons-button>
         </div>

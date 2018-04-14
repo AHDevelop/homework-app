@@ -18,9 +18,22 @@ ons-list.homeworkList {
     border-top-width: 1px;
 }
 
-.top_back_img {
-    background-image: url("../img/back_img_2.jpg");
+/*
+* ログイン画面背景画像 
+*/
+.login_bg {
+    background-image: url("../img/login_bg.png");
     background-size:cover;
+}
+
+/*
+* Google Login btn
+*/
+.googleLogin {
+    border: 0px;
+    width:191px;
+    height:46px;
+    background: url(../img/btn_google_signin_light_normal_web.png) left top no-repeat;
 }
 
 /*
@@ -153,7 +166,7 @@ ons-button.addBtn {
     width: 110px;
     color: #FFFFFF;
     font-size: 16px;
-    background-color: #EB7978;   
+    background-color: #001584;   
 }
 
 /*
