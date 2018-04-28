@@ -5,10 +5,6 @@
 
     <div class="center" style="margin-top: 80px;">
 
-        <div style="text-align: right; margin-right: 10px; margin-bottom: 20px;">
-            <ons-button ng-click="callAddRoom();" class="registerBtn">部屋追加</ons-button>
-        </div>
-
         <!-- member List -->
         <div class="margin-bottom-20">
           <ons-list modifier="inset" class="memberList">
@@ -22,6 +18,7 @@
                           {{data.user_name}}
                     </div>
                     <div class="right">
+                        <label ng-if="data.is_owner">部屋オーナー</label>
                         <ons-button ng-click="removeMember($index)" class="deleteBtn" ng-if="!data.is_owner" ng-disabled="roomInfo.is_owned != 1">除外</ons-button>
                     </div>
                   </ons-list-item>
@@ -30,5 +27,4 @@
           </ons-list>
         </div>
     </div>
-    <ng-include src="'addRoom.html'"></ng-include>
 </ons-page>

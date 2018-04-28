@@ -2,7 +2,7 @@
 <ons-template id="addRoom.html">
     <ons-dialog var="dialog" modifier="material" cancelable>
         <div class="center toolbar__title ng-binding mainBackColor mainFont" style="height: 42px;">
-            <span>部屋追加</span>
+            <span>参加する部屋情報を入力</span>
         </div>
         <div style="padding: 12px 12px 12px 12px;">
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
@@ -17,7 +17,7 @@
         </div>
         </div>
         <div class="center margin-bottom-20">
-            <ons-button ng-click="addRoomDialog.addRoom()" class="registerBtn" ng-if="!isEdit">追加</ons-button>
+            <ons-button ng-click="addRoomDialog.addRoom()" class="registerBtn" ng-if="!isEdit">参加</ons-button>
             <ons-button ng-click="addRoomDialog.hide()" class="margin-left-10 cancelBtn">キャンセル</ons-button>
         </div>
     </ons-dialog>

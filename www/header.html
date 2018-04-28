@@ -8,5 +8,10 @@
         {{header.title}}
     </div>
     <div class="right toolbar__right">
+        <ons-toolbar-button ng-click="gotoUserInfo()">
+            <img src="{{iconurl}}" class="headerAccountIcon" id="accountIcon" ng-if="iconurl !== '' ">
+            <div class="headerNonIcon"  id="nonIcon" ng-if="iconurl === '' ">
+            </div>
+        </ons-toolbar-button>
     </div>
 </ons-toolbar>

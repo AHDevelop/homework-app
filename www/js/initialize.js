@@ -4,14 +4,10 @@
 */
 var module = ons.bootstrap('myApp', ['onsen']);
 
-    localStorage.removeItem('roomInfo.room_id');
-    localStorage.removeItem('googleAuth.access_token');
-
-
 /*
 * サイドメニューコントローラーを初期化
 */
-module.controller('SplitterController', function() {
+module.controller('SplitterController', function($scope) {
 
     this.load = function(page) {
       mySplitter.content.load(page)
@@ -19,6 +15,12 @@ module.controller('SplitterController', function() {
           mySplitter.left.close();
         });
     };
+    $scope.gotoUserInfo = function(){
+        $scope.splitter.load('user_info.html');
+    };
+
+    // ログインユーザーのアイコン画像を設定
+    $scope.iconurl = googleAuth.gmailPicture;
 });
 
 /*
@@ -71,7 +73,6 @@ module.controller("signinPageController", function($scope) {
     // 既存ユーザーの場合はログイン処理に進む
     if(access_token !== null){
         googleAuth.getDataProfile(access_token).done(function(data) {
-            showLoading();
             secondLogin();
         });
     };
@@ -79,7 +80,11 @@ module.controller("signinPageController", function($scope) {
     /* Googleログイン */
     $scope.googleLogin = login;
     
+    /* 二回目以降のログイン処理 */
     function secondLogin(){
+
+        showLoading();
+      
         if(googleAuth.gmailID === ""){
             alert("Google認証情報を取得できていません");
             return false;
@@ -121,7 +126,7 @@ module.controller("signinPageController", function($scope) {
     }
     
     /*
-    * 通常ログイン処理
+    * 初回ログイン処理
     */
     function login(){
         
@@ -211,7 +216,7 @@ module.controller("topPageController", function($scope) {
    // 現在日時の設定
    $scope.nowDate = moment().format('YYYY年MM月DD日');
    $scope.header = {};
-   $scope.header.title = $scope.nowDate;
+   $scope.header.title = "家事入力";
 
    var roomId = roomInfo.room_id;
    
@@ -284,7 +289,7 @@ module.controller("homeworkHistPageController", function($scope) {
     // 現在日時の設定
     $scope.nowDate = moment().format('YYYY年MM月DD日');
     $scope.header = {};
-    $scope.header.title = $scope.nowDate;
+    $scope.header.title = "家事履歴";
 
     // 家事履歴の取得
     var roomId =roomInfo.room_id;
@@ -472,7 +477,15 @@ function updateGraph(fromDate, toDate){
         };
             
         var ctx = document.getElementById("user_chart_area").getContext("2d");
-        window.userChart = new Chart(ctx, config);
+
+        if(data.length < 1){
+          document.getElementById("user_chart_area").style.display="none";
+          document.getElementById("chatByUsers_nonData").style.display="block";
+        } else {
+          document.getElementById("chatByUsers_nonData").style.display="none";
+          document.getElementById("user_chart_area").style.display="block";
+          window.homeworkChart = new Chart(ctx, config);
+        }
     }).always(function() {
         hideLoading();
     });
@@ -506,7 +519,15 @@ function updateGraph(fromDate, toDate){
         };
             
         var ctx = document.getElementById("homework_chart_area").getContext("2d");
-        window.homeworkChart = new Chart(ctx, config);
+
+        if(data.length < 1){
+          document.getElementById("homework_chart_area").style.display="none";
+          document.getElementById("chatByHomeworks_nonData").style.display="block";
+        } else {
+          document.getElementById("chatByHomeworks_nonData").style.display="none";
+          document.getElementById("homework_chart_area").style.display="block";
+          window.homeworkChart = new Chart(ctx, config);
+        }
     }).always(function() {
         hideLoading();
     });
@@ -518,7 +539,7 @@ function updateGraph(fromDate, toDate){
 module.controller("addHomeworkPageController", function($scope) {
     
     $scope.header = {};
-    $scope.header.title = "家事編集";
+    $scope.header.title = "家事設定";
 
     // 部屋家事の取得
     var roomId =roomInfo.room_id;
@@ -623,7 +644,7 @@ module.controller("addHomeworkPageController", function($scope) {
 });
 
 /*
-* メンバー管理ページコントローラ
+* メンバ管理ページコントローラ
 */
 module.controller("memberPageController", function($scope) {
     
@@ -643,52 +664,18 @@ module.controller("memberPageController", function($scope) {
         hideLoading();
     });
     
-    // 部屋追加
-    $scope.callAddRoom = function(obj){
-        
-        ons.createDialog('addRoom.html', {parentScope: $scope}).then(function(dialog) {
-
-            $scope.addRoomDialog = dialog;
-            $scope.addRoomDialog.roomName = "";
-            $scope.addRoomDialog.roomNumber = "";
-
-            $scope.addRoomDialog.addRoom = function(){
-                
-                // 画面読み込み開始時の処理
-                $scope.addRoomDialog.hide();                
-                showLoading();
-                
-                addRoom($scope.addRoomDialog.roomName, $scope.addRoomDialog.roomNumber).done(function(response){
-                    
-                    if(response.results === null){
-                        hideLoading();
-                        return;
-                    }
-                    
-                    roomInfo.room_id = response.results;
-                    
-                    // メンバー一覧取得
-                    getRoomUserIncludeOwner().done(function(response){
-                        $scope.roomMemberList = response.results;        
-                        // 最新の情報で更新
-                        $scope.$apply();
-                    }).always(function() {
-                        hideLoading();
-                    });
-                });
-            };
-            
-            $scope.addRoomDialog.show();
-        });
-    };
-    
     // 部屋ユーザー削除
     $scope.removeMember = function(index){
         
         // IDから該当するユーザー情報を特定する
         var memberObj = $scope.roomMemberList[index];
         
-        ons.notification.confirm({message: memberObj.user_name + 'さんを部屋から除外してよろしいですか？'}).then(function(result) {
+        ons.notification.confirm(
+          {
+            message: memberObj.user_name + 'さんを部屋から除外してよろしいですか？',
+            buttonLabels:["いいえ","はい"],
+            title:"確認",
+          }).then(function(result) {
                     
             if(result === 0){
                 return false;
@@ -722,7 +709,7 @@ module.controller("memberPageController", function($scope) {
 module.controller("settingPageController", function($scope) {
     
     $scope.header = {};
-    $scope.header.title = "設定変更";
+    $scope.header.title = "設定";
 
     $scope.userName = userInfo.user_name;
     $scope.roomName = roomInfo.room_name;
@@ -747,6 +734,49 @@ module.controller("settingPageController", function($scope) {
     }).always(function() {
         hideLoading();
     });
+
+    // 部屋追加
+    $scope.callAddRoom = function(obj){
+        
+        ons.createDialog('addRoom.html', {parentScope: $scope}).then(function(dialog) {
+
+            $scope.addRoomDialog = dialog;
+            $scope.addRoomDialog.roomName = "";
+            $scope.addRoomDialog.roomNumber = "";
+
+            $scope.addRoomDialog.addRoom = function(){
+                
+                // 画面読み込み開始時の処理
+                $scope.addRoomDialog.hide();                
+                showLoading();
+                
+                addRoom($scope.addRoomDialog.roomName, $scope.addRoomDialog.roomNumber).done(function(response){
+                    
+                    if(response.results === null){
+                        hideLoading();
+                        return;
+                    }
+
+                    // 追加後の部屋一覧を取得する
+                    getRoomsWithUser().done(function(response){
+                        $scope.roomList = response.results;
+                        // 現在の部屋を設定する
+                        response.results.forEach(function(roomObj){
+                            if(roomObj["room_id"] == roomInfo.room_id){
+                                $scope.selectRoom =  roomObj;
+                            }
+                        });
+                        // 最新の情報で更新
+                        $scope.$apply();
+                    }).always(function() {
+                        hideLoading();
+                    });
+                });
+            };
+            
+            $scope.addRoomDialog.show();
+        });
+    };
                 
     // 保存
     $scope.register = function(obj){
@@ -754,64 +784,58 @@ module.controller("settingPageController", function($scope) {
         // 画面読み込み開始時の処理
         showLoading();
 
-        // ユーザー更新
-        updateUser($scope.userName).done(function(response){
-
-            userInfo.user_name = response.results["user_name"];
-            $scope.userName = userInfo.user_name;
+        if($scope.is_owned != 1){
             
-            if($scope.is_owned != 1){
-                
-                // 部屋オーナーではないので部屋情報の更新は行わない
-                roomInfo.roomName = $scope.roomName;
-                roomInfo.roomNo = $scope.roomNo;
-                roomInfo.room_id = $scope.room_id;
-                roomInfo.is_owned = $scope.is_owned;
-                
-                localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
-
-                $scope.$apply();
-                
-                return;
-            }
-
-            // 部屋設定更新
+            // 部屋オーナー以外は対象の部屋を切り替えて処理終了
+            roomInfo.roomName = $scope.roomName;
+            roomInfo.roomNo = $scope.roomNo;
             roomInfo.room_id = $scope.room_id;
             roomInfo.is_owned = $scope.is_owned;
             localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
-            updateRoom($scope.roomName, $scope.roomNo).done(function(response){
-                
-                roomInfo.room_name = response.results.room_name;
-                roomInfo.room_number = response.results.room_number;
-                roomInfo.room_id = response.results.room_id;
 
-                $scope.roomName = roomInfo.room_name;
-                $scope.roomNo = roomInfo.room_number;
-                
-                // 部屋一覧取得
-                getRoomsWithUser().done(function(response){
-                    
-                    $scope.roomList = response.results;
-                    
-                    // 現在の部屋を設定する
-                    response.results.forEach(function(roomObj){
-                        if(roomObj["room_id"] == roomInfo.room_id){
-                            $scope.selectRoom =  roomObj;
-                        }
-                    });
+            ons.notification.alert({
+                    title: "",
+                    messageHTML: "部屋を切り替えました。",
+                }
+            );
+            
+            hideLoading();
+            return;
+        }
 
-                    // 最新の情報で更新
-                    $scope.$apply();
-                }).always(function() {
-                    hideLoading();
+        // オーナーの場合のみ部屋の更新処理に進む
+
+        // 部屋設定更新
+        roomInfo.room_id = $scope.room_id;
+        roomInfo.is_owned = $scope.is_owned;
+        localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
+        updateRoom($scope.roomName, $scope.roomNo).done(function(response){
+            
+            roomInfo.room_name = response.results.room_name;
+            roomInfo.room_number = response.results.room_number;
+            roomInfo.room_id = response.results.room_id;
+
+            $scope.roomName = roomInfo.room_name;
+            $scope.roomNo = roomInfo.room_number;
+            
+            // 部屋一覧取得
+            getRoomsWithUser().done(function(response){
+                
+                $scope.roomList = response.results;
+                
+                // 現在の部屋を設定する
+                response.results.forEach(function(roomObj){
+                    if(roomObj["room_id"] == roomInfo.room_id){
+                        $scope.selectRoom =  roomObj;
+                    }
                 });
 
+                // 最新の情報で更新
                 $scope.$apply();
-            });
-        }).always(function() {
-            if(roomInfo.is_owned != 1){
+                
+            }).always(function() {
                 hideLoading();
-            }
+            });
         });
     };
     
@@ -823,6 +847,8 @@ module.controller("settingPageController", function($scope) {
         $scope.roomNo = $scope.selectRoom.room_number;
         $scope.room_id = $scope.selectRoom.room_id;
         $scope.is_owned = $scope.selectRoom.is_owned;
+
+        localStorage.setItem('roomInfo.room_id', $scope.room_id);
         
         $scope.$apply();
     };
@@ -831,4 +857,35 @@ module.controller("settingPageController", function($scope) {
     $scope.$on('$includeContentLoaded', function(event) {
         showLoading();
     });
+});
+
+/*
+* ユーザー情報ページコントローラ
+*/
+module.controller("userInfoPageController", function($scope) {
+    
+    $scope.header = {};
+    $scope.header.title = "ユーザー情報";
+
+    $scope.userName = userInfo.user_name;
+
+    // 保存
+    $scope.register = function(obj){
+        
+        // 画面読み込み開始時の処理
+        showLoading();
+
+        // ユーザー更新
+        updateUser($scope.userName).done(function(response){
+
+            userInfo.user_name = response.results["user_name"];
+            $scope.userName = userInfo.user_name;
+            localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
+            
+        }).always(function() {
+            if(roomInfo.is_owned != 1){
+                hideLoading();
+            }
+        });
+    };
 });

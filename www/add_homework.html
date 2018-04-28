@@ -5,23 +5,23 @@
 
     <div style="text-align: center; margin-top: 80px;">
 
-        <div style="text-align: right;" class="margin-bottom-20">
+        <div style="text-align: right; margin-bottom: 10px">
             <ons-button class="addBtn" style="margin-right: 10px;" ng-click="callEditPage()">新規追加</ons-button>
         </div>
     
         <div>
           <ons-list modifier="inset" class="addHomework_homeworkList">
             <ons-list-header class="mainBackColor mainFont">
+              家事一覧
             </ons-list-header>
             <div class="scroll_list_for_add_homework">
                 <div ng-repeat="data in roomHomeworkList">
                   <ons-list-item modifier="longdivider" class="{{data.is_visible ? '' : 'disabled'}}">
                     <div class="left">
-                      <ons-icon icon="fa-plus-square" class="list-item__icon"></ons-icon>
+                      <ons-icon icon="ion-compose" class="list-item__icon margin-right-10"></ons-icon>
                       {{data.home_work_name}}
                     </div>
                     <div class="right">
-                        <span class="hourLabel">{{data.base_home_work_time_hh}}</span><span class="margin-left-5 margin-right-10">H</span>
                         <ons-button class="editBtn" ng-click="callEditPage($index)">編集</ons-button>
                     </div>
                   </ons-list-item>
@@ -35,7 +35,7 @@
     <ons-template id="editPage.html">
         <ons-dialog modifier="material" cancelable var="editHomeWork">
         <div class="center toolbar__title ng-binding mainBackColor mainFont" style="height: 42px;">
-            <span >家事編集</span>
+            <span >家事設定</span>
         </div>
         <div style="padding: 12px 12px 12px 12px;">
             <div class="right" style="margin-bottom: 10px;">

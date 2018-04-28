@@ -6,11 +6,6 @@
     <div class="center" style="margin-top: 80px;">
 
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
-            <div class="left subFont margin-bottom-5">ユーザー名</div>
-            <ons-input class="left bigFont margin-bottom-5" ng-model="userName" maxlength="100"></ons-input>
-            <div class="right subFont miniFont">{{ userName.length }}/100</div>
-        </div>
-        <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
             <div class="left subFont margin-bottom-5">部屋名</div>
             <ons-input class="left bigFont margin-bottom-5" ng-model="roomName" maxlength="100" ng-disabled="is_owned != 1"></ons-input>
             <div class="right subFont miniFont">{{ roomName.length }}/100</div>
@@ -25,8 +20,12 @@
             <select ng-model="selectRoom" ng-options="room.room_name for room in roomList" class="subFont" style="width: 300px; height: 40px;" ng-change="changeRoom()">
             </select>
         </div>
-        <div class="center margin-bottom-20 margin-top-100">
+        <div style="text-align: right; width: 300px; margin: auto; margin-top:20px; " class="center margin-bottom-10" >
+            <ons-button ng-click="callAddRoom();" class="registerBtn" style="width: 150px;">他の部屋に参加</ons-button>
+        </div>
+        <div class="center margin-bottom-20 margin-top-60">
             <ons-button ng-click="register()" class="registerBtn">保存</ons-button>
         </div>
     </div>
+    <ng-include src="'addRoom.html'"></ng-include>
 </ons-page>

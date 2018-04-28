@@ -37,6 +37,28 @@ ons-list.homeworkList {
 }
 
 /*
+* header account icon
+*/
+.headerAccountIcon {
+  width: 40px;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 20px;
+}
+
+/*
+* header NON icon
+*/
+.headerNonIcon {
+  width: 30px;
+  height: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  background-color: white;
+}
+
+/*
 * 共通クラス
 */
 .margin-bottom-20 {
@@ -49,6 +71,22 @@ ons-list.homeworkList {
 
 .margin-bottom-5 {
     margin-bottom: 5px;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+.margin-top-40 {
+    margin-top: 40px;
+}
+
+.margin-top-60 {
+    margin-top: 60px;
+}
+
+.margin-top-80 {
+    margin-top: 80px;
 }
 
 .margin-top-100 {
@@ -165,8 +203,8 @@ ons-button.editBtn {
 ons-button.addBtn {
     width: 110px;
     color: #FFFFFF;
-    font-size: 16px;
-    background-color: #001584;   
+    font-size: 14px;
+    background-color: #001584;
 }
 
 /*

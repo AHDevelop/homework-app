@@ -18,6 +18,7 @@ var googleAuth = {
     gmailEmail : '',
     gmailFirstName : '',
     gmailLastName : '',
+    gmailPicture : '',
     
     /*
     URL定義
@@ -120,6 +121,7 @@ var googleAuth = {
             googleAuth.gmailEmail = data.email;
             googleAuth.gmailFirstName = data.given_name;
             googleAuth.gmailLastName = data.family_name;
+            googleAuth.gmailPicture = data.picture;
             deferred.resolve(data);
         }).fail(function(response) {
             deferred.reject(response.responseJSON);

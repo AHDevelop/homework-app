@@ -7,8 +7,9 @@
 
     <!-- room homework List -->
     <div class="margin-bottom-20">
-      <ons-list modifier="inset" class="homeworkList">
+      <ons-list modifier="inset" class="homeworkList" ng-if="roomHomeworkHistList.length > 0">
         <ons-list-header class="mainBackColor mainFont">
+          {{nowDate}}
         </ons-list-header>
         <div class="scroll_list_for_homework_hist">
             <div ng-repeat="data in roomHomeworkHistList">
@@ -26,6 +27,10 @@
             </div>
         </div>
       </ons-list>
+      <div ng-if="roomHomeworkHistList.length < 1">
+          <ons-icon icon="fa-home" size="200px" class="subColor"></ons-icon><br>
+          <label>今日の家事はまだ入力されていません</label>
+      </div>
     </div>
     <ng-include src="'inputHomeWork.html'"></ng-include>
 </ons-page>

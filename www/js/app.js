@@ -15,7 +15,9 @@ var roomInfo = {};
 * ローディング中画面を表示
 */
 function showLoading(){
-    $('ons-modal').show();
+  current_scrollY = $("ons-page#top .page__content").scrollTop();
+  $('ons-modal').css("top", current_scrollY);
+  $('ons-modal').show();
 }
  
 /*

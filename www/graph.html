@@ -9,9 +9,13 @@
     </ons-tabbar>
     
     <ons-template id="chatByHomeworks.html">
-        <div style="text-align: center; margin-top: 80px;" id="detect-area" >
+        <div style="text-align: center; margin-top: 80px; min-height: 400px;" id="detect-area" >
             <div id="homework_chart_area_outer"  style="margin-bottom: 20px;">
                 <canvas id="homework_chart_area" width="300" height="300"></canvas>
+            </div>
+            <div id="chatByHomeworks_nonData" style="display:none;">
+                <ons-icon icon="fa-home" size="200px" class="subColor"></ons-icon><br>
+                <label>家事がまだ入力されていません</label>
             </div>
         </div>
         
@@ -22,9 +26,13 @@
         </div>
     </ons-template>
     <ons-template id="chatByUsers.html">
-        <div style="text-align: center; margin-top: 80px;" id="detect-area" >
+        <div style="text-align: center; margin-top: 80px; min-height: 400px;" id="detect-area" >
             <div id="user_chart_area_outer" style="margin-bottom: 20px;">
                 <canvas id="user_chart_area" width="300" height="300"></canvas>
+            </div>
+            <div id="chatByUsers_nonData" style="display:none;">
+                <ons-icon icon="fa-home" size="200px" class="subColor"></ons-icon><br>
+                <label>家事がまだ入力されていません</label>
             </div>
         </div>
         

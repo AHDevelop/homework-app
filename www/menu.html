@@ -1,24 +1,31 @@
 <ons-page ng-controller="menuPageController">
     <ons-list>
         <ons-list-item ng-click="gotoTop()" tappable>
-            家事入力
+          <ons-icon icon="fa-plus-square" class="margin-right-10"></ons-icon>
+          家事入力
         </ons-list-item>
         <ons-list-item ng-click="gotoHomeworkHist()" tappable>
+          <ons-icon icon="ion-clipboard" class="margin-right-10"></ons-icon>
             家事履歴
         </ons-list-item>
         <ons-list-item ng-click="gotoGraph()" tappable>
-            結果表示
+          <ons-icon icon="fa-pie-chart" class="margin-right-10"></ons-icon>
+            家事グラフ
         </ons-list-item>
         <ons-list-item ng-click="gotoAddHomework()" tappable>
-            家事編集
+          <ons-icon icon="fa-edit" class="margin-right-10"></ons-icon>
+            家事設定
         </ons-list-item>
         <ons-list-item ng-click="gotoMember()" tappable>
-            メンバー管理
+          <ons-icon icon="fa-home" class="margin-right-10"></ons-icon>
+            メンバ管理
         </ons-list-item>
         <ons-list-item ng-click="gotoSetting()" tappable>
+          <ons-icon icon="fa-cogs" class="margin-right-10"></ons-icon>
             設定
         </ons-list-item>
         <ons-list-item ng-click="signout()" tappable>
+          <ons-icon icon="fa-sign-out" class="margin-right-10"></ons-icon>
             サインアウト
         </ons-list-item>
     </ons-list>

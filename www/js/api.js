@@ -85,17 +85,6 @@ function callApi(type, url, dataObj, googleAuth) {
 }
 
 /*
-* Auth認証情報を受け取りユーザーが登録済みかどうかを返却する
-* 
-*/
-// function getOneUser(key){   
-//     
-//   var url = buildBaseApiUrl + "users" + '?' + key;
-//   
-//   return callApi(API_METHOD_GET, url);
-// }
-
-/*
 * 家事一覧&家事別時間取得
 * /homework/{roomId}
 */
@@ -397,3 +386,14 @@ function updateUser(userName){
     return callApi(API_METHOD_PUT, url, dataObj);
 }
 
+/*
+* 部屋情報一件取得
+* /rooms/room_id
+*/
+function getOneRoom(roomId){
+    
+    var url = buildBaseApiUrl() + "rooms" + '/' + roomId;
+    var dataObj = {};    
+
+    return callApi(API_METHOD_GET, url, dataObj);
+}
