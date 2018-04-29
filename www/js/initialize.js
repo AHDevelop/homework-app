@@ -883,9 +883,7 @@ module.controller("userInfoPageController", function($scope) {
             localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
             
         }).always(function() {
-            if(roomInfo.is_owned != 1){
-                hideLoading();
-            }
+              hideLoading();
         });
     };
 });

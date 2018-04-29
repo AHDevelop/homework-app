@@ -15,10 +15,14 @@ function buildBaseApiUrl(){
   // For Local
   // var protocol = "http";
   // var domain = "192.168.0.150";
-  
+
+  // For Develop
+  var domain = "dev-homework-api.herokuapp.com";
+
   // For Product
+  // var domain = "homework-api.herokuapp.com";
+
   var protocol = "https";
-  var domain = "homework-api.herokuapp.com";
   var endpoint = "api";
   var version = "v1";
 
