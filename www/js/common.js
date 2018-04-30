@@ -1,9 +1,3 @@
-// function showWorkDetail(){
-//   var modal = document.getElementById('workDetail');
-//   modal.animation = "fade";
-//   modal.show();
-// }
-
 /*
 * 家事登録ダイアログで家事時間を加算する
 */
