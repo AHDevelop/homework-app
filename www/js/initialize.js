@@ -608,8 +608,13 @@ module.controller("addHomeworkPageController", function($scope) {
             };
             // 部屋家事の削除
             $scope.editPageDialog.deleteRoomHomework = function(){
-                
-                ons.notification.confirm({message: '削除してよろしいですか？'}).then(function(result) {
+
+                ons.notification.confirm(
+                {
+                  message:  '削除してよろしいですか？',
+                  buttonLabels:["いいえ","はい"],
+                  title:"確認",
+                }).then(function(result) {
                     
                     if(result === 0){
                         return false;

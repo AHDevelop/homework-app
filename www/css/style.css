@@ -24,6 +24,19 @@ ons-list.homeworkList {
 .login_bg {
     background-image: url("../img/login_bg.png");
     background-size:cover;
+    background-repeat:no-repeat;
+    background-position: 50% 50%;
+    background-attachment:fixed;
+}
+
+/*
+* ログイン画面メッセージ
+*/
+.login_msg {
+  color: white;
+  text-align: center;
+  font-size: 16px;
+  font-family: "Meiryo", sans-serif;
 }
 
 /*
