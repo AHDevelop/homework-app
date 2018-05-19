@@ -17,10 +17,10 @@ function buildBaseApiUrl(){
   // var domain = "192.168.0.150";
 
   // For Develop
-  // var domain = "dev-homework-api.herokuapp.com";
+  var domain = "dev-homework-api.herokuapp.com";
 
   // For Product
-  var domain = "homework-api.herokuapp.com";
+  // var domain = "homework-api.herokuapp.com";
 
   var protocol = "https";
   var endpoint = "api";
@@ -58,13 +58,14 @@ function callApi(type, url, dataObj, googleAuth) {
     var resObj = $.ajax(callObj);
     
     resObj.done(function(response) {
-        if(response.message !== undefined){
-            ons.notification.alert({
-                    title: "",
-                    messageHTML: response.message,
-                }
-            );
-        }
+        // APIの返却メッセージは表示しない
+        // if(response.message !== undefined){
+        //     ons.notification.alert({
+        //             title: "",
+        //             messageHTML: response.message,
+        //         }
+        //     );
+        // }
     });
     
     resObj.fail(function(jqXHR, textStatus, errorThrown) {
@@ -75,7 +76,8 @@ function callApi(type, url, dataObj, googleAuth) {
             myNavigator.replacePage('login.html');
             return false;
         } else {
-            alert('接続に失敗しました。URL:' +  url);
+            alert('接続に失敗しました。時間を空けて再度実施してください。');
+            // alert('接続に失敗しました。URL:' +  url);
         }
     });
 

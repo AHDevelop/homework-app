@@ -1,4 +1,12 @@
-<ons-page ng-controller="menuPageController">
+<ons-page ng-controller="menuPageController" id="menuPage">
+    <img src="{{iconurl}}" class="headerAccountIcon" id="accountIcon" ng-if="iconurl !== '' " ng-click="gotoUserInfo()>
+    <div class="headerNonIcon"  id="nonIcon" ng-if="iconurl === '' "></div>
+    <div style="font-size: 12px;">
+      あゆむ
+    </div>
+    <div style="font-size: 12px; margin-bottom: 15px;">
+      Hataの部屋
+    </div>
     <ons-list>
         <ons-list-item ng-click="gotoTop()" tappable>
           <ons-icon icon="fa-plus-square" class="margin-right-10"></ons-icon>

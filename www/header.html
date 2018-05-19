@@ -1,17 +1,35 @@
-<ons-toolbar class="mainBackColor">
+<ons-toolbar class="mainBackColor" style="position: fixed;">
     <div class="left toolbar__left">
         <ons-toolbar-button ng-click="mySplitter.left.open()" style="position: absolute; margin-left: 5px;">
             <ons-icon icon="md-menu"></ons-icon>
         </ons-toolbar-button>
     </div>
-    <div class="center toolbar__center toolbar__title ng-binding">
+    <div class="toolbar__center toolbar__title ng-binding" style="text-align: left;">
         {{header.title}}
     </div>
     <div class="right toolbar__right">
-        <ons-toolbar-button ng-click="gotoUserInfo()">
+        <ons-toolbar-button ng-click="term_list.show($event)" ng-if="pageName == 'graph'">
+            <ons-icon icon="fa-sliders"></ons-icon>
+        </ons-toolbar-button>
+        <ons-toolbar-button ng-click="callEditPage()" ng-if="pageName == 'add_homework'">
+            <ons-icon icon="fa-plus"></ons-icon>
+        </ons-toolbar-button>
+<!--
+        <ons-toolbar-button ng-click="callEditPage()" ng-if="pageName == 'member'">
+            <ons-icon icon="fa-plus"></ons-icon>
+        </ons-toolbar-button>
+-->
+<!--
+        <ons-toolbar-button ng-click="callEditPage()" ng-if="pageName == 'homework_hist'">
+            <ons-icon icon="fa-trash"></ons-icon>
+        </ons-toolbar-button>
+-->
+<!--        <ons-toolbar-button ng-click="gotoUserInfo()">
             <img src="{{iconurl}}" class="headerAccountIcon" id="accountIcon" ng-if="iconurl !== '' ">
             <div class="headerNonIcon"  id="nonIcon" ng-if="iconurl === '' ">
             </div>
+
         </ons-toolbar-button>
+-->
     </div>
 </ons-toolbar>

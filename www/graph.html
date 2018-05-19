@@ -19,11 +19,6 @@
             </div>
         </div>
         
-        <div style="text-align: center;">
-            <ons-button ng-click="callJustMonth();" class="termBtn monthBtn off" disabled="disabled"><ons-icon icon="fa-calendar" style="margin-right: 10px;"></ons-icon>1ヶ月</ons-button>
-            <ons-button ng-click="callYesterDay();" class="termBtn yesterdayBtn"><ons-icon icon="fa-undo" style="margin-right: 10px;"></ons-icon>昨日</ons-button>
-            <ons-button ng-click="callToday();" class="termBtn todayBtn"><ons-icon icon="fa-star" style="margin-right: 10px;"></ons-icon>今日</ons-button>
-        </div>
     </ons-template>
     <ons-template id="chatByUsers.html">
         <div style="text-align: center; margin-top: 80px; min-height: 400px;" id="detect-area" >
@@ -35,11 +30,13 @@
                 <label>家事がまだ入力されていません</label>
             </div>
         </div>
-        
-        <div style="text-align: center;">
-            <ons-button ng-click="callJustMonth();" class="termBtn monthBtn off" disabled="disabled"><ons-icon icon="fa-calendar" style="margin-right: 10px;"></ons-icon>1ヶ月</ons-button>
-            <ons-button ng-click="callYesterDay();" class="termBtn yesterdayBtn"><ons-icon icon="fa-undo" style="margin-right: 10px;"></ons-icon>昨日</ons-button>
-            <ons-button ng-click="callToday();" class="termBtn todayBtn"><ons-icon icon="fa-star" style="margin-right: 10px;"></ons-icon>今日</ons-button>
-        </div>
     </ons-template>
+
+    <ons-popover direction="down" var="term_list" id="term_list" cancelable="true" cover-target="true">
+          <ons-list class="pop">
+            <ons-list-item name="month" ng-click="callJustMonth()">一ヶ月</ons-list-item>
+            <ons-list-item name="yesterday" ng-click="callYesterDay()">昨日</ons-list-item>
+            <ons-list-item name="today" ng-click="callToday()">今日</ons-list-item>
+          </ons-list>
+    </ons-popover>
 </ons-page>

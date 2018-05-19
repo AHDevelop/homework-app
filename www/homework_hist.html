@@ -3,14 +3,11 @@
     <ng-include src="'header.html'"></ng-include>
     <ng-include src="'loading.html'"></ng-include>
 
-    <div class="center" style="margin-top: 80px;">
+    <div class="center" style="margin-top: 55px;">
 
     <!-- room homework List -->
     <div class="margin-bottom-20">
       <ons-list modifier="inset" class="homeworkList" ng-if="roomHomeworkHistList.length > 0">
-        <ons-list-header class="mainBackColor mainFont">
-          {{nowDate}}
-        </ons-list-header>
         <div class="scroll_list_for_homework_hist">
             <div ng-repeat="data in roomHomeworkHistList">
               <ons-list-item modifier="longdivider" ng-click="callEditPage($index)" tappable tap-background-color="gray">

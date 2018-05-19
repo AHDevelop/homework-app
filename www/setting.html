@@ -6,17 +6,15 @@
     <div class="center" style="margin-top: 80px;">
 
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
-            <div class="left subFont margin-bottom-5">部屋名</div>
+            <div class="left subFont margin-bottom-5" style="font-size: 12px;">部屋名</div>
             <ons-input class="left bigFont margin-bottom-5" ng-model="roomName" maxlength="100" ng-disabled="is_owned != 1"></ons-input>
-            <div class="right subFont miniFont">{{ roomName.length }}/100</div>
         </div>
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
-            <div class="left subFont margin-bottom-5">部屋番号</div>
+            <div class="left subFont margin-bottom-5" style="font-size: 12px;">部屋番号</div>
             <ons-input type="text" min="0" max="9999" class="left bigFont margin-bottom-5" style="float:left;" ng-model="roomNo" maxlength="4" ng-disabled="is_owned != 1"></ons-input>
-            <div class="right subFont miniFont" style="clear:both;">{{ roomNo.length }}/4</div>
         </div>
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
-            <div class="left subFont margin-bottom-5">部屋切替</div>
+            <div class="left subFont margin-bottom-5" style="font-size: 12px;">部屋切替</div>
             <select ng-model="selectRoom" ng-options="room.room_name for room in roomList" class="subFont" style="width: 300px; height: 40px;" ng-change="changeRoom()">
             </select>
         </div>

@@ -1,11 +1,10 @@
-
 /*
-トップ画面リストアイテムスタイル
+* TOP画面スタイル
 */
 ons-list.homeworkList {
-    border-color: #001584;
-    border-top-style: solid;
-    border-top-width: 1px;
+    margin: 0px;
+    max-height: 100%;
+    overflow: hidden;
 }
 
 .homeworkList .list-item--longdivider  {
@@ -13,9 +12,7 @@ ons-list.homeworkList {
     background-color: #FFFFFF;
     color: #001584;
     font-size: 16px;
-    border-color: #001584;
-    border-top-style: solid;
-    border-top-width: 1px;
+    border: 1px solid rgba(00,15,84,0.1);
 }
 
 /*
@@ -53,10 +50,10 @@ ons-list.homeworkList {
 * header account icon
 */
 .headerAccountIcon {
-  width: 40px;
+  width: 60px;
   height: auto;
   margin-top: 10px;
-  border-radius: 20px;
+  border-radius: 30px;
 }
 
 /*
@@ -69,6 +66,10 @@ ons-list.homeworkList {
   margin-bottom: 10px;
   border-radius: 20px;
   background-color: white;
+}
+
+#menuPage {
+  text-align: center;
 }
 
 /*
@@ -291,14 +292,17 @@ ons-button.termBtn.off {
     background-color: #4A494A;
 }
 
+ons-popover#term_list div.popover__content {
+  width: 120px;
+}
 
 /*
 家事編集画面スタイル
 */
 ons-list.addHomework_homeworkList {
-    border-color: #001584;
-    border-top-style: solid;
-    border-top-width: 1px;
+    margin: 0px;
+    max-height: 100%;
+    overflow: hidden;
 }
 
 .addHomework_homeworkList .list-item--longdivider  {
@@ -306,9 +310,7 @@ ons-list.addHomework_homeworkList {
     background-color: #FFFFFF;
     color: #001584;
     font-size: 16px;
-    border-color: #001584;
-    border-top-style: solid;
-    border-top-width: 1px;
+    border: 1px solid rgba(00,15,84,0.1);
 }
 
 .addHomework_homeworkList .disabled {
@@ -317,16 +319,17 @@ ons-list.addHomework_homeworkList {
 
 .scroll_list_for_add_homework {
     max-height: 100%;
-    overflow:auto;
+    overflow:hidden;
+    padding: 0px;
 }
 
 /*
 メンバ管理画面リストアイテムスタイル
 */
 ons-list.memberList {
-    border-color: #001584;
-    border-top-style: solid;
-    border-top-width: 1px;
+    margin: 0px;
+    max-height: 100%;
+    overflow: hidden;
 }
 
 .memberList .list-item--longdivider  {
@@ -334,14 +337,13 @@ ons-list.memberList {
     background-color: #FFFFFF;
     color: #001584;
     font-size: 16px;
-    border-color: #001584;
-    border-top-style: solid;
-    border-top-width: 1px;
+    border: 1px solid rgba(00,15,84,0.1);
 }
 
 .scroll_list_for_member_list {
     max-height: 100%;
-    overflow:auto;
+    overflow:hidden;
+    padding: 0px;
 }
 
 /*
@@ -349,13 +351,6 @@ ons-list.memberList {
 */
 .scroll_list_for_homework_hist {
     max-height: 100%;
-    overflow:auto;
-}
-
-/*
-TOP画面スタイル
-*/
-.scroll_list_for_top {
-    max-height: 100%;
-    overflow:auto;
+    overflow: hidden;
+    padding: 0px;
 }
