@@ -2,12 +2,6 @@
 
     <ng-include src="'header.html'"></ng-include>
     <ng-include src="'loading.html'"></ng-include>
-        
-    <ons-tabbar var="graphTab" class="graphTab">
-        <ons-tab label="家事" active="true" page="chatByHomeworks.html" ng-click="changeGraphType('chatByHomeworks')"></ons-tab>
-        <ons-tab label="ユーザー" page="chatByUsers.html" ng-click="changeGraphType('chatByUsers')"></ons-tab>
-    </ons-tabbar>
-    
     <ons-template id="chatByHomeworks.html">
         <div style="text-align: center; margin-top: 80px; min-height: 400px;" id="detect-area" >
             <div id="homework_chart_area_outer"  style="margin-bottom: 20px;">
@@ -31,6 +25,11 @@
             </div>
         </div>
     </ons-template>
+        
+    <ons-tabbar var="graphTab" class="graphTab">
+        <ons-tab label="家事" active="true" page="chatByHomeworks.html" ng-click="changeGraphType('chatByHomeworks')"></ons-tab>
+        <ons-tab label="ユーザー" page="chatByUsers.html" ng-click="changeGraphType('chatByUsers')"></ons-tab>
+    </ons-tabbar>
 
     <ons-popover direction="down" var="term_list" id="term_list" cancelable="true" cover-target="true">
           <ons-list class="pop">

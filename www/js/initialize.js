@@ -452,49 +452,7 @@ module.controller("graphPageController", function($scope) {
 function updateGraph(fromDate, toDate){
     
     // ユーザー別家事集計取得
-    // getHistSummaryByUser(fromDate, toDate).done(function(response){
-        
-    //     //API返却値をグラフモジュール用に整形
-    //     var data = [];
-    //     var labels = [];
-        
-    //     response.results.forEach(function(histObj){
-    //         data.push(histObj["home_work_time_sum"]);
-    //         labels.push(histObj["user_name"]);
-    //     });
-
-    //     var config = {
-    //         type: 'pie',
-    //         data: {
-    //         datasets: [{
-    //             data: data,
-    //             backgroundColor: palette('tol', data.length).map(function(hex) {
-    //                 return '#' + hex;
-    //             })
-    //         }],
-    //             labels: labels
-    //         },
-    //         options: {
-    //             responsive: true
-    //         }
-    //     };
-            
-    //     var ctx = document.getElementById("user_chart_area").getContext("2d");
-
-    //     if(data.length < 1){
-    //       document.getElementById("user_chart_area").style.display="none";
-    //       document.getElementById("chatByUsers_nonData").style.display="block";
-    //     } else {
-    //       document.getElementById("chatByUsers_nonData").style.display="none";
-    //       document.getElementById("user_chart_area").style.display="block";
-    //       window.homeworkChart = new Chart(ctx, config);
-    //     }
-    // }).always(function() {
-    //     hideLoading();
-    // });
-    
-    // 家事別時間集計取得
-    getHistSummaryByHomework(fromDate, toDate).done(function(response){
+    getHistSummaryByUser(fromDate, toDate).done(function(response){
         
         //API返却値をグラフモジュール用に整形
         var data = [];
@@ -502,17 +460,63 @@ function updateGraph(fromDate, toDate){
         
         response.results.forEach(function(histObj){
             data.push(histObj["home_work_time_sum"]);
-            labels.push(histObj["home_work_name"]);
+            labels.push(histObj["user_name"]);
         });
- alert(palette('tol', data.length));
+
         var config = {
             type: 'pie',
             data: {
             datasets: [{
                 data: data,
-            //     backgroundColor: palette('tol', data.length).map(function(hex) {
-            //         return '#' + hex;
-            //     })
+                backgroundColor: palette('tol', 12).map(function(hex) {
+                    return '#' + hex;
+                })
+            }],
+                labels: labels
+            },
+            options: {
+                responsive: true
+            }
+        };
+            
+        var ctx = document.getElementById("user_chart_area").getContext("2d");
+
+        if(data.length < 1){
+          document.getElementById("user_chart_area").style.display="none";
+          document.getElementById("chatByUsers_nonData").style.display="block";
+        } else {
+          document.getElementById("chatByUsers_nonData").style.display="none";
+          document.getElementById("user_chart_area").style.display="block";
+          window.homeworkChart = new Chart(ctx, config);
+        }
+    }).always(function() {
+        hideLoading();
+    });
+    
+    // 家事別時間集計取得
+    getHistSummaryByHomework(fromDate, toDate).done(function(response){
+        
+        //API返却値をグラフモジュール用に整形
+        var data = [];
+        var labels = [];
+
+        console.log(response.results);
+        
+        response.results.forEach(function(histObj){
+
+            console.log(JSON.stringify(histObj));
+            data.push(histObj["home_work_time_sum"]);
+            labels.push(histObj["home_work_name"]);
+        });
+
+        var config = {
+            type: 'pie',
+            data: {
+            datasets: [{
+                data: data,
+                backgroundColor: palette('tol', 12).map(function(hex) {
+                    return '#' + hex;
+                })
             }],
                 labels: labels
             },
