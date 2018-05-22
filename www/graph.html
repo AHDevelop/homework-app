@@ -7,6 +7,7 @@
             <div id="homework_chart_area_outer"  style="margin-bottom: 20px;">
                 <canvas id="homework_chart_area" width="300" height="300"></canvas>
             </div>
+            <div>{{termLabel}}</div>
             <div id="chatByHomeworks_nonData" style="display:none;">
                 <ons-icon icon="fa-home" size="200px" class="subColor"></ons-icon><br>
                 <label>家事がまだ入力されていません</label>
@@ -19,6 +20,7 @@
             <div id="user_chart_area_outer" style="margin-bottom: 20px;">
                 <canvas id="user_chart_area" width="300" height="300"></canvas>
             </div>
+            <div>{{termLabel}}</div>
             <div id="chatByUsers_nonData" style="display:none;">
                 <ons-icon icon="fa-home" size="200px" class="subColor"></ons-icon><br>
                 <label>家事がまだ入力されていません</label>
@@ -33,7 +35,7 @@
 
     <ons-popover direction="down" var="term_list" id="term_list" cancelable="true" cover-target="true">
           <ons-list class="pop">
-            <ons-list-item name="month" ng-click="callJustMonth()">一ヶ月</ons-list-item>
+            <ons-list-item name="month" ng-click="callJustMonth()">一か月</ons-list-item>
             <ons-list-item name="yesterday" ng-click="callYesterDay()">昨日</ons-list-item>
             <ons-list-item name="today" ng-click="callToday()">今日</ons-list-item>
           </ons-list>

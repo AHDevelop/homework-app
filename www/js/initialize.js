@@ -21,6 +21,8 @@ module.controller('SplitterController', function($scope) {
 
     // ログインユーザーのアイコン画像を設定
     $scope.iconurl = googleAuth.gmailPicture;
+    $scope.userName = userInfo.user_name;
+    $scope.roomName = roomInfo.room_name;
 });
 
 /*
@@ -381,6 +383,7 @@ module.controller("graphPageController", function($scope) {
     $scope.header = {};
     $scope.header.title = "家事別集計";
     $scope.pageName = "graph";
+    $scope.termLabel = "過去一か月";
     
     $scope.changeGraphType = function(btnName){
         if( btnName === 'chatByHomeworks'){
@@ -394,8 +397,11 @@ module.controller("graphPageController", function($scope) {
     $scope.toDate = moment().format('YYYY-MM-DD');
     
     $scope.callJustMonth = function(){
+
         $scope.fromDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
         $scope.toDate = moment().format('YYYY-MM-DD');
+
+        $scope.termLabel = "過去一か月";
                 
         // 画面読み込み開始時の処理
         showLoading();
@@ -411,6 +417,7 @@ module.controller("graphPageController", function($scope) {
         var yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
         $scope.fromDate = yesterday;
         $scope.toDate = yesterday;
+        $scope.termLabel = "昨日";
 
         // 画面読み込み開始時の処理
         showLoading();
@@ -426,6 +433,8 @@ module.controller("graphPageController", function($scope) {
         var today = moment().format('YYYY-MM-DD');
         $scope.fromDate = today;
         $scope.toDate = today;
+
+        $scope.termLabel = "今日";
 
         // 画面読み込み開始時の処理
         showLoading();
@@ -500,11 +509,7 @@ function updateGraph(fromDate, toDate){
         var data = [];
         var labels = [];
 
-        console.log(response.results);
-        
         response.results.forEach(function(histObj){
-
-            console.log(JSON.stringify(histObj));
             data.push(histObj["home_work_time_sum"]);
             labels.push(histObj["home_work_name"]);
         });

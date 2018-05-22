@@ -50,7 +50,6 @@ var googleAuth = {
             var error = /\?error=(.+)$/.exec(url);
             
             if (code || error) {
-                console.log(error);
                 authWindow.close();
             }
         
