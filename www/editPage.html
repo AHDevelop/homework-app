@@ -5,12 +5,12 @@
     <ons-toolbar class="mainBackColor" style="position: fixed;">
         <div class="left toolbar__left">
             <ons-toolbar-button ng-click="editPageDialog.back()" style="position: absolute; margin-left: 5px;">
-                <ons-icon icon="fa-arrow-left"></ons-icon>
+                <ons-icon icon="fa-arrow-left" class="mainColor"></ons-icon>
             </ons-toolbar-button>
         </div>
         <div class="right toolbar__right">
             <ons-toolbar-button ng-click="editPageDialog.deleteRoomHomework()" ng-if="editPageDialog.roomHomeworkId">
-                <ons-icon icon="fa-trash"></ons-icon>
+                <ons-icon icon="fa-trash" class="mainColor"></ons-icon>
             </ons-toolbar-button>
         </div>
     </ons-toolbar>
@@ -26,8 +26,8 @@
             <div class="center" style="width: 300px; margin: auto; margin-bottom: 20px;">
                 <div>
                     <div>
-                        <span id="isDispTopList" style="">{{editPageDialog.isVisible ? '家事入力に表示する' : '家事入力に表示しない'}}</span>
-                        <ons-switch id="isVisible" ng-model="editPageDialog.isVisible" ng-checked="editPageDialog.isVisible" ng-click="editPageDialog.clickVisible()" ng-disabled="!editPageDialog.roomHomeworkId"></ons-switch>
+                        <span id="isDispTopList" class="mainColor">{{editPageDialog.isVisible ? '家事入力に表示する' : '家事入力に表示しない'}}</span>
+                        <ons-switch id="isVisible" ng-model="editPageDialog.isVisible" ng-checked="editPageDialog.isVisible" ng-click="editPageDialog.clickVisible()" class="isDisabledTopSwitch" ng-disabled="!editPageDialog.roomHomeworkId"></ons-switch>
                     </div>
                 </div>
             </div>
