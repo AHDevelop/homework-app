@@ -36,3 +36,17 @@ function minusHour(hour){
     
     return hourStr;
 }
+
+/*
+* 整数値に.0を追加する
+*/
+function zeroPad(hour){
+
+    var hourStr = hour.toString();
+    
+    if(!hourStr.match(/\./)){
+        hourStr += ".0";
+    }
+
+    return hourStr;
+}

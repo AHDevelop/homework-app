@@ -17,10 +17,10 @@ function buildBaseApiUrl(){
   // var domain = "192.168.0.150";
 
   // For Develop
-//   var domain = "dev-homework-api.herokuapp.com";
+  var domain = "dev-homework-api.herokuapp.com";
 
   // For Product
-  var domain = "homework-api.herokuapp.com";
+//   var domain = "homework-api.herokuapp.com";
 
   var protocol = "https";
   var endpoint = "api";
@@ -175,6 +175,23 @@ function deleteHomeworkHist(homeworkHistId){
     dataObj['room_id'] = roomInfo.room_id;
     dataObj['record'] = [homeworkHist];
     
+    return callApi(API_METHOD_DELETE, url, dataObj);
+}
+
+/*
+* 家事履歴一括削除
+* /homeworkhist/bulk/update.json
+*/
+function bulkDeleteHomeworkHist(homeworkHistId){
+    
+    var url = buildBaseApiUrl() + "homeworkhist/bulk" + '/update.json';
+    
+    var dataObj = {};
+    dataObj['user_id'] = userInfo.user_id;;
+    dataObj['room_id'] = roomInfo.room_id;
+    dataObj['room_home_work_id'] = homeworkHistId;
+    dataObj['delete_date'] = moment().format('YYYY-MM-DD');
+
     return callApi(API_METHOD_DELETE, url, dataObj);
 }
 

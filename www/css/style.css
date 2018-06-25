@@ -15,6 +15,11 @@ ons-list.homeworkList {
     border: 1px solid rgba(00, 00, 00,0.1);
 }
 
+.resetIcon {
+    margin-left: 10px;
+    color:#7D7D7D;
+}
+
 /*
 * ログイン画面背景画像 
 */
