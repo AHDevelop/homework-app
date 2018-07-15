@@ -13,16 +13,16 @@ var API_METHOD_DELETE = "delete";
 function buildBaseApiUrl(){
 
   // For Local
-  // var protocol = "http";
-  // var domain = "192.168.0.150";
+  var protocol = "http";
+  var domain = "192.168.51.130";
 
   // For Develop
-  var domain = "dev-homework-api.herokuapp.com";
+  // var domain = "dev-homework-api.herokuapp.com";
 
   // For Product
 //   var domain = "homework-api.herokuapp.com";
 
-  var protocol = "https";
+//   var protocol = "https";
   var endpoint = "api";
   var version = "v1";
 
@@ -416,6 +416,18 @@ function updateUser(userName){
 function getOneRoom(roomId){
     
     var url = buildBaseApiUrl() + "rooms" + '/' + roomId;
+    var dataObj = {};    
+
+    return callApi(API_METHOD_GET, url, dataObj);
+}
+
+/*
+*  招待URL取得
+*  /room/invite?invite_room_id={room_id}&invite_user_id={user_id}
+*/
+function getInviteUrl(roomId, userId){
+    
+    var url = buildBaseApiUrl() + "room/invite/invite_room_id=" + roomId + "/invite_user_id=" + userId;
     var dataObj = {};    
 
     return callApi(API_METHOD_GET, url, dataObj);
