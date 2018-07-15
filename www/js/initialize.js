@@ -4,6 +4,15 @@
 */
 var module = ons.bootstrap('myApp', ['onsen', 'swipe']);
 
+function handleOpenURL(url) {
+  setTimeout(function() {
+    var strValue = url;
+    strValue = strValue.replace('homework://','');
+    // アラートで確認
+    alert(strValue);
+  }, 0);
+};
+
 /*
 * サイドメニューコントローラーを初期化
 */
@@ -933,22 +942,20 @@ module.controller("settingPageController", function($scope) {
     // LINEで招待
     $scope.callInvite = function(obj){
 
-        // // 招待URL取得処理を呼び出し
+        // 招待URL取得処理を呼び出し
         getInviteUrl(roomInfo.room_id, userInfo.user_id).done(function(response){
 
             // パラメータ渡しLINEを起動
             var msg = "line://msg/text/" + encodeURIComponent('\
 《ほーむわーくアプリへ招待》\r\n\
 家事を記録してシェアする「ほーむわーく」アプリの招待です。\r\n\
-①アプリのダウンロード\r\n\
-https://testtest\r\n\
-\r\n\
-②部屋への参加\r\n');
+部屋への参加\r\n');
+    
             msg = msg + response.results.invite_url;
             // console.log(response.results);
             // console.log(msg);
             window.open(msg, '_system', 'location=yes');
-            
+                
             return false;
 
         }).always(function() {
