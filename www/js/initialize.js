@@ -68,11 +68,19 @@ module.controller('menuPageController', function($scope) {
     // サインアウト
     $scope.signout = function(){
         isSingIn = false;
-        googleAuth.disconnectUser().done(function(data) {
+        var serial = localStorage.getItem('homework_user.serial');
+        if(serial !== null){
             localStorage.removeItem('roomInfo.room_id');
-            localStorage.removeItem('googleAuth.access_token');
+            localStorage.removeItem('homework_user.serial');
             myNavigator.replacePage('login.html');
-        });
+        } else {
+            googleAuth.disconnectUser().done(function(data) {
+                localStorage.removeItem('roomInfo.room_id');
+                localStorage.removeItem('googleAuth.access_token');
+                
+                myNavigator.replacePage('login.html');
+            });
+        }
     };
 });
 
@@ -231,10 +239,24 @@ module.controller("signinPageController", function($scope) {
 
     // Googleのアクセストークン
     var access_token = localStorage.getItem('googleAuth.access_token');
-    var homework_uuld = localStorage.getItem('HomeworkAuth.UUID'); // ToDo 消すところの処理を要考慮する
+    var homework_serial = localStorage.getItem('homework_user.serial');
+
+    /*
+    * Googleログイン処理
+    */
+    $scope.callGoogleLoginBtn = function(){
+        firstLoginWithGoogle();
+    };
+
+    /*
+    * ほーむわーくユーザーログイン処理
+    */
+    $scope.callHomeworkLoginBtn = function(){
+        firstLoginWithHomework();
+    };
 
     // 過去のログイン履歴をチェック
-    if(access_token === null && homework_uuld === null){
+    if(access_token === null && homework_serial === null){
         // 過去のログイン履歴が無いとログイン方法を特定できないので自動ログインはしない
         return false;
     };
@@ -249,7 +271,7 @@ module.controller("signinPageController", function($scope) {
             googleAuth.getDataProfile(access_token).done(function(data) {
                 secondLoginWithGoogle();
             });
-        } else if(homework_uuld !== null){
+        } else if(homework_serial !== null){
             // オリジナルユーザーで自動ログイン
             secondLoginWithHomework();
         }
@@ -261,26 +283,24 @@ module.controller("signinPageController", function($scope) {
             googleAuth.getDataProfile(access_token).done(function(data) {
                 secondLoginWithGoogle();
             });
-        } else if(homework_uuld !== null){
+        } else if(homework_serial !== null){
             // オリジナルユーザーで自動ログイン
             secondLoginWithHomework();
         }
+    } else {
+        if(access_token !== null){
+            googleAuth.getDataProfile(access_token).done(function(data) {
+                secondLoginWithGoogle();
+            });
+        }
+
+        if(homework_serial !== null){
+            setTimeout(function() {
+                showLoading();
+            }, 500);
+            secondLoginWithHomework(homework_serial);
+        }
     }
-
-    /*
-    * Googleログイン処理
-    */
-    $scope.callGoogleLoginBtn = function(){
-        firstLoginWithGoogle();
-    };
-
-    /*
-    * ほーむわーくユーザーログイン処理
-    */
-    $scope.callHomeworkLoginBtn = function(){
-        alert("hoge");
-        firstLoginWithHomework();
-    };
 
     /*
     * 二回目以降のログイン　Googleユーザー
@@ -326,37 +346,21 @@ module.controller("signinPageController", function($scope) {
     /*
     * 二回目以降のログイン　Homeworkユーザー
     */
-    function secondLoginWithHomework(){
+    function secondLoginWithHomework(homework_serial){
 
         showLoading();
 
-        // 端末のUUIDを取得
-        var uuid = "";
-        // if(googleAuth.gmailID === ""){
-        //     alert("Google認証情報を取得できません");
-        //     return false;
-        // }
-
         // ユーザーの存在チェック　トークン更新
-        getUserInfoByUUID(uuid).done(function(response) {
+        getUserInfoBySerial(homework_serial).done(function(response) {
 
             // 既存ユーザー情報あり
             userInfo = response.results[0];
             isSingIn = true;
-
-            // 招待された部屋を追加
+                
             if(inviteInfo.room_id != undefined){
                 addInviteRoom().done(function(response) {
-
-                    // エラーが返却されたそのままの部屋情報でログイン　ToDo 追加された部屋情報を返却してもらう必要あり
-
-                    // 問題なければ初期設定の部屋情報を更新する
-
-                    // TOP画面を表示する
-                    myNavigator.replacePage('layout.html');
-           
-                }).always(function() {
-                    hideLoading();
+                    // 部屋を設定してTOP画面を表示する
+                    setDefaultRoom();
                 });
             } else {
                 // 部屋を設定してTOP画面を表示する
@@ -430,6 +434,9 @@ module.controller("signinPageController", function($scope) {
         });
     }
 
+    /*
+    * ほーむわーくユーザーでの初回ログイン処理
+    */
     function firstLoginWithHomework(){
 
         showLoading();
@@ -442,7 +449,7 @@ module.controller("signinPageController", function($scope) {
         getUserInfoBySerial(serial).done(function(response) {
             
             userInfo = response.results[0];
-            alert(userInfo);
+            alert(JSON.stringify(userInfo));
             
             if(userInfo === undefined) {
                 // 新規ユーザー登録
@@ -468,6 +475,8 @@ module.controller("signinPageController", function($scope) {
                     
                     isSingIn = true;
 
+                    localStorage.setItem('homework_user.serial', serial);
+
                     // TODO 招待された部屋にログインする
 
                     myNavigator.replacePage('layout.html');
@@ -478,6 +487,7 @@ module.controller("signinPageController", function($scope) {
             } else {
                 // 既存ユーザー情報あり
                 isSingIn = true;
+                localStorage.setItem('homework_user.serial', serial);
 
                 // TODO 招待された部屋にログインする
 
@@ -491,10 +501,7 @@ module.controller("signinPageController", function($scope) {
     * ログイン時の部屋を設定する
     */
     function setDefaultRoom(){
-        
-        // // 既存ユーザー情報あり
-        // isSingIn = true;
-        
+                
         // 部屋情報取得
         getRoomsWithUser().done(function(response) {
             
