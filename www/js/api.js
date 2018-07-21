@@ -265,7 +265,7 @@ function getUserInfo(googleAuth){
 * UUIDに紐づくユーザー存在チェック
 * /users/key=1234567890
 */
-function getUserInfoByUUID(uuid){
+function getUserInfoBySerial(uuid){
     
     var url = buildBaseApiUrl() + "users" + '/key=' + uuid;
     var dataObj = {};
@@ -295,16 +295,16 @@ function insertNewUser(googleAuth){
 
 /*
 * ほーむわーくユーザーの新規登録
-* /users/original/update.json
+* /api/v1/users/original/update.json
 */
-function insertOriginalUse(uuid, userName){
+function insertOriginalUser(serial, userName){
 
     var url = buildBaseApiUrl() + "users/original" + '/' + 'update.json';
     
     var dataObj = {};
 
-    dataObj['auth_id'] = uuid;
-    dataObj['auth_type'] = '2';
+    dataObj['auth_id'] = serial;
+    dataObj['auth_type'] = '3';
     dataObj['user_name'] = userName;
  
     return callApi(API_METHOD_POST, url, dataObj);

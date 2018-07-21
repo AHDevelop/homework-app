@@ -227,6 +227,8 @@ module.controller('menuPageController', function($scope) {
 */
 module.controller("signinPageController", function($scope) {
 
+    $scope.userName = "";
+
     // Googleのアクセストークン
     var access_token = localStorage.getItem('googleAuth.access_token');
     var homework_uuld = localStorage.getItem('HomeworkAuth.UUID'); // ToDo 消すところの処理を要考慮する
@@ -270,6 +272,14 @@ module.controller("signinPageController", function($scope) {
     */
     $scope.callGoogleLoginBtn = function(){
         firstLoginWithGoogle();
+    };
+
+    /*
+    * ほーむわーくユーザーログイン処理
+    */
+    $scope.callHomeworkLoginBtn = function(){
+        alert("hoge");
+        firstLoginWithHomework();
     };
 
     /*
@@ -425,16 +435,18 @@ module.controller("signinPageController", function($scope) {
         showLoading();
 
         // 端末のUUIDを取得
-        var uuid = "";
+        var serial = device.serial;
+        alert(serial);
             
         // ユーザーの存在チェック&Token更新
-        getUserInfoByUUID(uuid).done(function(response) {
+        getUserInfoBySerial(serial).done(function(response) {
             
             userInfo = response.results[0];
+            alert(userInfo);
             
             if(userInfo === undefined) {
                 // 新規ユーザー登録
-                insertNewUser(googleAuth).done(function(response) {
+                insertOriginalUser(serial, $scope.userName).done(function(response) {
                     
                     // 登録したユーザーと部屋情報が返却される
                     registerInfo = response.results;
