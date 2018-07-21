@@ -13,16 +13,16 @@ var API_METHOD_DELETE = "delete";
 function buildBaseApiUrl(){
 
   // For Local
-  var protocol = "http";
-  var domain = "192.168.51.130";
+//   var protocol = "http";
+//   var domain = "192.168.51.130";
 
   // For Develop
-  // var domain = "dev-homework-api.herokuapp.com";
+  var domain = "dev-homework-api.herokuapp.com";
 
   // For Product
 //   var domain = "homework-api.herokuapp.com";
 
-//   var protocol = "https";
+  var protocol = "https";
   var endpoint = "api";
   var version = "v1";
 
@@ -277,7 +277,7 @@ function getUserInfoBySerial(uuid){
 * 新規ユーザー登録
 * /users/update.json
 */
-function insertNewUser(googleAuth){
+function insertNewUser(googleAuth, userName){
 
     var url = buildBaseApiUrl() + "users" + '/' + 'update.json';
     
@@ -287,7 +287,7 @@ function insertNewUser(googleAuth){
         dataObj['email'] = googleAuth.gmailEmail;
         dataObj['auth_type'] = '1';
         dataObj['auth_id'] = googleAuth.gmailID;
-        dataObj['user_name'] = googleAuth.gmailLastName + ' ' + googleAuth.gmailFirstName;
+        dataObj['user_name'] = userName;
         dataObj['auth_token'] = googleAuth.accessToken;
     }    
     return callApi(API_METHOD_POST, url, dataObj);
@@ -473,11 +473,11 @@ function getOneRoom(roomId){
 
 /*
 *  招待URL取得
-*  /room/invite?invite_room_id={room_id}&invite_user_id={user_id}
+*  /room/invite/invite_room_id={room_id}&invite_user_id={user_id}
 */
 function getInviteUrl(roomId, userId){
     
-    var url = buildBaseApiUrl() + "room/invite/invite_room_id=" + roomId + "/invite_user_id=" + userId;
+    var url = buildBaseApiUrl() + "room/invite/invite_room_id=" + roomId + "&invite_user_id=" + userId;
     var dataObj = {};    
 
     return callApi(API_METHOD_GET, url, dataObj);

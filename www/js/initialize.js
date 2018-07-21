@@ -13,13 +13,11 @@ function handleOpenURL(url) {
     inviteInfo.invite_room_id = getParam("roomId", strUrl);
     inviteInfo.invite_from_user_id = getParam("userId", strUrl);
     inviteInfo.param = getParam("param", strUrl);
+    alert("招待部屋ID" + inviteInfo.invite_room_id);
+    alert("招待されたユーザーID" + inviteInfo.invite_from_user_id);
+    alert("暗号キー" + inviteInfo.param);
   }, 0);
 };
-
-    inviteInfo.invite_room_id = "1";//Hata2
-    inviteInfo.invite_from_user_id = "1";//畠山 歩
-    inviteInfo.param = "hogehogehoge";//畠山 歩
-
 
 /*
 * サイドメニューコントローラーを初期化
@@ -91,152 +89,6 @@ module.controller('menuPageController', function($scope) {
 });
 
 /*
-サインインページコントローラ
-*/
-// module.controller("signinPageController2", function($scope) {
-
-//     // 既存のアクセストークンを取得
-//     var access_token = localStorage.getItem('googleAuth.access_token');
-
-//     // 既存ユーザーの場合はログイン処理に進む
-//     if(access_token !== null){
-//         googleAuth.getDataProfile(access_token).done(function(data) {
-//             secondLogin();
-//         });
-//     };
-
-//     /* Googleログイン */
-//     $scope.googleLogin = login;
-    
-//     /* 二回目以降のログイン処理 */
-//     function secondLogin(){
-
-//         showLoading();
-      
-//         if(googleAuth.gmailID === ""){
-//             alert("Google認証情報を取得できていません");
-//             return false;
-//         }
-//         // ユーザーの存在チェック&Token更新
-//         getUserInfo(googleAuth).done(function(response) {
-            
-//             userInfo = response.results[0];
-            
-//             // 既存ユーザー情報あり
-//             isSingIn = true;
-            
-//             // 部屋情報取得
-//             getRoomsWithUser().done(function(response) {
-                
-//                 // 前回の部屋情報があれば引き継ぎ
-//                 room_id = localStorage.getItem("roomInfo.room_id");
-                
-//                 if(room_id === null){
-//                     roomInfo = response.results[0];
-//                     localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
-//                 } else {
-//                     // 前回情報がある場合は初期設定の部屋を設定する
-//                     if(1 < response.results.length){
-//                         response.results.forEach(function(roomObj){
-//                             if(roomObj.room_id == room_id){
-//                                 roomInfo = roomObj;
-//                             }
-//                         });
-//                     } else {
-//                         roomInfo = response.results[0];
-//                     }
-//                 }
-//                 myNavigator.replacePage('layout.html');
-//             }).always(function() {
-//                 hideLoading();
-//             });
-//         });
-//     }
-    
-//     /*
-//     * 初回ログイン処理
-//     */
-//     function login(){
-        
-//         showLoading();
-
-//         googleAuth.callGoogle().done(function(data) {
-//             if(googleAuth.gmailID !== ""){
-                                    
-//                 // ユーザーの存在チェック&Token更新
-//                 getUserInfo(googleAuth).done(function(response) {
-                    
-//                     userInfo = response.results[0];
-                    
-//                     if(userInfo === undefined) {
-//                         // 新規ユーザー登録
-//                         insertNewUser(googleAuth).done(function(response) {
-                            
-//                             // 登録したユーザーと部屋情報が返却される
-//                             registerInfo = response.results;
-                            
-//                             roomInfo.room_id = registerInfo["room_id"];
-//                             roomInfo.room_name = registerInfo["room_name"];
-//                             roomInfo.room_number = registerInfo["room_number"];
-//                             roomInfo.user_id = registerInfo["user_id"];
-//                             roomInfo.is_owned = true;
-//                             localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
-                            
-//                             userInfo = {};
-//                             userInfo.user_id =  registerInfo["user_id"];
-//                             userInfo.email =  registerInfo["email"];
-//                             userInfo.user_name =  registerInfo["user_name"];
-//                             userInfo.auth_type =  registerInfo["auth_type"];
-//                             userInfo.auth_id =  registerInfo["auth_id"];
-//                             userInfo.app_token = registerInfo["app_token"];
-                            
-//                             isSingIn = true;
-
-//                             myNavigator.replacePage('layout.html');
-//                         }).always(function() {
-//                             hideLoading();
-//                         });
-                        
-//                     } else {
-//                         // 既存ユーザー情報あり
-//                         isSingIn = true;
-                        
-//                         // 部屋情報取得
-//                         getRoomsWithUser().done(function(response) {
-                            
-//                             // 前回の部屋情報があれば引き継ぎ
-//                             room_id = localStorage.getItem("roomInfo.room_id");
-                            
-//                             if(room_id === null){
-//                                 roomInfo = response.results[0];
-//                                 localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
-//                             } else {
-//                                 // 前回情報がある場合は初期設定の部屋を設定する
-//                                 if(1 < response.results.length){
-//                                     response.results.forEach(function(roomObj){
-//                                         if(roomObj.room_id == room_id){
-//                                             roomInfo = roomObj;
-//                                         }
-//                                     });
-//                                 } else {
-//                                     roomInfo = response.results[0];
-//                                 }
-//                             }
-//                             myNavigator.replacePage('layout.html');
-//                         }).always(function() {
-//                             hideLoading();
-//                         });
-//                     }
-//                 });
-                
-//             } else {
-//                 alert("Google認証情報を取得できていません");
-//             }
-//         });
-//     };
-// });
-
-/*
 * サインインページコントローラ　改修版
 */
 module.controller("signinPageController", function($scope) {
@@ -251,6 +103,12 @@ module.controller("signinPageController", function($scope) {
     * Googleログイン処理
     */
     $scope.callGoogleLoginBtn = function(){
+
+        if($scope.userName == ""){
+            alert("ニックネームを入力してください。");
+            return false;
+        }
+
         firstLoginWithGoogle();
     };
 
@@ -258,6 +116,12 @@ module.controller("signinPageController", function($scope) {
     * ほーむわーくユーザーログイン処理
     */
     $scope.callHomeworkLoginBtn = function(){
+
+        if($scope.userName == ""){
+            alert("ニックネームを入力してください。");
+            return false;
+        }
+
         firstLoginWithHomework();
     };
 
@@ -354,7 +218,7 @@ module.controller("signinPageController", function($scope) {
                     
                     if(userInfo === undefined) {
                         // 新規ユーザー登録
-                        insertNewUser(googleAuth).done(function(response) {
+                        insertNewUser(googleAuth, $scope.userName).done(function(response) {
                             
                             // 登録したユーザーと部屋情報が返却される
                             registerInfo = response.results;
@@ -414,13 +278,11 @@ module.controller("signinPageController", function($scope) {
 
         // 端末のUUIDを取得
         var serial = device.serial;
-        alert(serial);
             
         // ユーザーの存在チェック&Token更新
         getUserInfoBySerial(serial).done(function(response) {
             
             userInfo = response.results[0];
-            alert(JSON.stringify(userInfo));
             
             if(userInfo === undefined) {
                 // 新規ユーザー登録
@@ -493,7 +355,6 @@ module.controller("signinPageController", function($scope) {
 
             if(response.results !== null){
                 roomInfo = response.results[0];
-                alert("ログインする部屋ID：" + roomInfo.room_id);
                 roomInfo.is_owned = false;
                 localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
                 // ログインしたら招待情報はリセット
@@ -504,8 +365,6 @@ module.controller("signinPageController", function($scope) {
             hideLoading();
             myNavigator.replacePage('layout.html');
         });
-
-        myNavigator.replacePage('layout.html');
     }
 
     /*
@@ -539,52 +398,6 @@ module.controller("signinPageController", function($scope) {
             hideLoading();
         });
     }
-
-    
-    /* 二回目以降のログイン処理 */
-    // function secondLogin(){
-
-    //     showLoading();
-      
-    //     if(googleAuth.gmailID === ""){
-    //         alert("Google認証情報を取得できていません");
-    //         return false;
-    //     }
-    //     // ユーザーの存在チェック&Token更新
-    //     getUserInfo(googleAuth).done(function(response) {
-            
-    //         userInfo = response.results[0];
-            
-    //         // 既存ユーザー情報あり
-    //         isSingIn = true;
-            
-    //         // 部屋情報取得
-    //         getRoomsWithUser().done(function(response) {
-                
-    //             // 前回の部屋情報があれば引き継ぎ
-    //             room_id = localStorage.getItem("roomInfo.room_id");
-                
-    //             if(room_id === null){
-    //                 roomInfo = response.results[0];
-    //                 localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
-    //             } else {
-    //                 // 前回情報がある場合は初期設定の部屋を設定する
-    //                 if(1 < response.results.length){
-    //                     response.results.forEach(function(roomObj){
-    //                         if(roomObj.room_id == room_id){
-    //                             roomInfo = roomObj;
-    //                         }
-    //                     });
-    //                 } else {
-    //                     roomInfo = response.results[0];
-    //                 }
-    //             }
-    //             myNavigator.replacePage('layout.html');
-    //         }).always(function() {
-    //             hideLoading();
-    //         });
-    //     });
-    // }
 });
 
 /*
@@ -651,149 +464,12 @@ module.controller("topPageController", function($scope) {
         });
     };
 
-    // Ver1.4　の改修で未使用に修正
-       // 家事時間入力ダイアログを表示
-    // $scope.callInputHomeWorkPage = function(index){
-                        
-    //     // IDから該当する家事を特定する
-    //     var roomHomework = $scope.roomHomeworkList[index];
-                
-    //     // 家事名と標準時間を設定した状態でダイアログを起動する
-    //     ons.createDialog('inputHomeWork.html', {parentScope: $scope}).then(function(dialog) {
-    //         $scope.inputHomeWork = dialog;
-    //         $scope.homeworkName = roomHomework.home_work_name;
-    //         $scope.roomHomeworkId = roomHomework.room_home_work_id;
-    //         $scope.beseHomeworkTimeHH = roomHomework.base_home_work_time_hh;
-    //         $scope.homeworkTimeHH = roomHomework.base_home_work_time_hh;
-    //         $scope.isEdit = false;
-    //         $scope.inputHomeWork.show();
-                        
-    //         // 家事登録
-    //         $scope.inputHomeWork.register = function(roomHomeworkId){
-
-    //             $scope.inputHomeWork.hide();
-    //             showLoading();
-    //             homeworkDate = moment().format('YYYY-MM-DD');
-                
-    //             registerHomeworkHist(roomHomeworkId, homeworkDate, $scope.homeworkTimeHH).done(function(response){
-    //                 $scope.$apply();
-    //                 getHomeWorkListWithRoomId(roomId).done(function(response){
-    //                     $scope.roomHomeworkList = response.results;
-                        
-    //                     // 最新の情報で更新
-    //                     $scope.$apply();
-    //                 }).always(function() {
-    //                     hideLoading();
-    //                 });
-    //             });
-    //         };
-            
-    //         $scope.inputHomeWork.plusHour = function(){
-    //             $scope.homeworkTimeHH = plusHour($scope.homeworkTimeHH);
-    //         };
-    //         $scope.inputHomeWork.minusHour = function(){
-    //             $scope.homeworkTimeHH = minusHour($scope.homeworkTimeHH);
-    //         };
-    //     });
-    // };
-
     // 画面読み込み開始時の処理
     $scope.$on('$includeContentLoaded', function(event) {
         showLoading();
     });
 
 });
-
-/*
-* 家事履歴ページコントローラー
-*/
-// module.controller("homeworkHistPageController", function($scope) {
-    
-//     // 現在日時の設定
-//     $scope.nowDate = moment().format('YYYY年MM月DD日');
-//     $scope.header = {};
-//     $scope.header.title = "家事履歴";
-//     $scope.pageName = "homework_hist";
-
-//     // 家事履歴の取得
-//     var roomId =roomInfo.room_id;
-//     getHomeworkHist(roomId).done(function(response){
-//         $scope.roomHomeworkHistList = response.results;
-        
-//         // 最新の情報で更新
-//         $scope.$apply();
-//     }).always(function() {
-//         hideLoading();
-//     });
-
-//     // 家事時間入力ダイアログを表示
-//     $scope.callEditPage = function(index){
-
-//         // IDから該当する家事を特定する
-//         var roomHomework = $scope.roomHomeworkHistList[index];
-                
-//         // 家事名と家事時間を設定した状態でダイアログを起動する
-//         ons.createDialog('inputHomeWork.html', {parentScope: $scope}).then(function(dialog) {
-//             $scope.inputHomeWork = dialog;
-//             $scope.homeworkName = roomHomework.home_work_name;
-//             $scope.homeworkHistId = roomHomework.home_work_hist_id;
-//             $scope.beseHomeworkTimeHH = roomHomework.home_work_time_hh;
-//             $scope.homeworkTimeHH = roomHomework.home_work_time_hh;
-//             $scope.isEdit = true;
-//             $scope.inputHomeWork.show();
-                        
-//             // 家事更新
-//             $scope.inputHomeWork.update = function(){
-                
-//                 // 画面読み込み開始時の処理
-//                 $scope.inputHomeWork.hide();
-//                 showLoading();
-
-//                 updateHomeworkHist($scope.homeworkHistId, $scope.homeworkTimeHH).done(function(response){
-//                     getHomeworkHist(roomId).done(function(response){
-//                         $scope.roomHomeworkHistList = response.results;
-                        
-//                         // 最新の情報で更新
-//                         $scope.$apply();
-//                     }).always(function() {
-//                         hideLoading();
-//                     });
-//                 });
-//             };
-
-//             // 家事削除
-//             $scope.inputHomeWork.delete = function(){
-
-//                 // 画面読み込み開始時の処理
-//                 $scope.inputHomeWork.hide();
-//                 showLoading();
-
-//                 deleteHomeworkHist($scope.homeworkHistId).done(function(response){
-//                     getHomeworkHist(roomId).done(function(response){
-//                         $scope.roomHomeworkHistList = response.results;
-                        
-//                         // 最新の情報で更新
-//                         $scope.$apply();
-//                     }).always(function() {
-//                         hideLoading();
-//                     });
-//                 });
-//             };
-
-//             $scope.inputHomeWork.plusHour = function(){
-//                 $scope.homeworkTimeHH = plusHour($scope.homeworkTimeHH);
-//             };
-//             $scope.inputHomeWork.minusHour = function(){
-//                 $scope.homeworkTimeHH = minusHour($scope.homeworkTimeHH);
-//             };
-//         });
-//     };
-    
-//     // 画面読み込み開始時の処理
-//     $scope.$on('$includeContentLoaded', function(event) {
-//         showLoading();
-//     });
-// });
 
 /*
 グラフページコントローラ
@@ -1313,6 +989,8 @@ module.controller("settingPageController", function($scope) {
         // 招待URL取得処理を呼び出し
         getInviteUrl(roomInfo.room_id, userInfo.user_id).done(function(response){
 
+            showLoading();
+
             // パラメータ渡しLINEを起動
             var msg = "line://msg/text/" + encodeURIComponent('\
 《ほーむわーくアプリへ招待》\r\n\
@@ -1320,8 +998,6 @@ module.controller("settingPageController", function($scope) {
 部屋への参加\r\n');
     
             msg = msg + response.results.invite_url;
-            // console.log(response.results);
-            // console.log(msg);
             window.open(msg, '_system', 'location=yes');
                 
             return false;

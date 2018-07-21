@@ -7,11 +7,7 @@
 
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
             <div class="left subFont margin-bottom-5" style="font-size: 12px;">部屋名</div>
-            <ons-input class="left bigFont margin-bottom-5" ng-model="roomName" maxlength="100" ng-disabled="is_owned != 1"></ons-input>
-        </div>
-        <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
-            <div class="left subFont margin-bottom-5" style="font-size: 12px;">部屋番号</div>
-            <ons-input type="text" min="0" max="9999" class="left bigFont margin-bottom-5" style="float:left;" ng-model="roomNo" maxlength="4" ng-disabled="is_owned != 1"></ons-input>
+            <ons-input class="left bigFont margin-bottom-5 pinkFont" ng-model="roomName" maxlength="100" ng-disabled="is_owned != 1"></ons-input>
         </div>
         <div class="center margin-bottom-10" style="width: 300px; margin: auto;">
             <div class="left subFont margin-bottom-5" style="font-size: 12px;">部屋切替</div>
@@ -20,9 +16,6 @@
         </div>
         <div style="text-align: right; width: 300px; margin: auto; margin-top:20px; " class="center margin-bottom-10" >
             <ons-button ng-click="callInvite();" class="registerBtn" style="width: 150px;">LINEで招待</ons-button>
-        </div>
-        <div style="text-align: right; width: 300px; margin: auto; margin-top:20px; " class="center margin-bottom-10" >
-            <ons-button ng-click="callAddRoom();" class="registerBtn" style="width: 150px;">他の部屋に参加</ons-button>
         </div>
         <div class="center margin-bottom-20 margin-top-60">
             <ons-button ng-click="register()" class="registerBtn">保存</ons-button>
