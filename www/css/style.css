@@ -42,13 +42,19 @@ ons-list.homeworkList {
 }
 
 /*
-* Google Login btn
+* ログインボタン
 */
-.googleLogin {
-    border: 0px;
-    width:191px;
-    height:46px;
-    background: url(../img/btn_google_signin_light_normal_web.png) left top no-repeat;
+ons-button.loginBtn {
+    width: 80%;
+    margin: 10px;
+    color: #FFFFFF;
+    font-size: 16px;
+    border: solid 1px #FFFFFF;
+}
+
+ons-button.loginBtn:hover {
+    color: #FFFFFF;
+    border: solid 1px #FFFFFF;
 }
 
 /*

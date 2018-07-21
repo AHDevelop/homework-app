@@ -13,7 +13,8 @@
             "cordova-plugin-firebase-dynamiclinks": {
                 "APP_DOMAIN": "com.hatakehirodev.homework",
                 "PAGE_LINK_DOMAIN": "https:\/\/homework.page.link\/g3bg"
-            }
+            },
+            "cordova-plugin-device": {}
         }
     },
     "dependencies": {
@@ -23,6 +24,7 @@
         "cordova-plugin-splashscreen": "5.0.1",
         "cordova-plugin-inappbrowser": "2.0.1",
         "cordova-plugin-customurlscheme": "file:plugins\/cordova-plugin-customurlscheme",
-        "cordova-plugin-firebase-dynamiclinks": "file:plugins\/cordova-plugin-firebase-dynamiclinks"
+        "cordova-plugin-firebase-dynamiclinks": "file:plugins\/cordova-plugin-firebase-dynamiclinks",
+        "cordova-plugin-device": "2.0.1"
     }
 }

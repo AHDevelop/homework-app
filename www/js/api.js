@@ -50,6 +50,7 @@ function callApi(type, url, dataObj, googleAuth) {
         }
     };
 
+    // ToDo なくて問題なさそう？
     if(googleAuth !== undefined){
         callObj["headers"]["key"] = googleAuth.gmailID;
         callObj["headers"]["authToken"] = googleAuth.accessToken;
@@ -73,10 +74,12 @@ function callApi(type, url, dataObj, googleAuth) {
         // 認証エラーで401が返却された際にログイン前の画面に戻す
         if(jqXHR.status == 401){
             alert('認証に失敗しました。');
+            hideLoading();
             myNavigator.replacePage('login.html');
             return false;
         } else {
             alert('接続に失敗しました。時間を空けて再度実施してください。');
+            hideLoading();
             // alert('接続に失敗しました。URL:' +  url);
         }
     });
@@ -259,6 +262,18 @@ function getUserInfo(googleAuth){
 }
 
 /*
+* UUIDに紐づくユーザー存在チェック
+* /users/key=1234567890
+*/
+function getUserInfoByUUID(uuid){
+    
+    var url = buildBaseApiUrl() + "users" + '/key=' + uuid;
+    var dataObj = {};
+    
+    return callApi(API_METHOD_GET, url, dataObj);
+}
+
+/*
 * 新規ユーザー登録
 * /users/update.json
 */
@@ -275,6 +290,23 @@ function insertNewUser(googleAuth){
         dataObj['user_name'] = googleAuth.gmailLastName + ' ' + googleAuth.gmailFirstName;
         dataObj['auth_token'] = googleAuth.accessToken;
     }    
+    return callApi(API_METHOD_POST, url, dataObj);
+}
+
+/*
+* ほーむわーくユーザーの新規登録
+* /users/original/update.json
+*/
+function insertOriginalUse(uuid, userName){
+
+    var url = buildBaseApiUrl() + "users/original" + '/' + 'update.json';
+    
+    var dataObj = {};
+
+    dataObj['auth_id'] = uuid;
+    dataObj['auth_type'] = '2';
+    dataObj['user_name'] = userName;
+ 
     return callApi(API_METHOD_POST, url, dataObj);
 }
 
@@ -315,6 +347,23 @@ function addRoom(roomName, roomNo){
     dataObj['room_name'] = roomName;
     dataObj['room_no'] = roomNo;
     dataObj['user_id'] = userInfo.user_id;
+        
+    return callApi(API_METHOD_POST, url, dataObj);
+}
+
+/*
+* 招待_部屋ユーザー追加
+* /api/v1/room/users/invite/update.json
+*/
+function addInviteRoom(){
+    
+    var url = buildBaseApiUrl() + "room/users/invite" + '/' + 'update.json';
+    
+    var dataObj = {};
+
+    dataObj['invite_room_id'] = inviteInfo.invite_room_id;
+    dataObj['invite_from_user_id'] = inviteInfo.invite_from_user_id;
+    dataObj['invite_to_user_id'] = userInfo.user_id;
         
     return callApi(API_METHOD_POST, url, dataObj);
 }

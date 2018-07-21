@@ -3,16 +3,22 @@
     <ng-include src="'loading.html'"></ng-include>
 
     <div class="login_bg" style="width: 100%; height: 100%;">
-        <div style="text-align: center; position: absolute; top: 45%; width: 100%;">
+        <div style="text-align: center; position: absolute; top: 40%; width: 100%;">
             <p class="login_msg">
               家事を見える化して家族でシェアしよう！
             </p>
+            <br>
             <p>
-              <ons-button ng-click="googleLogin()" class="googleLogin">
+              <ons-input class="center bigFont white margin-bottom-5" ng-model="userName" maxlength="10" placeholder="ニックネーム"></ons-input>
+              <ons-button ng-click="googleLogin()" class="loginBtn" modifier="quiet" >ログイン</ons-button>
+            </p>
+            <p>
+              <ons-button ng-click="callGoogleLoginBtn()" class="loginBtn" modifier="quiet" >Googleアカウントでログイン  
+              </ons-button>
             </p>
         </div>
         <div style="text-align: center; position: absolute; bottom: 0px; width: 100%;">
-            <p class="mainFont" style="font-size: 16px;">
+            <p class="mainFont" style="font-size: 16px; color: white;">
                 Ver 1.2.0
             </p>
         </div>

@@ -4,12 +4,14 @@
 */
 var module = ons.bootstrap('myApp', ['onsen', 'swipe']);
 
+/*
+* URLからのアクセス時に呼び出される
+*/
 function handleOpenURL(url) {
   setTimeout(function() {
-    var strValue = url;
-    strValue = strValue.replace('homework://','');
-    // アラートで確認
-    alert(strValue);
+    var strUrl = url;
+    inviteInfo.invite_room_id = getParam("roomId", strUrl);
+    inviteInfo.invite_from_user_id = getParam("userId", strUrl);
   }, 0);
 };
 
@@ -77,73 +79,292 @@ module.controller('menuPageController', function($scope) {
 /*
 サインインページコントローラ
 */
+// module.controller("signinPageController2", function($scope) {
+
+//     // 既存のアクセストークンを取得
+//     var access_token = localStorage.getItem('googleAuth.access_token');
+
+//     // 既存ユーザーの場合はログイン処理に進む
+//     if(access_token !== null){
+//         googleAuth.getDataProfile(access_token).done(function(data) {
+//             secondLogin();
+//         });
+//     };
+
+//     /* Googleログイン */
+//     $scope.googleLogin = login;
+    
+//     /* 二回目以降のログイン処理 */
+//     function secondLogin(){
+
+//         showLoading();
+      
+//         if(googleAuth.gmailID === ""){
+//             alert("Google認証情報を取得できていません");
+//             return false;
+//         }
+//         // ユーザーの存在チェック&Token更新
+//         getUserInfo(googleAuth).done(function(response) {
+            
+//             userInfo = response.results[0];
+            
+//             // 既存ユーザー情報あり
+//             isSingIn = true;
+            
+//             // 部屋情報取得
+//             getRoomsWithUser().done(function(response) {
+                
+//                 // 前回の部屋情報があれば引き継ぎ
+//                 room_id = localStorage.getItem("roomInfo.room_id");
+                
+//                 if(room_id === null){
+//                     roomInfo = response.results[0];
+//                     localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
+//                 } else {
+//                     // 前回情報がある場合は初期設定の部屋を設定する
+//                     if(1 < response.results.length){
+//                         response.results.forEach(function(roomObj){
+//                             if(roomObj.room_id == room_id){
+//                                 roomInfo = roomObj;
+//                             }
+//                         });
+//                     } else {
+//                         roomInfo = response.results[0];
+//                     }
+//                 }
+//                 myNavigator.replacePage('layout.html');
+//             }).always(function() {
+//                 hideLoading();
+//             });
+//         });
+//     }
+    
+//     /*
+//     * 初回ログイン処理
+//     */
+//     function login(){
+        
+//         showLoading();
+
+//         googleAuth.callGoogle().done(function(data) {
+//             if(googleAuth.gmailID !== ""){
+                                    
+//                 // ユーザーの存在チェック&Token更新
+//                 getUserInfo(googleAuth).done(function(response) {
+                    
+//                     userInfo = response.results[0];
+                    
+//                     if(userInfo === undefined) {
+//                         // 新規ユーザー登録
+//                         insertNewUser(googleAuth).done(function(response) {
+                            
+//                             // 登録したユーザーと部屋情報が返却される
+//                             registerInfo = response.results;
+                            
+//                             roomInfo.room_id = registerInfo["room_id"];
+//                             roomInfo.room_name = registerInfo["room_name"];
+//                             roomInfo.room_number = registerInfo["room_number"];
+//                             roomInfo.user_id = registerInfo["user_id"];
+//                             roomInfo.is_owned = true;
+//                             localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
+                            
+//                             userInfo = {};
+//                             userInfo.user_id =  registerInfo["user_id"];
+//                             userInfo.email =  registerInfo["email"];
+//                             userInfo.user_name =  registerInfo["user_name"];
+//                             userInfo.auth_type =  registerInfo["auth_type"];
+//                             userInfo.auth_id =  registerInfo["auth_id"];
+//                             userInfo.app_token = registerInfo["app_token"];
+                            
+//                             isSingIn = true;
+
+//                             myNavigator.replacePage('layout.html');
+//                         }).always(function() {
+//                             hideLoading();
+//                         });
+                        
+//                     } else {
+//                         // 既存ユーザー情報あり
+//                         isSingIn = true;
+                        
+//                         // 部屋情報取得
+//                         getRoomsWithUser().done(function(response) {
+                            
+//                             // 前回の部屋情報があれば引き継ぎ
+//                             room_id = localStorage.getItem("roomInfo.room_id");
+                            
+//                             if(room_id === null){
+//                                 roomInfo = response.results[0];
+//                                 localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
+//                             } else {
+//                                 // 前回情報がある場合は初期設定の部屋を設定する
+//                                 if(1 < response.results.length){
+//                                     response.results.forEach(function(roomObj){
+//                                         if(roomObj.room_id == room_id){
+//                                             roomInfo = roomObj;
+//                                         }
+//                                     });
+//                                 } else {
+//                                     roomInfo = response.results[0];
+//                                 }
+//                             }
+//                             myNavigator.replacePage('layout.html');
+//                         }).always(function() {
+//                             hideLoading();
+//                         });
+//                     }
+//                 });
+                
+//             } else {
+//                 alert("Google認証情報を取得できていません");
+//             }
+//         });
+//     };
+// });
+
+/*
+* サインインページコントローラ　改修版
+*/
 module.controller("signinPageController", function($scope) {
 
+    // Googleのアクセストークン
     var access_token = localStorage.getItem('googleAuth.access_token');
+    var homework_uuld = localStorage.getItem('HomeworkAuth.UUID'); // ToDo 消すところの処理を要考慮する
 
-    // 既存ユーザーの場合はログイン処理に進む
-    if(access_token !== null){
-        googleAuth.getDataProfile(access_token).done(function(data) {
-            secondLogin();
-        });
+    // 過去のログイン履歴をチェック
+    if(access_token === null && homework_uuld === null){
+        // 過去のログイン履歴が無いとログイン方法を特定できないので自動ログインはしない
+        return false;
     };
 
-    /* Googleログイン */
-    $scope.googleLogin = login;
-    
-    /* 二回目以降のログイン処理 */
-    function secondLogin(){
+    // 以下、自動ログインの流れ
+    // 招待情報を確認
+    if(inviteInfo.room_id != undefined){
+
+        // 過去のログイン履歴を取得する
+        if(access_token !== null){
+            // Googleで自動ログイン
+            googleAuth.getDataProfile(access_token).done(function(data) {
+                secondLoginWithGoogle();
+            });
+        } else if(homework_uuld !== null){
+            // オリジナルユーザーで自動ログイン
+            secondLoginWithHomework();
+        }
+        
+        // 招待情報なし
+        // 過去のログイン履歴を取得する
+        if(access_token !== null){
+            // Googleで自動ログイン
+            googleAuth.getDataProfile(access_token).done(function(data) {
+                secondLoginWithGoogle();
+            });
+        } else if(homework_uuld !== null){
+            // オリジナルユーザーで自動ログイン
+            secondLoginWithHomework();
+        }
+    }
+
+    /*
+    * Googleログイン処理
+    */
+    $scope.callGoogleLoginBtn = function(){
+        firstLoginWithGoogle();
+    };
+
+    /*
+    * 二回目以降のログイン　Googleユーザー
+    */
+    function secondLoginWithGoogle(){
 
         showLoading();
-      
+
         if(googleAuth.gmailID === ""){
-            alert("Google認証情報を取得できていません");
+            alert("Google認証情報を取得できません");
             return false;
         }
+
         // ユーザーの存在チェック&Token更新
         getUserInfo(googleAuth).done(function(response) {
-            
-            userInfo = response.results[0];
-            
+
             // 既存ユーザー情報あり
+            userInfo = response.results[0];
             isSingIn = true;
-            
-            // 部屋情報取得
-            getRoomsWithUser().done(function(response) {
-                
-                // 前回の部屋情報があれば引き継ぎ
-                room_id = localStorage.getItem("roomInfo.room_id");
-                
-                if(room_id === null){
-                    roomInfo = response.results[0];
-                    localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
-                } else {
-                    // 前回情報がある場合は初期設定の部屋を設定する
-                    if(1 < response.results.length){
-                        response.results.forEach(function(roomObj){
-                            if(roomObj.room_id == room_id){
-                                roomInfo = roomObj;
-                            }
-                        });
-                    } else {
-                        roomInfo = response.results[0];
-                    }
-                }
-                myNavigator.replacePage('layout.html');
-            }).always(function() {
-                hideLoading();
-            });
+
+            // 招待された部屋を追加
+            if(inviteInfo.room_id != undefined){
+                addInviteRoom().done(function(response) {
+
+                    // エラーが返却されたそのままの部屋情報でログイン　ToDo 追加された部屋情報を返却してもらう必要あり
+
+                    // 問題なければ初期設定の部屋情報を更新する
+
+                    // TOP画面を表示する
+                    myNavigator.replacePage('layout.html');
+           
+                }).always(function() {
+                    hideLoading();
+                });
+            } else {
+                // 部屋を設定してTOP画面を表示する
+                setDefaultRoom();
+            }
         });
+
     }
-    
+
     /*
-    * 初回ログイン処理
+    * 二回目以降のログイン　Homeworkユーザー
     */
-    function login(){
-        
+    function secondLoginWithHomework(){
+
         showLoading();
 
+        // 端末のUUIDを取得
+        var uuid = "";
+        // if(googleAuth.gmailID === ""){
+        //     alert("Google認証情報を取得できません");
+        //     return false;
+        // }
+
+        // ユーザーの存在チェック　トークン更新
+        getUserInfoByUUID(uuid).done(function(response) {
+
+            // 既存ユーザー情報あり
+            userInfo = response.results[0];
+            isSingIn = true;
+
+            // 招待された部屋を追加
+            if(inviteInfo.room_id != undefined){
+                addInviteRoom().done(function(response) {
+
+                    // エラーが返却されたそのままの部屋情報でログイン　ToDo 追加された部屋情報を返却してもらう必要あり
+
+                    // 問題なければ初期設定の部屋情報を更新する
+
+                    // TOP画面を表示する
+                    myNavigator.replacePage('layout.html');
+           
+                }).always(function() {
+                    hideLoading();
+                });
+            } else {
+                // 部屋を設定してTOP画面を表示する
+                setDefaultRoom();
+            }
+        });
+    }
+
+    /*
+    * Google認証での初回ログイン処理
+    */
+    function firstLoginWithGoogle(){
+
+        showLoading();
+
+        // GoogleのIDを取得
         googleAuth.callGoogle().done(function(data) {
+            
             if(googleAuth.gmailID !== ""){
                                     
                 // ユーザーの存在チェック&Token更新
@@ -175,6 +396,8 @@ module.controller("signinPageController", function($scope) {
                             
                             isSingIn = true;
 
+                            // TODO 招待された部屋にログインする
+
                             myNavigator.replacePage('layout.html');
                         }).always(function() {
                             hideLoading();
@@ -183,32 +406,11 @@ module.controller("signinPageController", function($scope) {
                     } else {
                         // 既存ユーザー情報あり
                         isSingIn = true;
-                        
-                        // 部屋情報取得
-                        getRoomsWithUser().done(function(response) {
-                            
-                            // 前回の部屋情報があれば引き継ぎ
-                            room_id = localStorage.getItem("roomInfo.room_id");
-                            
-                            if(room_id === null){
-                                roomInfo = response.results[0];
-                                localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
-                            } else {
-                                // 前回情報がある場合は初期設定の部屋を設定する
-                                if(1 < response.results.length){
-                                    response.results.forEach(function(roomObj){
-                                        if(roomObj.room_id == room_id){
-                                            roomInfo = roomObj;
-                                        }
-                                    });
-                                } else {
-                                    roomInfo = response.results[0];
-                                }
-                            }
-                            myNavigator.replacePage('layout.html');
-                        }).always(function() {
-                            hideLoading();
-                        });
+
+                        // TODO 招待された部屋にログインする
+
+                        // 部屋を設定してTOP画面を表示する
+                        setDefaultRoom();
                     }
                 });
                 
@@ -216,7 +418,143 @@ module.controller("signinPageController", function($scope) {
                 alert("Google認証情報を取得できていません");
             }
         });
-    };
+    }
+
+    function firstLoginWithHomework(){
+
+        showLoading();
+
+        // 端末のUUIDを取得
+        var uuid = "";
+            
+        // ユーザーの存在チェック&Token更新
+        getUserInfoByUUID(uuid).done(function(response) {
+            
+            userInfo = response.results[0];
+            
+            if(userInfo === undefined) {
+                // 新規ユーザー登録
+                insertNewUser(googleAuth).done(function(response) {
+                    
+                    // 登録したユーザーと部屋情報が返却される
+                    registerInfo = response.results;
+                    
+                    roomInfo.room_id = registerInfo["room_id"];
+                    roomInfo.room_name = registerInfo["room_name"];
+                    roomInfo.room_number = registerInfo["room_number"];
+                    roomInfo.user_id = registerInfo["user_id"];
+                    roomInfo.is_owned = true;
+                    localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
+                    
+                    userInfo = {};
+                    userInfo.user_id =  registerInfo["user_id"];
+                    userInfo.email =  registerInfo["email"];
+                    userInfo.user_name =  registerInfo["user_name"];
+                    userInfo.auth_type =  registerInfo["auth_type"];
+                    userInfo.auth_id =  registerInfo["auth_id"];
+                    userInfo.app_token = registerInfo["app_token"];
+                    
+                    isSingIn = true;
+
+                    // TODO 招待された部屋にログインする
+
+                    myNavigator.replacePage('layout.html');
+                }).always(function() {
+                    hideLoading();
+                });
+                
+            } else {
+                // 既存ユーザー情報あり
+                isSingIn = true;
+
+                // TODO 招待された部屋にログインする
+
+                // 部屋を設定してTOP画面を表示する
+                setDefaultRoom();
+            }
+        });
+    }
+
+    /*
+    * ログイン時の部屋を設定する
+    */
+    function setDefaultRoom(){
+        
+        // // 既存ユーザー情報あり
+        // isSingIn = true;
+        
+        // 部屋情報取得
+        getRoomsWithUser().done(function(response) {
+            
+            // 前回の部屋情報があれば引き継ぎ
+            room_id = localStorage.getItem("roomInfo.room_id");
+
+            if(room_id === null){
+                roomInfo = response.results[0];
+                localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
+            } else {
+                // 前回情報がある場合は初期設定の部屋を設定する
+                if(1 < response.results.length){
+                    response.results.forEach(function(roomObj){
+                        if(roomObj.room_id == room_id){
+                            roomInfo = roomObj;
+                        }
+                    });
+                } else {
+                    roomInfo = response.results[0];
+                }
+            }
+            myNavigator.replacePage('layout.html');
+        }).always(function() {
+            hideLoading();
+        });
+    }
+
+    
+    /* 二回目以降のログイン処理 */
+    // function secondLogin(){
+
+    //     showLoading();
+      
+    //     if(googleAuth.gmailID === ""){
+    //         alert("Google認証情報を取得できていません");
+    //         return false;
+    //     }
+    //     // ユーザーの存在チェック&Token更新
+    //     getUserInfo(googleAuth).done(function(response) {
+            
+    //         userInfo = response.results[0];
+            
+    //         // 既存ユーザー情報あり
+    //         isSingIn = true;
+            
+    //         // 部屋情報取得
+    //         getRoomsWithUser().done(function(response) {
+                
+    //             // 前回の部屋情報があれば引き継ぎ
+    //             room_id = localStorage.getItem("roomInfo.room_id");
+                
+    //             if(room_id === null){
+    //                 roomInfo = response.results[0];
+    //                 localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
+    //             } else {
+    //                 // 前回情報がある場合は初期設定の部屋を設定する
+    //                 if(1 < response.results.length){
+    //                     response.results.forEach(function(roomObj){
+    //                         if(roomObj.room_id == room_id){
+    //                             roomInfo = roomObj;
+    //                         }
+    //                     });
+    //                 } else {
+    //                     roomInfo = response.results[0];
+    //                 }
+    //             }
+    //             myNavigator.replacePage('layout.html');
+    //         }).always(function() {
+    //             hideLoading();
+    //         });
+    //     });
+    // }
 });
 
 /*
