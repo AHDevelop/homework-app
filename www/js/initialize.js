@@ -12,8 +12,14 @@ function handleOpenURL(url) {
     var strUrl = url;
     inviteInfo.invite_room_id = getParam("roomId", strUrl);
     inviteInfo.invite_from_user_id = getParam("userId", strUrl);
+    inviteInfo.param = getParam("param", strUrl);
   }, 0);
 };
+
+    inviteInfo.invite_room_id = "1";//Hata2
+    inviteInfo.invite_from_user_id = "1";//畠山 歩
+    inviteInfo.param = "hogehogehoge";//畠山 歩
+
 
 /*
 * サイドメニューコントローラーを初期化
@@ -262,44 +268,17 @@ module.controller("signinPageController", function($scope) {
     };
 
     // 以下、自動ログインの流れ
-    // 招待情報を確認
-    if(inviteInfo.room_id != undefined){
-
-        // 過去のログイン履歴を取得する
-        if(access_token !== null){
-            // Googleで自動ログイン
-            googleAuth.getDataProfile(access_token).done(function(data) {
-                secondLoginWithGoogle();
-            });
-        } else if(homework_serial !== null){
-            // オリジナルユーザーで自動ログイン
-            secondLoginWithHomework();
-        }
-        
-        // 招待情報なし
-        // 過去のログイン履歴を取得する
-        if(access_token !== null){
-            // Googleで自動ログイン
-            googleAuth.getDataProfile(access_token).done(function(data) {
-                secondLoginWithGoogle();
-            });
-        } else if(homework_serial !== null){
-            // オリジナルユーザーで自動ログイン
-            secondLoginWithHomework();
-        }
-    } else {
-        if(access_token !== null){
-            googleAuth.getDataProfile(access_token).done(function(data) {
-                secondLoginWithGoogle();
-            });
-        }
-
-        if(homework_serial !== null){
-            setTimeout(function() {
-                showLoading();
-            }, 500);
+    // 過去のログイン履歴を取得する
+    if(access_token !== null){
+        googleAuth.getDataProfile(access_token).done(function(data) {
+            secondLoginWithGoogle();
+        });
+    } else if(homework_serial !== null){
+        setTimeout(function() {
+            // 画面が描画されるまで一瞬待つ
+            showLoading();
             secondLoginWithHomework(homework_serial);
-        }
+        }, 500);
     }
 
     /*
@@ -321,20 +300,9 @@ module.controller("signinPageController", function($scope) {
             userInfo = response.results[0];
             isSingIn = true;
 
-            // 招待された部屋を追加
-            if(inviteInfo.room_id != undefined){
-                addInviteRoom().done(function(response) {
-
-                    // エラーが返却されたそのままの部屋情報でログイン　ToDo 追加された部屋情報を返却してもらう必要あり
-
-                    // 問題なければ初期設定の部屋情報を更新する
-
-                    // TOP画面を表示する
-                    myNavigator.replacePage('layout.html');
-           
-                }).always(function() {
-                    hideLoading();
-                });
+            if(inviteInfo.invite_room_id != undefined){
+                // 招待された部屋を追加
+                setInviteRoom();
             } else {
                 // 部屋を設定してTOP画面を表示する
                 setDefaultRoom();
@@ -357,11 +325,9 @@ module.controller("signinPageController", function($scope) {
             userInfo = response.results[0];
             isSingIn = true;
                 
-            if(inviteInfo.room_id != undefined){
-                addInviteRoom().done(function(response) {
-                    // 部屋を設定してTOP画面を表示する
-                    setDefaultRoom();
-                });
+            if(inviteInfo.invite_room_id != undefined){
+                // 招待された部屋を追加
+                setInviteRoom();
             } else {
                 // 部屋を設定してTOP画面を表示する
                 setDefaultRoom();
@@ -410,21 +376,26 @@ module.controller("signinPageController", function($scope) {
                             
                             isSingIn = true;
 
-                            // TODO 招待された部屋にログインする
-
-                            myNavigator.replacePage('layout.html');
-                        }).always(function() {
-                            hideLoading();
+                            if(inviteInfo.invite_room_id != undefined){
+                                // 招待された部屋を追加
+                                setInviteRoom();
+                            } else {
+                                // 部屋を設定してTOP画面を表示する
+                                setDefaultRoom();
+                            }
                         });
                         
                     } else {
                         // 既存ユーザー情報あり
                         isSingIn = true;
 
-                        // TODO 招待された部屋にログインする
-
-                        // 部屋を設定してTOP画面を表示する
-                        setDefaultRoom();
+                        if(inviteInfo.invite_room_id != undefined){
+                            // 招待された部屋を追加
+                            setInviteRoom();
+                        } else {
+                            // 部屋を設定してTOP画面を表示する
+                            setDefaultRoom();
+                        }
                     }
                 });
                 
@@ -477,11 +448,13 @@ module.controller("signinPageController", function($scope) {
 
                     localStorage.setItem('homework_user.serial', serial);
 
-                    // TODO 招待された部屋にログインする
-
-                    myNavigator.replacePage('layout.html');
-                }).always(function() {
-                    hideLoading();
+                    if(inviteInfo.invite_room_id != undefined){
+                        // 招待された部屋を追加
+                        setInviteRoom();
+                    } else {
+                        // 部屋を設定してTOP画面を表示する
+                        setDefaultRoom();
+                    }
                 });
                 
             } else {
@@ -489,12 +462,50 @@ module.controller("signinPageController", function($scope) {
                 isSingIn = true;
                 localStorage.setItem('homework_user.serial', serial);
 
-                // TODO 招待された部屋にログインする
-
-                // 部屋を設定してTOP画面を表示する
-                setDefaultRoom();
+                if(inviteInfo.invite_room_id != undefined){
+                    // 招待された部屋を追加
+                    setInviteRoom();
+                } else {
+                    // 部屋を設定してTOP画面を表示する
+                    setDefaultRoom();
+                }
             }
         });
+    }
+
+    /*
+    * 招待された部屋に設定しTOP画面に遷移する
+    */
+    function setInviteRoom(){
+
+        addInviteRoom().done(function(response) {
+
+            // エラーが返却されたそのままの部屋情報でログイン
+            // 問題なければ初期設定の部屋情報を更新する
+            if(response.message !== undefined){
+                ons.notification.alert({
+                        title: "",
+                        messageHTML: response.message,
+                    }
+                );
+                setDefaultRoom();
+            }
+
+            if(response.results !== null){
+                roomInfo = response.results[0];
+                alert("ログインする部屋ID：" + roomInfo.room_id);
+                roomInfo.is_owned = false;
+                localStorage.setItem('roomInfo.room_id', roomInfo.room_id);
+                // ログインしたら招待情報はリセット
+                inviteInfo = {};
+            }
+
+            // TOP画面を表示する
+            hideLoading();
+            myNavigator.replacePage('layout.html');
+        });
+
+        myNavigator.replacePage('layout.html');
     }
 
     /*

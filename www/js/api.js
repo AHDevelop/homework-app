@@ -364,6 +364,7 @@ function addInviteRoom(){
     dataObj['invite_room_id'] = inviteInfo.invite_room_id;
     dataObj['invite_from_user_id'] = inviteInfo.invite_from_user_id;
     dataObj['invite_to_user_id'] = userInfo.user_id;
+    dataObj['invite_param'] = inviteInfo.param;
         
     return callApi(API_METHOD_POST, url, dataObj);
 }
