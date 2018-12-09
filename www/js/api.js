@@ -17,7 +17,7 @@ function buildBaseApiUrl(){
 //   var domain = "192.168.51.130";
 
   // For Develop
-  var domain = "dev-homework-api.herokuapp.com";
+    var domain = "dev-homework-api.herokuapp.com";
 
   // For Product
 //   var domain = "homework-api.herokuapp.com";
@@ -32,7 +32,7 @@ function buildBaseApiUrl(){
 /*
 * API呼び出し共通クラス
 */
-function callApi(type, url, dataObj, googleAuth) {
+function callApi(type, url, dataObj, googleAuth, serial) {
     
     // app_tokenをキーとして渡す
     var homeWorkToken = "";
@@ -50,10 +50,14 @@ function callApi(type, url, dataObj, googleAuth) {
         }
     };
 
-    // ToDo なくて問題なさそう？
+    // Updateユーザー処理の時にこちらのKeyとトークンを参照している
     if(googleAuth !== undefined){
         callObj["headers"]["key"] = googleAuth.gmailID;
         callObj["headers"]["authToken"] = googleAuth.accessToken;
+    } else if(serial != undefined){
+        // Homeworkユーザー時
+        callObj["headers"]["key"] = serial;
+        callObj["headers"]["authToken"] = serial;
     }
 
     var resObj = $.ajax(callObj);
@@ -74,9 +78,26 @@ function callApi(type, url, dataObj, googleAuth) {
         // 認証エラーで401が返却された際にログイン前の画面に戻す
         if(jqXHR.status == 401){
             alert('認証に失敗しました。');
-            hideLoading();
-            myNavigator.replacePage('login.html');
-            return false;
+
+            isSingIn = false;
+            localStorage.removeItem('roomInfo.room_id');
+
+            var serial = localStorage.getItem('homework_user.serial');
+            if(serial !== null){
+                localStorage.removeItem('homework_user.serial');
+                hideLoading();
+                myNavigator.replacePage('login.html');
+                return false;
+            } else {
+                if(localStorage.getItem('googleAuth.access_token') !== null){
+                    googleAuth.disconnectUser().done(function(data) {
+                        localStorage.removeItem('googleAuth.access_token');
+                    });
+                }
+                hideLoading();
+                myNavigator.replacePage('login.html');
+                return false;
+            }
         } else {
             alert('接続に失敗しました。時間を空けて再度実施してください。');
             hideLoading();
@@ -265,19 +286,19 @@ function getUserInfo(googleAuth){
 * UUIDに紐づくユーザー存在チェック
 * /users/key=1234567890
 */
-function getUserInfoBySerial(uuid){
+function getUserInfoBySerial(serial){
     
-    var url = buildBaseApiUrl() + "users" + '/key=' + uuid;
+    var url = buildBaseApiUrl() + "users" + '/key=' + serial;
     var dataObj = {};
     
-    return callApi(API_METHOD_GET, url, dataObj);
+    return callApi(API_METHOD_GET, url, dataObj, undefined, serial);
 }
 
 /*
 * 新規ユーザー登録
 * /users/update.json
 */
-function insertNewUser(googleAuth, userName){
+function insertNewUser(googleAuth){
 
     var url = buildBaseApiUrl() + "users" + '/' + 'update.json';
     
@@ -287,7 +308,7 @@ function insertNewUser(googleAuth, userName){
         dataObj['email'] = googleAuth.gmailEmail;
         dataObj['auth_type'] = '1';
         dataObj['auth_id'] = googleAuth.gmailID;
-        dataObj['user_name'] = userName;
+        dataObj['user_name'] = googleAuth.gmailLastName + ' ' + googleAuth.gmailFirstName;
         dataObj['auth_token'] = googleAuth.accessToken;
     }    
     return callApi(API_METHOD_POST, url, dataObj);
