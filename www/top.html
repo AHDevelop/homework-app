@@ -1,37 +1,60 @@
-<ons-page ng-controller="topPageController" id="top">
+<ons-page id="top" ng-controller="topPageController">
 
-    <ng-include src="'header.html'"></ng-include>
-    <ng-include src="'inputHomeWork.html'"></ng-include>
+    <!-- <ng-include src="'header.html'"></ng-include> -->
+    <!-- <ng-include src="'inputHomeWork.html'"></ng-include> -->
     <ng-include src="'loading.html'"></ng-include>
 
     <div class="center" style="padding-top: 55px;>
-
-        <!-- room homework List -->
+    <!-- room homework List -->
+    <!-- <ons-template id="test.html">
+        <div class="center" style="padding-top: 55px;>
         <div class="margin-bottom-20">
-          <ons-list modifier="inset" class="homeworkList" id="itemList">
+            <ons-list modifier="inset" class="homeworkList" id="itemList">
             <div class="scroll_list_for_top">
                 <div ng-repeat="data in roomHomeworkList">
-                  <ons-list-item modifier="longdivider" tappable ng-if="data.is_visible" id="item_{{$index}}">
+                    <ons-list-item modifier="longdivider" tappable ng-if="data.is_visible" id="item_{{$index}}">
                     <div class="left" ng-click="callInputHomeWork($index)" >
-                      <ons-icon icon="fa-plus-square" class="list-item__icon"></ons-icon>
+                        <ons-icon icon="fa-plus-square" class="list-item__icon"></ons-icon>
                     </div>
                     <div class="center" ng-click="callInputHomeWork($index)" >
-                      {{data.home_work_name}}
+                        {{data.home_work_name}}
                     </div>
                     <div class="right" ng-click="callInputHomeWork($index)" >
-                      <span class="hourLabel" ng-if="data.home_work_time_hh != undefined">{{data.home_work_time_hh}}</span>
-                      <span class="hourLabel" ng-if="data.home_work_time_hh == undefined">0.0</span>
-                      <span class="margin-left-5">時間</span>
+                        <span class="hourLabel" ng-if="data.home_work_time_hh != undefined">{{data.home_work_time_hh}}</span>
+                        <span class="hourLabel" ng-if="data.home_work_time_hh == undefined">0.0</span>
+                        <span class="margin-left-5">時間</span>
                     </div>
                     <div class="right" ng-click="resetHomeworkTime($index)">
-                      <span>
-                          <ons-icon icon="fa-trash" class="list-item__icon resetIcon"></ons-icon>
-                      </span>
+                        <span>
+                            <ons-icon icon="fa-trash" class="list-item__icon resetIcon"></ons-icon>
+                        </span>
                     </div>
-                  </ons-list-item>
+                    </ons-list-item>
                 </div>
             </div>
-          </ons-list>
+            </ons-list>
         </div>
+        </div>
+    </ons-template> -->
+
+    <ons-template id="test.html">
+        <div class="margin-bottom-20">
+            <p style="text-align: center;">
+            This is the first page.
+            </p>
+        </div>
+    </ons-template>
+
+    <ons-template id="test2.html">
+        <p style="text-align: center;">
+            This is the second page.
+        </p>
+    </ons-template>
+
+    <ons-tabbar swipeable>
+        <ons-tab label="Tab 3" page="test.html" icon="ion-home, material:md-home" active></ons-tab>
+        <ons-tab label="Tab 2" page="test2.html" icon="ion-home, material:md-home" ></ons-tab>
+    </ons-tabbar>
     </div>
+
 </ons-page>

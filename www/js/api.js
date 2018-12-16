@@ -13,16 +13,16 @@ var API_METHOD_DELETE = "delete";
 function buildBaseApiUrl(){
 
   // For Local
-  var protocol = "http";
-  var domain = "192.168.51.130";
+//   var protocol = "http";
+//   var domain = "192.168.51.130";
 
   // For Develop
-  // var domain = "dev-homework-api.herokuapp.com";
+    var domain = "dev-homework-api.herokuapp.com";
 
   // For Product
 //   var domain = "homework-api.herokuapp.com";
 
-//   var protocol = "https";
+  var protocol = "https";
   var endpoint = "api";
   var version = "v1";
 
@@ -32,7 +32,7 @@ function buildBaseApiUrl(){
 /*
 * API呼び出し共通クラス
 */
-function callApi(type, url, dataObj, googleAuth) {
+function callApi(type, url, dataObj, googleAuth, serial) {
     
     // app_tokenをキーとして渡す
     var homeWorkToken = "";
@@ -50,10 +50,14 @@ function callApi(type, url, dataObj, googleAuth) {
         }
     };
 
-    // ToDo なくて問題なさそう？
+    // Updateユーザー処理の時にこちらのKeyとトークンを参照している
     if(googleAuth !== undefined){
         callObj["headers"]["key"] = googleAuth.gmailID;
         callObj["headers"]["authToken"] = googleAuth.accessToken;
+    } else if(serial != undefined){
+        // Homeworkユーザー時
+        callObj["headers"]["key"] = serial;
+        callObj["headers"]["authToken"] = serial;
     }
 
     var resObj = $.ajax(callObj);
@@ -74,9 +78,26 @@ function callApi(type, url, dataObj, googleAuth) {
         // 認証エラーで401が返却された際にログイン前の画面に戻す
         if(jqXHR.status == 401){
             alert('認証に失敗しました。');
-            hideLoading();
-            myNavigator.replacePage('login.html');
-            return false;
+
+            isSingIn = false;
+            localStorage.removeItem('roomInfo.room_id');
+
+            var serial = localStorage.getItem('homework_user.serial');
+            if(serial !== null){
+                localStorage.removeItem('homework_user.serial');
+                hideLoading();
+                myNavigator.replacePage('login.html');
+                return false;
+            } else {
+                if(localStorage.getItem('googleAuth.access_token') !== null){
+                    googleAuth.disconnectUser().done(function(data) {
+                        localStorage.removeItem('googleAuth.access_token');
+                    });
+                }
+                hideLoading();
+                myNavigator.replacePage('login.html');
+                return false;
+            }
         } else {
             alert('接続に失敗しました。時間を空けて再度実施してください。');
             hideLoading();
@@ -265,12 +286,12 @@ function getUserInfo(googleAuth){
 * UUIDに紐づくユーザー存在チェック
 * /users/key=1234567890
 */
-function getUserInfoBySerial(uuid){
+function getUserInfoBySerial(serial){
     
-    var url = buildBaseApiUrl() + "users" + '/key=' + uuid;
+    var url = buildBaseApiUrl() + "users" + '/key=' + serial;
     var dataObj = {};
     
-    return callApi(API_METHOD_GET, url, dataObj);
+    return callApi(API_METHOD_GET, url, dataObj, undefined, serial);
 }
 
 /*
@@ -364,6 +385,7 @@ function addInviteRoom(){
     dataObj['invite_room_id'] = inviteInfo.invite_room_id;
     dataObj['invite_from_user_id'] = inviteInfo.invite_from_user_id;
     dataObj['invite_to_user_id'] = userInfo.user_id;
+    dataObj['invite_param'] = inviteInfo.param;
         
     return callApi(API_METHOD_POST, url, dataObj);
 }
@@ -472,11 +494,11 @@ function getOneRoom(roomId){
 
 /*
 *  招待URL取得
-*  /room/invite?invite_room_id={room_id}&invite_user_id={user_id}
+*  /room/invite/invite_room_id={room_id}&invite_user_id={user_id}
 */
 function getInviteUrl(roomId, userId){
     
-    var url = buildBaseApiUrl() + "room/invite/invite_room_id=" + roomId + "/invite_user_id=" + userId;
+    var url = buildBaseApiUrl() + "room/invite/invite_room_id=" + roomId + "&invite_user_id=" + userId;
     var dataObj = {};    
 
     return callApi(API_METHOD_GET, url, dataObj);

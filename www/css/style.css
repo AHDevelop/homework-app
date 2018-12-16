@@ -284,12 +284,12 @@ ons-select.bigFont .select-input {
 /*
 グラフ画面のタブスタイル
 */
-.graphTab .tabbar__item button div {
+.graphTab .tabbar__item button {
   background-color: #F0E0E0;
   color: #EF6C71;
 }
 
-.graphTab .active  button div {
+.graphTab .active  button {
   background-color: #EF6C71;
   color: #FFFFFF;
 }
@@ -355,4 +355,8 @@ ons-list.memberList {
     max-height: 100%;
     overflow: hidden;
     padding: 0px;
+}
+
+.pinkFont input {
+    color: #EF6C71;
 }

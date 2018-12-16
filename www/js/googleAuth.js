@@ -86,15 +86,13 @@ var googleAuth = {
       $.ajax({
           type: 'GET',
           url: googleAuth.baseUrl + 'revoke?token=' + googleAuth.accessToken,
-          async: false,
-          contentType: "application/json",
-          dataType: 'jsonp',
           success: function(nullResponse) {
               deferred.resolve();
               googleAuth.accessToken = null;
           },
           error: function(e) {
             deferred.resolve();
+            googleAuth.accessToken = null;
             alert("予期せぬエラーが発生しました。");
           }
       });
