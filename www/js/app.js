@@ -20,6 +20,12 @@ var userInfo = {};
 var roomInfo = {};
 
 /*
+* 招待情報
+* "invite_room_id","invite_from_user_id"
+*/
+var inviteInfo = {};
+
+/*
 * ローディング中画面を表示
 */
 function showLoading(){

@@ -36,3 +36,32 @@ function minusHour(hour){
     
     return hourStr;
 }
+
+/*
+* 整数値に.0を追加する
+*/
+function zeroPad(hour){
+
+    var hourStr = hour.toString();
+    
+    if(!hourStr.match(/\./)){
+        hourStr += ".0";
+    }
+
+    return hourStr;
+}
+
+/**
+ * Get the URL parameter value
+ *
+ * @param  name {string} パラメータのキー文字列
+ * @return  url {url} 対象のURL文字列
+ */
+function getParam(name, url) {
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}

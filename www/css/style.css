@@ -10,9 +10,14 @@ ons-list.homeworkList {
 .homeworkList .list-item--longdivider  {
     height: 60px;
     background-color: #FFFFFF;
-    color: #001584;
+    color: #EF6C71;
     font-size: 16px;
-    border: 1px solid rgba(00,15,84,0.1);
+    border: 1px solid rgba(00, 00, 00,0.1);
+}
+
+.resetIcon {
+    margin-left: 10px;
+    color:#7D7D7D;
 }
 
 /*
@@ -37,13 +42,19 @@ ons-list.homeworkList {
 }
 
 /*
-* Google Login btn
+* ログインボタン
 */
-.googleLogin {
-    border: 0px;
-    width:191px;
-    height:46px;
-    background: url(../img/btn_google_signin_light_normal_web.png) left top no-repeat;
+ons-button.loginBtn {
+    width: 80%;
+    margin: 10px;
+    color: #FFFFFF;
+    font-size: 16px;
+    border: solid 1px #FFFFFF;
+}
+
+ons-button.loginBtn:hover {
+    color: #FFFFFF;
+    border: solid 1px #FFFFFF;
 }
 
 /*
@@ -144,81 +155,85 @@ ons-list.homeworkList {
 }
 
 .mainFont {
-    color: #FFFFFF;
+    color: #EF6C71;
     font-size: 22px;
 }
 
 .subFont {
-    color: #001854;
+    color: #EF6C71;
     font-size: 22px;
 }
 
 .bigFont {
-    color: #001584;
+    color: #EF6C71;
     font-size: 32px;
 }
 
 .biggestFont {
-    color: #001584;
+    color: #EF6C71;
     font-size: 64px;
 }
 
 .miniFont {
-    color: #001584;
+    color: #EF6C71;
     font-size: 14px;
 }
 
+.menuFont {
+    color: #EF6C71;
+    font-size: 18px;
+}
 
 /*
 ボタンデザイン
 */
 ons-button.registerBtn {
     width: 110px;
-    color: #FFFFFF;
+    color: #F0E0E0;
     font-size: 16px;
-    background-color: #001584;
+    background-color: #EF6C71;
 }
 
 ons-button.cancelBtn {
     width: 110px;
-    color: #FFFFFF;
+    color: #EF6C71;
     font-size: 14px;
-    background-color: #4A494A;    
+    background-color: #F0E0E0;    
 }
 
 ons-button.deleteBtn {
     width: 110px;
-    color: #FFFFFF;
+    color: #F0E0E0;
     font-size: 14px;
-    background-color: #EB7978;    
+    background-color: #EF6C71;    
 }
 
 ons-button.minusBtn {
     width: 30px;
-    color: #FFFFFF;
-    background-color: #001584;
+    color: #F0E0E0;
+    background-color: #EF6C71;
     padding: 0px;
 }
 
 ons-button.plusBtn {
     width: 30px;
-    color: #FFFFFF;
-    background-color: #001584;
+    color: #F0E0E0;
+    background-color: #EF6C71;
     padding: 0px;
 }
 
 ons-button.editBtn {
     width: 70px;
-    color: #FFFFFF;
+    color: #F0E0E0;
     font-size: 16px;
-    background-color: #001584;
+    background-color: #EF6C71;
 }
 
 ons-button.addBtn {
     width: 110px;
-    color: #FFFFFF;
+    color: #F0E0E0;
     font-size: 14px;
-    background-color: #001584;
+    background-color: #EF6C71;
 }
 
 /*
@@ -240,56 +255,43 @@ ons-select.bigFont .select-input {
 メインカラー
 */
 .mainBackColor {
-    background-color: #001584;
+    background-color: #F0E0E0;
 }
 .mainColor {
-    color: #001584;
+    color: #EF6C71;
 }
 
 /*
 サブカラー
 */
 .subBackColor {
-    background-color: #4A494A;
+    background-color: #F0E0E0;
 }
 .subColor {
-    color: #4A494A;
+    color: #EF6C71;
 }
 
 /*
 ビビットカラー
 */
 .vivitBackColor {
-    background-color: #EB7978;
+    background-color: #EF6C71;
 }
 .vivitColor {
-    color: #EB7978;
+    color: #FFFFFF;
 }
 
 /*
 グラフ画面のタブスタイル
 */
-.graphTab .tabbar__item {
-  background-color: #001584;
+.graphTab .tabbar__item button div {
+  background-color: #F0E0E0;
+  color: #EF6C71;
 }
 
-.graphTab .active {
-  background-color: #4A494A;
-}
-
-.graphTab .tabbar__label:first-child {
-  color: white;
-}
-
-ons-button.termBtn {
-    width: 100px;
-    color: #FFFFFF;
-    background-color: #001584;
-    padding: 0px;
-}
-
-ons-button.termBtn.off {
-    background-color: #4A494A;
+.graphTab .active  button div {
+  background-color: #EF6C71;
+  color: #FFFFFF;
 }
 
 ons-popover#term_list div.popover__content {
@@ -308,13 +310,13 @@ ons-list.addHomework_homeworkList {
 .addHomework_homeworkList .list-item--longdivider  {
     height: 60px;
     background-color: #FFFFFF;
-    color: #001584;
+    color: #EF6C71;
     font-size: 16px;
-    border: 1px solid rgba(00,15,84,0.1);
+    border: 1px solid rgba(00,00,00,0.1);
 }
 
 .addHomework_homeworkList .disabled {
-  background-color: #4A494A;
+  background-color: #d8d8d8;
 }
 
 .scroll_list_for_add_homework {
@@ -335,9 +337,9 @@ ons-list.memberList {
 .memberList .list-item--longdivider  {
     height: 60px;
     background-color: #FFFFFF;
-    color: #001584;
+    color: #EF6C71;
     font-size: 16px;
-    border: 1px solid rgba(00,15,84,0.1);
+    border: 1px solid rgba(00,00,00,0.1);
 }
 
 .scroll_list_for_member_list {

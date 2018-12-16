@@ -13,16 +13,16 @@ var API_METHOD_DELETE = "delete";
 function buildBaseApiUrl(){
 
   // For Local
-  // var protocol = "http";
-  // var domain = "192.168.0.150";
+  var protocol = "http";
+  var domain = "192.168.51.130";
 
   // For Develop
   // var domain = "dev-homework-api.herokuapp.com";
 
   // For Product
-  var domain = "homework-api.herokuapp.com";
+//   var domain = "homework-api.herokuapp.com";
 
-  var protocol = "https";
+//   var protocol = "https";
   var endpoint = "api";
   var version = "v1";
 
@@ -50,6 +50,7 @@ function callApi(type, url, dataObj, googleAuth) {
         }
     };
 
+    // ToDo なくて問題なさそう？
     if(googleAuth !== undefined){
         callObj["headers"]["key"] = googleAuth.gmailID;
         callObj["headers"]["authToken"] = googleAuth.accessToken;
@@ -73,10 +74,12 @@ function callApi(type, url, dataObj, googleAuth) {
         // 認証エラーで401が返却された際にログイン前の画面に戻す
         if(jqXHR.status == 401){
             alert('認証に失敗しました。');
+            hideLoading();
             myNavigator.replacePage('login.html');
             return false;
         } else {
             alert('接続に失敗しました。時間を空けて再度実施してください。');
+            hideLoading();
             // alert('接続に失敗しました。URL:' +  url);
         }
     });
@@ -179,6 +182,23 @@ function deleteHomeworkHist(homeworkHistId){
 }
 
 /*
+* 家事履歴一括削除
+* /homeworkhist/bulk/update.json
+*/
+function bulkDeleteHomeworkHist(homeworkHistId){
+    
+    var url = buildBaseApiUrl() + "homeworkhist/bulk" + '/update.json';
+    
+    var dataObj = {};
+    dataObj['user_id'] = userInfo.user_id;;
+    dataObj['room_id'] = roomInfo.room_id;
+    dataObj['room_home_work_id'] = homeworkHistId;
+    dataObj['delete_date'] = moment().format('YYYY-MM-DD');
+
+    return callApi(API_METHOD_DELETE, url, dataObj);
+}
+
+/*
 * 部屋別家事登録・更新
 * /room/homework/update.json
 */
@@ -242,6 +262,18 @@ function getUserInfo(googleAuth){
 }
 
 /*
+* UUIDに紐づくユーザー存在チェック
+* /users/key=1234567890
+*/
+function getUserInfoBySerial(uuid){
+    
+    var url = buildBaseApiUrl() + "users" + '/key=' + uuid;
+    var dataObj = {};
+    
+    return callApi(API_METHOD_GET, url, dataObj);
+}
+
+/*
 * 新規ユーザー登録
 * /users/update.json
 */
@@ -258,6 +290,23 @@ function insertNewUser(googleAuth){
         dataObj['user_name'] = googleAuth.gmailLastName + ' ' + googleAuth.gmailFirstName;
         dataObj['auth_token'] = googleAuth.accessToken;
     }    
+    return callApi(API_METHOD_POST, url, dataObj);
+}
+
+/*
+* ほーむわーくユーザーの新規登録
+* /api/v1/users/original/update.json
+*/
+function insertOriginalUser(serial, userName){
+
+    var url = buildBaseApiUrl() + "users/original" + '/' + 'update.json';
+    
+    var dataObj = {};
+
+    dataObj['auth_id'] = serial;
+    dataObj['auth_type'] = '3';
+    dataObj['user_name'] = userName;
+ 
     return callApi(API_METHOD_POST, url, dataObj);
 }
 
@@ -298,6 +347,23 @@ function addRoom(roomName, roomNo){
     dataObj['room_name'] = roomName;
     dataObj['room_no'] = roomNo;
     dataObj['user_id'] = userInfo.user_id;
+        
+    return callApi(API_METHOD_POST, url, dataObj);
+}
+
+/*
+* 招待_部屋ユーザー追加
+* /api/v1/room/users/invite/update.json
+*/
+function addInviteRoom(){
+    
+    var url = buildBaseApiUrl() + "room/users/invite" + '/' + 'update.json';
+    
+    var dataObj = {};
+
+    dataObj['invite_room_id'] = inviteInfo.invite_room_id;
+    dataObj['invite_from_user_id'] = inviteInfo.invite_from_user_id;
+    dataObj['invite_to_user_id'] = userInfo.user_id;
         
     return callApi(API_METHOD_POST, url, dataObj);
 }
@@ -399,6 +465,18 @@ function updateUser(userName){
 function getOneRoom(roomId){
     
     var url = buildBaseApiUrl() + "rooms" + '/' + roomId;
+    var dataObj = {};    
+
+    return callApi(API_METHOD_GET, url, dataObj);
+}
+
+/*
+*  招待URL取得
+*  /room/invite?invite_room_id={room_id}&invite_user_id={user_id}
+*/
+function getInviteUrl(roomId, userId){
+    
+    var url = buildBaseApiUrl() + "room/invite/invite_room_id=" + roomId + "/invite_user_id=" + userId;
     var dataObj = {};    
 
     return callApi(API_METHOD_GET, url, dataObj);

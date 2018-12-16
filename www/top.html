@@ -8,20 +8,25 @@
 
         <!-- room homework List -->
         <div class="margin-bottom-20">
-          <ons-list modifier="inset" class="homeworkList" style="">
+          <ons-list modifier="inset" class="homeworkList" id="itemList">
             <div class="scroll_list_for_top">
                 <div ng-repeat="data in roomHomeworkList">
-                  <ons-list-item modifier="longdivider" ng-click="callInputHomeWorkPage($index)" tappable tap-background-color="gray" ng-if="data.is_visible">
-                    <div class="left">
+                  <ons-list-item modifier="longdivider" tappable ng-if="data.is_visible" id="item_{{$index}}">
+                    <div class="left" ng-click="callInputHomeWork($index)" >
                       <ons-icon icon="fa-plus-square" class="list-item__icon"></ons-icon>
                     </div>
-                    <div class="center">
+                    <div class="center" ng-click="callInputHomeWork($index)" >
                       {{data.home_work_name}}
                     </div>
-                    <div class="right">
+                    <div class="right" ng-click="callInputHomeWork($index)" >
                       <span class="hourLabel" ng-if="data.home_work_time_hh != undefined">{{data.home_work_time_hh}}</span>
                       <span class="hourLabel" ng-if="data.home_work_time_hh == undefined">0.0</span>
                       <span class="margin-left-5">時間</span>
+                    </div>
+                    <div class="right" ng-click="resetHomeworkTime($index)">
+                      <span>
+                          <ons-icon icon="fa-trash" class="list-item__icon resetIcon"></ons-icon>
+                      </span>
                     </div>
                   </ons-list-item>
                 </div>
