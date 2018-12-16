@@ -423,6 +423,12 @@ module.controller("topPageController", function ($scope) {
     getHomeWorkListWithRoomId(roomId).done(function (response) {
         $scope.roomHomeworkList = response.results;
 
+
+        // ToDo ここでAPI呼び出しダミーデータ
+        // console.log(JSON.stringify($scope.roomHomeworkList));
+        // console.log(JSON.stringify(homeworkHist));
+        // $scope.roomHomeworkList.push(homeworkHist);
+ 
         // 最新の情報で更新
         $scope.$apply();
     }).always(function () {
